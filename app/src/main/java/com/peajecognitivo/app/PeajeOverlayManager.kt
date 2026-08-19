@@ -17,7 +17,7 @@ object PeajeOverlayManager {
     private var overlayView: View? = null
 
     fun show(context: Context) {
-        if (overlayView != null) return // Ya está mostrándose
+        if (overlayView != null) return
 
         val windowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
 
@@ -25,7 +25,6 @@ object PeajeOverlayManager {
             WindowManager.LayoutParams.MATCH_PARENT,
             WindowManager.LayoutParams.MATCH_PARENT,
             WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
-            WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE.inv() or  // Permitir focus para el teclado
             WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN,
             PixelFormat.TRANSLUCENT
         ).apply {
@@ -39,10 +38,7 @@ object PeajeOverlayManager {
         val etAnswer = overlayView!!.findViewById<EditText>(R.id.etAnswer)
         val btnSubmit = overlayView!!.findViewById<Button>(R.id.btnSubmit)
 
-        // Ejercicio hardcodeado para el MVP - fácil para 7 años
-        tvQuestion.text = "🛑 Peaje Cognitivo
-
-¿Cuánto es 3 + 2?"
+        tvQuestion.text = "🛑 Peaje Cognitivo\n\n¿Cuánto es 3 + 2?"
         etAnswer.text.clear()
         etAnswer.requestFocus()
 
@@ -51,9 +47,7 @@ object PeajeOverlayManager {
             if (answer == "5") {
                 try {
                     windowManager.removeView(overlayView)
-                } catch (e: Exception) {
-                    // Ya fue removido
-                }
+                } catch (e: Exception) {}
                 overlayView = null
                 Toast.makeText(context, "¡Muy bien! 🎉 Seguí viendo.", Toast.LENGTH_SHORT).show()
             } else {
@@ -63,7 +57,7 @@ object PeajeOverlayManager {
         }
 
         btnSubmit.setOnClickListener { checkAnswer() }
-
+        
         etAnswer.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 checkAnswer()
