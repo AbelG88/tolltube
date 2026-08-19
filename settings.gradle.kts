@@ -13,4 +13,4 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "PeajeCognitivo"
-include ":app"
+include(":app")
