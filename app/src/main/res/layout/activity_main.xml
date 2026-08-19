@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:background="#F5F5F5">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="🧠 Peaje Cognitivo"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        android:textColor="#333"
+        android:layout_marginBottom="8dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="App para niños - Versión de prueba"
+        android:textSize="14sp"
+        android:textColor="#666"
+        android:layout_marginBottom="40dp" />
+
+    <Button
+        android:id="@+id/btnEnableOverlay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="1️⃣ Permitir dibujar sobre otras apps"
+        android:textSize="16sp"
+        android:padding="16dp" />
+
+    <Button
+        android:id="@+id/btnEnableAccessibility"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="2️⃣ Activar servicio de accesibilidad"
+        android:textSize="16sp"
+        android:padding="16dp" />
+
+    <Button
+        android:id="@+id/btnTestOverlay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="🧪 Probar overlay ahora"
+        android:textSize="16sp"
+        android:padding="16dp"
+        android:backgroundTint="#4CAF50" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="Instrucciones:
+1. Dar los dos permisos arriba
+2. Abrir YouTube
+3. Esperar 1 minuto
+4. Aparecerá el ejercicio"
+        android:textSize="14sp"
+        android:textColor="#666"
+        android:gravity="center"
+        android:lineSpacingMultiplier="1.3" />
+
+</LinearLayout>
