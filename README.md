@@ -4,14 +4,13 @@
 
 ### Opción A: GitHub Actions (recomendada, 100% gratis)
 
-1. **Crear una cuenta en GitHub** (gratis): https://github.com/signup
-2. **Crear un nuevo repositorio** llamado `peaje-cognitivo`
-3. **Subir todos los archivos de esta carpeta** al repositorio
-4. **Ir a la pestaña "Actions"** en GitHub
-5. **Tocar "Build APK"** y luego "Run workflow"
-6. **Esperar ~3 minutos**
-7. **Ir a la pestaña "Actions" → clickear el workflow más reciente → bajar a "Artifacts" → descargar `peaje-cognitivo-apk`**
-8. El archivo `app-debug.apk` ya se puede instalar en el celular Android
+El repo es `AbelG88/tolltube`. Cada push a `main` compila solo; también se puede lanzar a mano.
+
+1. **Ir a la pestaña "Actions"** del repo en GitHub
+2. Si no arrancó solo, tocar **"Build APK"** y luego "Run workflow"
+3. **Esperar ~3 minutos**
+4. **Clickear el workflow más reciente → bajar a "Artifacts" → descargar `peaje-cognitivo-apk`**
+5. El archivo `app-debug.apk` ya se puede instalar en el celular Android
 
 ### Opción B: Android Studio (si querés modificar algo)
 
@@ -36,6 +35,22 @@
 3. Tocar "Activar servicio de accesibilidad" → buscar "Peaje Cognitivo" → activar
 4. Tocar "Probar overlay ahora" para ver si funciona
 5. Abrir YouTube y esperar 1 minuto (en la versión de producción serán 10 min)
+
+---
+
+## Si el overlay a veces aparece y a veces no
+
+La app escribe logs de diagnóstico con el tag `Peaje`. Con el celu conectado a la PC:
+
+```
+adb logcat -c
+adb logcat -s Peaje:D > peaje-prueba-1.log
+```
+
+Después de reinstalar el APK hay que **apagar y volver a prender** el servicio de accesibilidad. En Android 13+ también hay que activar "Permitir ajustes restringidos" en Info de la app.
+
+Hipótesis, protocolo de prueba y registro de resultados: [docs/diagnostico-intermitencia.md](docs/diagnostico-intermitencia.md).
+Documento del proyecto: [docs/app-peaje-cognitivo.md](docs/app-peaje-cognitivo.md).
 
 ---
 

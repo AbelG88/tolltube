@@ -17,7 +17,11 @@ object PeajeOverlayManager {
     private var overlayView: View? = null
 
     fun show(context: Context) {
-        if (overlayView != null) return
+        if (overlayView != null) {
+            PeajeLog.d("OVERLAY show() ignorado: ya hay un overlay marcado como visible")
+            return
+        }
+        PeajeLog.d("OVERLAY show() intentando mostrar")
 
         val windowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
 
@@ -47,17 +51,21 @@ object PeajeOverlayManager {
             if (answer == "5") {
                 try {
                     windowManager.removeView(overlayView)
-                } catch (e: Exception) {}
+                } catch (e: Exception) {
+                    PeajeLog.d("OVERLAY error al quitar: ${e.javaClass.simpleName}: ${e.message}")
+                }
                 overlayView = null
+                PeajeLog.d("OVERLAY respuesta correcta, overlay cerrado")
                 Toast.makeText(context, "¡Muy bien! 🎉 Seguí viendo.", Toast.LENGTH_SHORT).show()
             } else {
+                PeajeLog.d("OVERLAY respuesta incorrecta: '$answer'")
                 etAnswer.error = "No es correcto. Probá de nuevo."
                 etAnswer.text.clear()
             }
         }
 
         btnSubmit.setOnClickListener { checkAnswer() }
-        
+
         etAnswer.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 checkAnswer()
@@ -65,6 +73,14 @@ object PeajeOverlayManager {
             } else false
         }
 
-        windowManager.addView(overlayView, params)
+        try {
+            windowManager.addView(overlayView, params)
+            PeajeLog.d("OVERLAY addView OK")
+        } catch (e: Exception) {
+            // OJO: comportamiento original sin cambios. overlayView queda asignado
+            // aunque addView haya fallado, y show() no volverá a mostrar nada.
+            PeajeLog.d("OVERLAY addView FALLÓ: ${e.javaClass.simpleName}: ${e.message}")
+            throw e
+        }
     }
 }
