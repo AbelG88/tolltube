@@ -8,6 +8,8 @@
 
     <application
         android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_launcher_round"
         android:label="Peaje Cognitivo"
         android:theme="@style/Theme.AppCompat.Light.DarkActionBar">
 
@@ -32,10 +34,6 @@
                 android:name="android.accessibilityservice"
                 android:resource="@xml/accessibility_service_config" />
         </service>
-
-        <receiver
-            android:name=".ExerciseAlarmReceiver"
-            android:exported="false" />
 
     </application>
 </manifest>

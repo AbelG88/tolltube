@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Ícono original de Peaje Cognitivo: botón de play + barrera de peaje.
+  No usa el logo de YouTube (marca registrada).
+  Todo queda dentro del radio seguro de ~34 unidades desde el centro (54,54).
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- Triángulo de play (blanco) -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M43,33 L43,63 L69,48 Z" />
+
+    <!-- Poste de la barrera -->
+    <path
+        android:fillColor="#212121"
+        android:pathData="M32,67 L38,67 L38,81 L32,81 Z" />
+
+    <!-- Brazo de la barrera (blanco) -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M36,70 L76,70 L76,77 L36,77 Z" />
+
+    <!-- Rayas del brazo -->
+    <path
+        android:fillColor="#7F0000"
+        android:pathData="M44,70 L50,70 L47,77 L41,77 Z" />
+    <path
+        android:fillColor="#7F0000"
+        android:pathData="M56,70 L62,70 L59,77 L53,77 Z" />
+    <path
+        android:fillColor="#7F0000"
+        android:pathData="M68,70 L74,70 L71,77 L65,77 Z" />
+
+    <!-- Pivote del poste -->
+    <path
+        android:fillColor="#FFC107"
+        android:pathData="M35,73.5 m-2.5,0 a2.5,2.5 0 1,1 5,0 a2.5,2.5 0 1,1 -5,0" />
+</vector>

@@ -1,74 +1,79 @@
 package com.peajecognitivo.app
 
-import android.app.AlarmManager
-import android.app.PendingIntent
-import android.content.BroadcastReceiver
 import android.content.Context
-import android.content.Intent
+import android.os.Handler
+import android.os.Looper
 import android.os.SystemClock
 
+/**
+ * Temporizador interno del peaje.
+ *
+ * Antes usaba AlarmManager.setRepeating, que es inexacta y Android no permite
+ * por debajo de 60 s. Ahora usa un Handler en el hilo principal: es exacto y
+ * admite cualquier intervalo en segundos (ver SettingsStore).
+ *
+ * Mientras YouTube esté activo, cada vez que se cumple el tiempo se muestra el overlay.
+ * La API pública (startTimer / pauseTimer) es la misma de antes.
+ */
 class ExerciseTimerManager {
     companion object {
-        // CAMBIAR ESTO PARA PROBAR: 60000 = 1 minuto, 600000 = 10 minutos
-        private const val INTERVAL_MS = 60_000L // 1 minuto para pruebas. Cambiar a 10*60*1000 para producción
-        private const val ALARM_ACTION = "com.peajecognitivo.TRIGGER_EXERCISE"
-        private var pendingIntent: PendingIntent? = null
+        private val handler = Handler(Looper.getMainLooper())
+        private var running = false
+        private var appContext: Context? = null
 
-        // Solo diagnóstico: cuándo debía sonar la próxima alarma (elapsedRealtime)
-        var proximaAlarmaEsperada = 0L
-            private set
+        // Solo diagnóstico: cuándo debía sonar el próximo tick (elapsedRealtime)
+        private var proximaEsperada = 0L
+
+        private val tick = object : Runnable {
+            override fun run() {
+                val ctx = appContext ?: return
+                val retraso = SystemClock.elapsedRealtime() - proximaEsperada
+                PeajeLog.d(
+                    "TIMER sonó. isYouTubeActive=${PeajeAccessibilityService.isYouTubeActive} " +
+                        "retraso_vs_esperado=${retraso}ms"
+                )
+                if (PeajeAccessibilityService.isYouTubeActive) {
+                    PeajeOverlayManager.show(ctx)
+                } else {
+                    PeajeLog.d("TIMER ignorado: no se cree que YouTube esté en primer plano")
+                }
+                if (running) programar(ctx)
+            }
+        }
+
+        private fun programar(ctx: Context) {
+            val intervalo = SettingsStore.getIntervalMs(ctx)
+            proximaEsperada = SystemClock.elapsedRealtime() + intervalo
+            handler.postDelayed(tick, intervalo)
+            PeajeLog.d("TIMER programado: próximo en ${intervalo / 1000}s")
+        }
 
         fun startTimer(context: Context) {
-            // Si ya hay un timer activo, no crear otro
-            if (pendingIntent != null) {
+            if (running) {
                 PeajeLog.d("TIMER startTimer ignorado: ya había un timer activo")
                 return
             }
-
-            val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-            val intent = Intent(context, ExerciseAlarmReceiver::class.java)
-            pendingIntent = PendingIntent.getBroadcast(
-                context, 0, intent,
-                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-            )
-
-            proximaAlarmaEsperada = SystemClock.elapsedRealtime() + INTERVAL_MS
-            alarmManager.setRepeating(
-                AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                proximaAlarmaEsperada,
-                INTERVAL_MS,
-                pendingIntent!!
-            )
-            PeajeLog.d("TIMER programado: cada ${INTERVAL_MS / 1000}s (alarma inexacta)")
+            running = true
+            appContext = context.applicationContext
+            programar(appContext!!)
         }
 
         fun pauseTimer(context: Context) {
-            val pi = pendingIntent
-            if (pi == null) {
-                PeajeLog.d("TIMER pauseTimer: no había timer en memoria (la alarma real puede seguir viva)")
+            if (!running) {
+                PeajeLog.d("TIMER pauseTimer: no había timer activo")
                 return
             }
-            val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-            alarmManager.cancel(pi)
-            pendingIntent = null
+            handler.removeCallbacks(tick)
+            running = false
             PeajeLog.d("TIMER cancelado")
         }
-    }
-}
 
-class ExerciseAlarmReceiver : BroadcastReceiver() {
-    override fun onReceive(context: Context, intent: Intent?) {
-        val ahora = SystemClock.elapsedRealtime()
-        val esperada = ExerciseTimerManager.proximaAlarmaEsperada
-        val retraso = if (esperada > 0) ahora - esperada else -1
-        PeajeLog.d(
-            "ALARMA sonó. isYouTubeActive=${PeajeAccessibilityService.isYouTubeActive} " +
-                "retraso_vs_esperada=${retraso}ms"
-        )
-        if (PeajeAccessibilityService.isYouTubeActive) {
-            PeajeOverlayManager.show(context)
-        } else {
-            PeajeLog.d("ALARMA ignorada: no se cree que YouTube esté en primer plano")
+        /** Se llama al guardar un tiempo nuevo: si hay un timer corriendo, lo reprograma ya. */
+        fun reprogramar(context: Context) {
+            if (!running) return
+            handler.removeCallbacks(tick)
+            programar(context.applicationContext)
+            PeajeLog.d("TIMER reprogramado por cambio de ajustes")
         }
     }
 }

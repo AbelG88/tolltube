@@ -43,6 +43,7 @@ Cualquier cambio de ventana de otro paquete cuenta como "salió de YouTube": el 
 `setRepeating` es inexacta desde Android 4.4. Doze, el ahorro de batería y el agrupamiento de alarmas pueden retrasarla mucho más de 60 s. Si suena cuando hay otra ventana arriba, se saltea y no reintenta hasta el próximo ciclo.
 
 - Se confirma con `retraso_vs_esperada` grande (más de unos segundos) en las líneas `ALARMA sonó`.
+- **Mitigada desde la versión 1.1-MVP:** el timer ahora es un `Handler` interno. Las líneas del log pasan a decir `TIMER sonó` y `retraso_vs_esperado`. Los logs del Build #15 (alarma) y los del 1.1 (Handler) no son comparables entre sí para esta hipótesis.
 
 ### H5: el fabricante mata el servicio o el proceso
 

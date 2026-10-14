@@ -34,7 +34,8 @@ El repo es `AbelG88/tolltube`. Cada push a `main` compila solo y deja el APK en 
 2. Tocar "Permitir dibujar sobre otras apps" → activar el permiso
 3. Tocar "Activar servicio de accesibilidad" → buscar "Peaje Cognitivo" → activar
 4. Tocar "Probar overlay ahora" para ver si funciona
-5. Abrir YouTube y esperar 1 minuto (en la versión de producción serán 10 min)
+5. Elegir el tiempo entre ejercicios (por defecto 1 minuto) y tocar "Guardar tiempo"
+6. Abrir YouTube y esperar ese tiempo
 
 ---
 
@@ -54,11 +55,15 @@ Documento del proyecto: [docs/app-peaje-cognitivo.md](docs/app-peaje-cognitivo.m
 
 ---
 
-## Para cambiar el tiempo de espera
+## Para cambiar el tiempo entre ejercicios
 
-Editar `app/src/main/java/com/peajecognitivo/app/ExerciseTimerManager.kt`:
-- `INTERVAL_MS = 60_000L` = 1 minuto (para pruebas)
-- `INTERVAL_MS = 600_000L` = 10 minutos (para uso real)
+Desde la app: pantalla principal → **⏱️ Tiempo entre ejercicios** → minutos y segundos → **Guardar tiempo**. Mínimo 10 segundos, máximo 3 horas. Por defecto es 1 minuto. Si ya está corriendo un timer, se reprograma al guardar.
+
+## Instalar una versión nueva encima de otra
+
+Desde el Build #16 en adelante todos los APK van firmados con la misma clave (`app/debug.keystore`), así que se instalan **encima** del anterior sin desinstalar. La primera vez, si tenías instalado el Build #15 o anterior, hay que **desinstalarlo** (esa versión se firmó con otra clave). Después de actualizar, apagá y prendé el servicio de accesibilidad.
+
+El historial de versiones está en [docs/cambios.md](docs/cambios.md).
 
 ## Para cambiar el ejercicio
 
