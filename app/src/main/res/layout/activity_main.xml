@@ -55,6 +55,25 @@
             android:text="2️⃣ Activar servicio de accesibilidad"
             android:textSize="16sp" />
 
+        <!-- Estado en vivo: sirve para ver por qué no aparece el overlay -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="🔎 Estado"
+            android:textColor="#333"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvEstado"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:lineSpacingMultiplier="1.2"
+            android:textColor="#444"
+            android:textSize="14sp" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -128,6 +147,53 @@
             android:textColor="#666"
             android:textSize="14sp" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="🎯 Tipos de ejercicio"
+            android:textColor="#333"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <CheckBox
+            android:id="@+id/cbSuma"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="➕ Sumas (con dibujos)"
+            android:textSize="16sp" />
+
+        <CheckBox
+            android:id="@+id/cbResta"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="➖ Restas (con dibujos)"
+            android:textSize="16sp" />
+
+        <CheckBox
+            android:id="@+id/cbAnimales"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="🐶 Animales"
+            android:textSize="16sp" />
+
+        <CheckBox
+            android:id="@+id/cbObjetos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="🎈 Objetos"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:gravity="center"
+            android:text="Si marcás varios, salen mezclados."
+            android:textColor="#888"
+            android:textSize="12sp" />
+
         <Button
             android:id="@+id/btnTestOverlay"
             android:layout_width="match_parent"
@@ -138,6 +204,15 @@
             android:text="🧪 Probar overlay ahora"
             android:textSize="16sp" />
 
+        <Button
+            android:id="@+id/btnVerRegistro"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:padding="16dp"
+            android:text="📋 Ver registro (diagnóstico)"
+            android:textSize="16sp" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -145,7 +220,7 @@
             android:layout_marginBottom="16dp"
             android:gravity="center"
             android:lineSpacingMultiplier="1.3"
-            android:text="Instrucciones:\n1. Dar los dos permisos arriba\n2. Elegir el tiempo entre ejercicios\n3. Abrir YouTube\n4. Esperar el tiempo elegido\n5. Aparecerá el ejercicio"
+            android:text="Instrucciones:\n1. Dar los dos permisos arriba\n2. Elegir tiempo y tipos de ejercicio\n3. Abrir YouTube\n4. Esperar el tiempo elegido\n5. Aparecerá el ejercicio"
             android:textColor="#666"
             android:textSize="14sp" />
 

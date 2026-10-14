@@ -9,6 +9,7 @@ import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
 import android.widget.Button
 import android.widget.EditText
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 
@@ -35,50 +36,92 @@ object PeajeOverlayManager {
             gravity = Gravity.CENTER
         }
 
-        val inflater = LayoutInflater.from(context)
-        overlayView = inflater.inflate(R.layout.overlay_exercise, null)
+        val ejercicio = ExerciseGenerator.siguiente(context)
+        PeajeLog.d("OVERLAY ejercicio: ${ejercicio.resumen}")
 
-        val tvQuestion = overlayView!!.findViewById<TextView>(R.id.tvQuestion)
-        val etAnswer = overlayView!!.findViewById<EditText>(R.id.etAnswer)
-        val btnSubmit = overlayView!!.findViewById<Button>(R.id.btnSubmit)
+        val vista = LayoutInflater.from(context).inflate(R.layout.overlay_exercise, null)
+        overlayView = vista
 
-        tvQuestion.text = "🛑 Peaje Cognitivo\n\n¿Cuánto es 3 + 2?"
-        etAnswer.text.clear()
-        etAnswer.requestFocus()
+        val tvVisual = vista.findViewById<TextView>(R.id.tvVisual)
+        val tvPrompt = vista.findViewById<TextView>(R.id.tvPrompt)
+        val llNumeric = vista.findViewById<LinearLayout>(R.id.llNumeric)
+        val llOptions = vista.findViewById<LinearLayout>(R.id.llOptions)
 
-        val checkAnswer = {
-            val answer = etAnswer.text.toString().trim()
-            if (answer == "5") {
-                try {
-                    windowManager.removeView(overlayView)
-                } catch (e: Exception) {
-                    PeajeLog.d("OVERLAY error al quitar: ${e.javaClass.simpleName}: ${e.message}")
+        tvVisual.text = ejercicio.visual
+        tvPrompt.text = ejercicio.pregunta
+
+        val cerrarConExito = {
+            try {
+                windowManager.removeView(vista)
+            } catch (e: Exception) {
+                PeajeLog.d("OVERLAY error al quitar: ${e.javaClass.simpleName}: ${e.message}")
+            }
+            overlayView = null
+            PeajeLog.d("OVERLAY respuesta correcta, overlay cerrado")
+            Toast.makeText(context, "¡Muy bien! 🎉 Seguí viendo.", Toast.LENGTH_SHORT).show()
+        }
+
+        val opciones = ejercicio.opciones
+        if (opciones == null) {
+            // Respuesta numérica con teclado (sumas y restas)
+            llNumeric.visibility = View.VISIBLE
+            llOptions.visibility = View.GONE
+
+            val etAnswer = vista.findViewById<EditText>(R.id.etAnswer)
+            val btnSubmit = vista.findViewById<Button>(R.id.btnSubmit)
+            etAnswer.text.clear()
+            etAnswer.requestFocus()
+
+            val verificar = {
+                val respuesta = etAnswer.text.toString().trim()
+                if (respuesta == ejercicio.correcta) {
+                    cerrarConExito()
+                } else {
+                    PeajeLog.d("OVERLAY respuesta incorrecta: '$respuesta'")
+                    etAnswer.error = "No es correcto. Probá de nuevo."
+                    etAnswer.text.clear()
                 }
-                overlayView = null
-                PeajeLog.d("OVERLAY respuesta correcta, overlay cerrado")
-                Toast.makeText(context, "¡Muy bien! 🎉 Seguí viendo.", Toast.LENGTH_SHORT).show()
-            } else {
-                PeajeLog.d("OVERLAY respuesta incorrecta: '$answer'")
-                etAnswer.error = "No es correcto. Probá de nuevo."
-                etAnswer.text.clear()
+            }
+
+            btnSubmit.setOnClickListener { verificar() }
+            etAnswer.setOnEditorActionListener { _, actionId, _ ->
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    verificar()
+                    true
+                } else false
+            }
+        } else {
+            // Respuesta tocando una de 3 opciones (animales y objetos)
+            llNumeric.visibility = View.GONE
+            llOptions.visibility = View.VISIBLE
+
+            val botones = listOf(
+                vista.findViewById<Button>(R.id.btnOpt1),
+                vista.findViewById<Button>(R.id.btnOpt2),
+                vista.findViewById<Button>(R.id.btnOpt3)
+            )
+            botones.forEachIndexed { i, boton ->
+                val texto = opciones[i]
+                boton.text = texto
+                boton.setOnClickListener {
+                    if (texto == ejercicio.correcta) {
+                        cerrarConExito()
+                    } else {
+                        PeajeLog.d("OVERLAY opción incorrecta: '$texto'")
+                        boton.isEnabled = false
+                        boton.alpha = 0.35f
+                        Toast.makeText(context, "Casi 🙂 Probá con otra", Toast.LENGTH_SHORT).show()
+                    }
+                }
             }
         }
 
-        btnSubmit.setOnClickListener { checkAnswer() }
-
-        etAnswer.setOnEditorActionListener { _, actionId, _ ->
-            if (actionId == EditorInfo.IME_ACTION_DONE) {
-                checkAnswer()
-                true
-            } else false
-        }
-
         try {
-            windowManager.addView(overlayView, params)
+            windowManager.addView(vista, params)
             PeajeLog.d("OVERLAY addView OK")
         } catch (e: Exception) {
             // OJO: comportamiento original sin cambios. overlayView queda asignado
-            // aunque addView haya fallado, y show() no volverá a mostrar nada.
+            // aunque addView haya fallado, y la excepción se propaga.
             PeajeLog.d("OVERLAY addView FALLÓ: ${e.javaClass.simpleName}: ${e.message}")
             throw e
         }

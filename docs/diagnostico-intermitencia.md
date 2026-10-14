@@ -51,11 +51,32 @@ Samsung, Xiaomi, Motorola y otros matan procesos en segundo plano y a veces desa
 
 - Se confirma con `SERVICIO destruido` o `desvinculado` sin que nadie haya tocado Ajustes, o con el contador `+Nms` volviendo a valores chicos (el proceso reinició).
 
+### H7: el proceso se cae y el servicio de accesibilidad no vuelve
+
+Nueva desde la prueba de la 1.1 (no apareció nada). `PeajeOverlayManager.show()` vuelve a lanzar la excepción si `addView` falla, y eso se ejecuta en el hilo principal. Una excepción sin capturar mata el proceso. Cuando un servicio de accesibilidad se cae así, Android no siempre lo vuelve a conectar hasta que el usuario lo apague y lo prenda.
+
+- Se confirma con una línea `CRASH en hilo ...` en el registro, seguida de `PROCESO iniciado` con un pid nuevo, y con el panel de estado mostrando "Servicio conectado y vivo" en ❌ aunque la accesibilidad figure activada.
+
+### H8: el paquete de la app de video no está en la lista
+
+La detección solo reconoce un conjunto fijo de paquetes de YouTube. Si en el celu se usa otra variante, nunca se activa el timer.
+
+- Se confirma mirando "Última app detectada" en el panel de estado mientras YouTube está abierto: si muestra un paquete que no es de la lista, ese es el problema. Desde la 1.2 se agregaron YouTube Kids y YouTube Go.
+
 ### H6: landscape
 
 `overlay_exercise.xml` no tiene scroll y usa paddings y tamaños fijos. En horizontal la altura no alcanza y se corta. Es un bug de layout aparte, no de intermitencia.
 
 ## Cómo capturar logs
+
+### Desde el celular, sin PC (desde la versión 1.2)
+
+1. Abrir la app y mirar el **🔎 Estado** de la pantalla principal. Con YouTube abierto en otra pantalla, volver a la app y ver "Última app detectada" y "Servicio conectado y vivo".
+2. Hacer el escenario de prueba.
+3. Volver a la app → **📋 Ver registro** → **Copiar** (o **Compartir**) y pegar el texto en el chat.
+4. Entre pruebas, **Borrar** para empezar con un registro limpio.
+
+### Con PC y adb
 
 Con el celu conectado por USB (o depuración inalámbrica) y `adb` en la PC:
 
@@ -91,6 +112,8 @@ Hacer cada escenario con una captura de log nueva y anotar el resultado en la ta
 | F | YouTube ya abierto | Abrir YouTube, **después** activar el servicio, volver a YouTube |
 | G | Pantalla apagada y vuelta | Bloquear 2 min, desbloquear, volver a YouTube |
 | H | Horizontal | Overlay en landscape |
+
+Resultado ya conocido: con la versión 1.1, con los permisos dados, **no apareció el overlay** en una primera prueba desde el celular. No se pudo ver el registro (recién existe en la 1.2).
 
 ## Tabla "cuándo sí / cuándo no"
 

@@ -41,7 +41,9 @@ El repo es `AbelG88/tolltube`. Cada push a `main` compila solo y deja el APK en 
 
 ## Si el overlay a veces aparece y a veces no
 
-La app escribe logs de diagnóstico con el tag `Peaje`. Con el celu conectado a la PC:
+**Desde el celu (sin PC):** en la pantalla principal mirá el panel **🔎 Estado** y tocá **📋 Ver registro** → Copiar o Compartir. El estado dice si el permiso, la accesibilidad y el servicio están bien, y cuál fue la última app detectada.
+
+**Con PC:** la app también escribe logs con el tag `Peaje`. Con el celu conectado:
 
 ```
 adb logcat -c
@@ -54,6 +56,12 @@ Hipótesis, protocolo de prueba y registro de resultados: [docs/diagnostico-inte
 Documento del proyecto: [docs/app-peaje-cognitivo.md](docs/app-peaje-cognitivo.md).
 
 ---
+
+## Para elegir el tipo de ejercicio
+
+Desde la app: pantalla principal → **🎯 Tipos de ejercicio** → tildar sumas, restas, animales y/o objetos. Si hay varios tildados salen mezclados. Se guarda al tocar, y siempre queda al menos uno.
+
+Los ejercicios están en `app/src/main/java/com/peajecognitivo/app/ExerciseGenerator.kt`. Para agregar animales u objetos, sumar un par `"emoji" to "Nombre"` a la lista.
 
 ## Para cambiar el tiempo entre ejercicios
 
