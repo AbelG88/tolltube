@@ -113,7 +113,16 @@ Hacer cada escenario con una captura de log nueva y anotar el resultado en la ta
 | G | Pantalla apagada y vuelta | Bloquear 2 min, desbloquear, volver a YouTube |
 | H | Horizontal | Overlay en landscape |
 
-Resultado ya conocido: con la versión 1.1, con los permisos dados, **no apareció el overlay** en una primera prueba desde el celular. No se pudo ver el registro (recién existe en la 1.2).
+### Datos ya conocidos (sin registro todavía)
+
+| Fecha | Versión | Dato |
+|-------|---------|------|
+| 14/10/2026 | 1.1 | Con los permisos dados, **no apareció el overlay** en una primera prueba. No se pudo ver el registro (recién existe en la 1.2). |
+| 14/10/2026 | 1.1 | **Si se maximiza YouTube a pantalla completa apaisada, el overlay sí aparece. En vertical (normal), no.** |
+
+**Lectura del segundo dato.** Es coherente con H1 y H2: el timer no estaba corriendo en vertical porque `isYouTubeActive` había quedado en `false` (otra ventana lo apagó, o el servicio arrancó con YouTube ya abierto). Al pasar a pantalla completa, YouTube cambia de ventana, genera un evento nuevo, el servicio vuelve a marcar `true` y arranca el timer. Si es así, el overlay no falla al dibujarse: falla la detección de que YouTube está en primer plano.
+
+Para confirmarlo con la 1.2: en vertical con YouTube reproduciendo, volver a la app y mirar el panel **🔎 Estado** ("YouTube detectado ahora" debería decir **no**), y en el registro buscar el evento de YouTube que aparece justo al maximizar.
 
 ## Tabla "cuándo sí / cuándo no"
 
