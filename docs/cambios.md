@@ -10,6 +10,11 @@ https://github.com/AbelG88/tolltube/releases
 - [x] Sumas y restas con imágenes (emojis) acompañando los números (release 2)
 - [x] Más tipos de ejercicio (animales, objetos) y elegirlos desde el menú (release 2)
 
+## Release 6.1: versión 1.6.1-MVP
+
+- **El campo de respuesta y el botón OK pasaron arriba** del ejercicio (justo debajo del título), y todo el contenido está pegado al borde superior. En Android nuevo el teclado volvía a tapar el botón.
+- La ventana del ejercicio ahora se achica cuando aparece el teclado, así que si hace falta se puede desplazar.
+
 ## Release 6: versión 1.6-MVP
 
 - **Cinco tipos nuevos:** 🔤 Letras (nivel fácil: reconocer la letra; medio y difícil: con qué letra empieza el animal), 🎨 Colores (corazones de colores), 🔷 Formas, 🔢 Contar (dibujos repetidos, respuesta con teclado) y ➡️ Secuencias de números (qué número sigue). Hay que tildarlos en el menú.

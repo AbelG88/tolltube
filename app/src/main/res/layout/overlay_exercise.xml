@@ -9,9 +9,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
+        android:gravity="top|center_horizontal"
         android:orientation="vertical"
-        android:padding="24dp">
+        android:padding="16dp">
 
         <TextView
             android:id="@+id/tvQuestion"
@@ -20,29 +20,7 @@
             android:gravity="center"
             android:text="🛑 Peaje Cognitivo"
             android:textColor="#FFFFFF"
-            android:textSize="26sp"
-            android:textStyle="bold" />
-
-        <!-- Los dibujos (emojis grandes) -->
-        <TextView
-            android:id="@+id/tvVisual"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:gravity="center"
-            android:lineSpacingMultiplier="1.1"
-            android:textSize="44sp" />
-
-        <!-- La pregunta: "3 + 2 = ?" o "¿Qué animal es?" -->
-        <TextView
-            android:id="@+id/tvPrompt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="20dp"
-            android:gravity="center"
-            android:textColor="#FFFFFF"
-            android:textSize="34sp"
+            android:textSize="20sp"
             android:textStyle="bold" />
 
         <!-- Respuesta con número (sumas y restas) -->
@@ -50,6 +28,7 @@
             android:id="@+id/llNumeric"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
             android:gravity="center"
             android:orientation="horizontal">
 
@@ -77,6 +56,28 @@
                 android:text="✓ OK"
                 android:textSize="26sp" />
         </LinearLayout>
+
+        <!-- Los dibujos (emojis grandes) -->
+        <TextView
+            android:id="@+id/tvVisual"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:lineSpacingMultiplier="1.1"
+            android:textSize="44sp" />
+
+        <!-- La pregunta: "3 + 2 = ?" o "¿Qué animal es?" -->
+        <TextView
+            android:id="@+id/tvPrompt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="20dp"
+            android:gravity="center"
+            android:textColor="#FFFFFF"
+            android:textSize="34sp"
+            android:textStyle="bold" />
 
         <!-- Respuesta tocando una opción (animales y objetos) -->
         <LinearLayout

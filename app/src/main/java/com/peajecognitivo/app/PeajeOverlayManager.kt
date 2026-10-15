@@ -38,6 +38,8 @@ object PeajeOverlayManager {
             PixelFormat.TRANSLUCENT
         ).apply {
             gravity = Gravity.CENTER
+            // Con el teclado abierto, la pantalla se achica y el contenido se desplaza (no queda tapado)
+            softInputMode = WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE
         }
 
         val ejercicio = ExerciseGenerator.siguiente(context)
