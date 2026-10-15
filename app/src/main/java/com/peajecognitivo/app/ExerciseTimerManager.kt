@@ -8,72 +8,98 @@ import android.os.SystemClock
 /**
  * Temporizador interno del peaje.
  *
- * Antes usaba AlarmManager.setRepeating, que es inexacta y Android no permite
- * por debajo de 60 s. Ahora usa un Handler en el hilo principal: es exacto y
- * admite cualquier intervalo en segundos (ver SettingsStore).
- *
- * Mientras YouTube esté activo, cada vez que se cumple el tiempo se muestra el overlay.
- * La API pública (startTimer / pauseTimer) es la misma de antes.
+ * Cómo funciona (desde la 1.3):
+ *  - Se ARRANCA cuando el servicio de accesibilidad ve aparecer YouTube.
+ *  - Los eventos de otras ventanas (teclado, barra del sistema, nuestro overlay) ya NO lo apagan.
+ *  - Cada vez que se cumple el tiempo, se pregunta al sistema qué app está realmente en pantalla:
+ *      · YouTube  -> se muestra el ejercicio y el timer espera a que se resuelva;
+ *                    al resolverse, se vuelve a contar el tiempo completo.
+ *      · otra app -> el timer se detiene (se reactiva solo al volver a YouTube).
+ *      · incierto -> (teclado, barra, no se pudo leer) se saltea este ciclo y se sigue contando.
  */
 class ExerciseTimerManager {
     companion object {
         private val handler = Handler(Looper.getMainLooper())
         private var running = false
+        private var esperandoCierre = false
         private var appContext: Context? = null
 
-        // Solo diagnóstico: cuándo debía sonar el próximo tick (elapsedRealtime)
+        // Cuándo debía sonar el próximo ciclo (elapsedRealtime). Sirve para medir retrasos y para el panel.
         private var proximaEsperada = 0L
 
         private val tick = object : Runnable {
             override fun run() {
-                val ctx = appContext ?: return
-                val retraso = SystemClock.elapsedRealtime() - proximaEsperada
-                PeajeLog.d(
-                    "TIMER sonó. isYouTubeActive=${PeajeAccessibilityService.isYouTubeActive} " +
-                        "retraso_vs_esperado=${retraso}ms"
-                )
-                if (PeajeAccessibilityService.isYouTubeActive) {
+                alSonar()
+            }
+        }
+
+        private fun alSonar() {
+            val ctx = appContext ?: return
+            if (!running) return
+
+            val retraso = SystemClock.elapsedRealtime() - proximaEsperada
+            val (pantalla, paquete) = PeajeAccessibilityService.clasificarPantalla()
+            PeajeLog.d(
+                "TIMER sonó. en_pantalla=$paquete -> $pantalla retraso_vs_esperado=${retraso}ms"
+            )
+
+            when (pantalla) {
+                Pantalla.YOUTUBE -> {
                     PeajeOverlayManager.show(ctx)
-                } else {
-                    PeajeLog.d("TIMER ignorado: no se cree que YouTube esté en primer plano")
+                    // No se programa otro ciclo: se espera a que se resuelva el ejercicio
+                    esperandoCierre = true
+                    PeajeLog.d("TIMER en espera hasta que se resuelva el ejercicio")
                 }
-                if (running) programar(ctx)
+                Pantalla.OTRA_APP -> {
+                    running = false
+                    PeajeLog.d("TIMER detenido: el usuario está en $paquete. Se reactiva al volver a YouTube")
+                }
+                Pantalla.INCIERTO -> {
+                    PeajeLog.d("TIMER ciclo salteado: pantalla incierta, se sigue contando")
+                    programar(ctx)
+                }
             }
         }
 
         private fun programar(ctx: Context) {
             val intervalo = SettingsStore.getIntervalMs(ctx)
+            esperandoCierre = false
             proximaEsperada = SystemClock.elapsedRealtime() + intervalo
             handler.postDelayed(tick, intervalo)
             PeajeLog.d("TIMER programado: próximo en ${intervalo / 1000}s")
         }
 
         fun startTimer(context: Context) {
-            if (running) {
-                PeajeLog.d("TIMER startTimer ignorado: ya había un timer activo")
-                return
-            }
+            if (running) return   // ya corriendo: no se anota para no llenar el registro
             running = true
             appContext = context.applicationContext
             programar(appContext!!)
         }
 
-        fun pauseTimer(context: Context) {
-            if (!running) {
-                PeajeLog.d("TIMER pauseTimer: no había timer activo")
-                return
-            }
+        /** Lo llama el overlay cuando el ejercicio se resolvió: se vuelve a contar el tiempo completo. */
+        fun alCerrarEjercicio(context: Context) {
+            if (!running) return
             handler.removeCallbacks(tick)
-            running = false
-            PeajeLog.d("TIMER cancelado")
+            programar(appContext ?: context.applicationContext)
+            PeajeLog.d("TIMER reiniciado tras resolver el ejercicio")
         }
 
-        /** Se llama al guardar un tiempo nuevo: si hay un timer corriendo, lo reprograma ya. */
+        /** Se llama al guardar un tiempo nuevo: si hay un ciclo en curso, se reprograma ya. */
         fun reprogramar(context: Context) {
-            if (!running) return
+            if (!running || esperandoCierre) return
             handler.removeCallbacks(tick)
             programar(context.applicationContext)
             PeajeLog.d("TIMER reprogramado por cambio de ajustes")
+        }
+
+        /** Para el panel de estado: "corriendo, próximo en 12 s", "esperando ejercicio" o "detenido". */
+        fun descripcionEstado(): String = when {
+            !running -> "detenido (se activa al abrir YouTube)"
+            esperandoCierre -> "esperando que se resuelva el ejercicio"
+            else -> {
+                val faltan = ((proximaEsperada - SystemClock.elapsedRealtime()) / 1000).coerceAtLeast(0)
+                "corriendo, próximo ejercicio en ${faltan}s"
+            }
         }
     }
 }

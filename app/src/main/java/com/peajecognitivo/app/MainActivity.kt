@@ -94,7 +94,8 @@ class MainActivity : AppCompatActivity() {
             appendLine("${marca(habilitado)} Accesibilidad activada en Ajustes")
             appendLine("${marca(conectado)} Servicio conectado y vivo")
             appendLine("Última app detectada: $ultimo")
-            append("YouTube detectado ahora: ${if (youtube) "sí" else "no"}")
+            appendLine("YouTube detectado ahora: ${if (youtube) "sí" else "no"}")
+            append("Timer: ${ExerciseTimerManager.descripcionEstado()}")
         }
     }
 

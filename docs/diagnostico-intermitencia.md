@@ -182,9 +182,26 @@ Celular Motorola (launcher `com.motorola.launcher3`), YouTube en vertical, timer
 
 **Pregunta abierta.** ¿El usuario seguía en YouTube después de la suma 3+5 de las 20:48? Si sí, ahí hubo una falla real.
 
+## Qué probar con la 1.3
+
+La 1.3 implementa el arreglo de H1 (y de H2). Lo que hay que ver en el registro:
+
+| # | Prueba | Qué debería pasar |
+|---|--------|-------------------|
+| 1 | Varios ciclos seguidos respondiendo **sumas con teclado** (tildar solo Sumas) | Después de cada respuesta aparece `TIMER reiniciado tras resolver el ejercicio` y el siguiente overlay llega a tiempo. El teclado ya no lo mata |
+| 2 | Bajar y subir la barra de notificaciones con YouTube abierto | Línea `TIMER sonó ... -> YOUTUBE` y overlay normal. Si justo suena con la barra abierta: `-> INCIERTO` y `ciclo salteado` |
+| 3 | **Abrir YouTube primero** y recién después activar la accesibilidad (escenario F) | `SERVICIO revisó la pantalla: en_pantalla=com.google.android.youtube -> YOUTUBE` y el timer arranca solo |
+| 4 | Salir de YouTube al launcher o a WhatsApp y esperar un ciclo | `TIMER detenido: el usuario está en <paquete>`. Al volver a YouTube arranca de nuevo |
+| 5 | YouTube en horizontal (pantalla completa) y en vertical | Mismo comportamiento en los dos |
+| 6 | Dejar el overlay sin responder más de un ciclo | No aparecen overlays nuevos encima: el timer espera (`TIMER en espera hasta que se resuelva`) |
+
+**Señal de que falló algo:** una línea `TIMER sonó ... -> OTRA_APP` con `en_pantalla=com.google.android.youtube...` no debería existir. Y si YouTube está a la vista, el panel debería decir "Timer: corriendo" y no "detenido".
+
+**Riesgo conocido:** `rootInActiveWindow` puede devolver `null` en algunos momentos (por ejemplo, durante una transición). En ese caso el ciclo se trata como incierto y se saltea, sin apagar el timer.
+
 ## Después del diagnóstico
 
-El arreglo para H1, ya con evidencia:
+El arreglo para H1 (**implementado en la 1.3**, pendiente de confirmar en el celular):
 
 - **H1:** dejar de apagar el timer por eventos. El timer corre mientras haya un evento de YouTube reciente y, **en cada ciclo, se consulta cuál es la app realmente en pantalla** (`rootInActiveWindow`) en lugar de fiarse de `isYouTubeActive`. Así el teclado, la barra del sistema y el propio overlay dejan de importar.
 

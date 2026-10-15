@@ -10,6 +10,22 @@ https://github.com/AbelG88/tolltube/releases
 - [x] Sumas y restas con imágenes (emojis) acompañando los números (release 2)
 - [x] Más tipos de ejercicio (animales, objetos) y elegirlos desde el menú (release 2)
 
+## Release 3: versión 1.3-MVP
+
+Arreglo de H1 (ver [diagnostico-intermitencia.md](diagnostico-intermitencia.md)), con la evidencia del registro de la 1.2: el teclado, la barra del sistema y el propio overlay apagaban el timer.
+
+- **Los eventos ya no apagan el timer.** Solo lo arrancan cuando aparece YouTube.
+- **En cada ciclo se pregunta qué app está realmente en pantalla** (`rootInActiveWindow`):
+  - YouTube → se muestra el ejercicio.
+  - Otra app (launcher, WhatsApp, etc.) → el timer se detiene y se reactiva solo al volver a YouTube.
+  - Incierto (teclado, barra del sistema, nuestro overlay, o no se pudo leer) → se saltea el ciclo y se sigue contando.
+- **El tiempo del siguiente ejercicio se cuenta desde que se resolvió el anterior.** Antes pasaba así por casualidad (el overlay apagaba el timer y YouTube lo rearmaba al cerrarse). Ahora es explícito.
+- **Al conectar el servicio se mira la pantalla** (a los 0 y a los 1,5 s). Cubre el caso de YouTube ya abierto antes de activar la accesibilidad (H2).
+- **Registro más limpio.** Las ventanas de ruido repetidas se anotan una sola vez seguida. Las líneas `TIMER sonó` ahora dicen `en_pantalla=<paquete> -> YOUTUBE / OTRA_APP / INCIERTO`.
+- **Panel de estado:** nueva línea "Timer" (corriendo con cuenta regresiva, esperando el ejercicio, o detenido).
+
+Qué probar con la 1.3: ver la sección "Qué probar con la 1.3" en el diagnóstico.
+
 ## Release 2: versión 1.2-MVP
 
 Resultado de probar la 1.1: no apareció el overlay, aun con los permisos dados. Como la prueba se hace desde el celular (sin `adb`), este release suma herramientas de diagnóstico dentro de la app además de las funciones pedidas.

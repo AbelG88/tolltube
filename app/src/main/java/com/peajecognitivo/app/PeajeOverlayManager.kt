@@ -59,6 +59,8 @@ object PeajeOverlayManager {
             overlayView = null
             PeajeLog.d("OVERLAY respuesta correcta, overlay cerrado")
             Toast.makeText(context, "¡Muy bien! 🎉 Seguí viendo.", Toast.LENGTH_SHORT).show()
+            // El tiempo hasta el próximo ejercicio se cuenta desde que se resolvió este
+            ExerciseTimerManager.alCerrarEjercicio(context)
         }
 
         val opciones = ejercicio.opciones
