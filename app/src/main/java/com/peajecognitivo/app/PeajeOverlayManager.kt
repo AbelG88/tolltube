@@ -24,7 +24,9 @@ object PeajeOverlayManager {
             PeajeLog.d("OVERLAY show() ignorado: ya hay un overlay marcado como visible")
             return
         }
-        PeajeLog.d("OVERLAY show() intentando mostrar")
+        val horizontal =
+            context.resources.configuration.orientation == android.content.res.Configuration.ORIENTATION_LANDSCAPE
+        PeajeLog.d("OVERLAY show() intentando mostrar (pantalla ${if (horizontal) "horizontal" else "vertical"})")
 
         val windowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
 
@@ -66,7 +68,9 @@ object PeajeOverlayManager {
             }
             overlayView = null
             PeajeLog.d("OVERLAY respuesta correcta, overlay cerrado")
-            Toast.makeText(context, "¡Muy bien! 🎉 Seguí viendo.", Toast.LENGTH_SHORT).show()
+            val total = SettingsStore.registrarAcierto(context)
+            PeajeLog.d("OVERLAY aciertos de hoy: $total")
+            Toast.makeText(context, "¡Muy bien! 🎉 ⭐ $total hoy", Toast.LENGTH_SHORT).show()
             // El tiempo hasta el próximo ejercicio se cuenta desde que se resolvió este
             ExerciseTimerManager.alCerrarEjercicio(context)
         }

@@ -59,6 +59,22 @@ object SettingsStore {
         prefs(context).edit().putString("pin", pin).apply()
     }
 
+    /** Aciertos de hoy (se reinicia solo cada día). */
+    fun aciertosHoy(context: Context): Int {
+        val p = prefs(context)
+        return if (p.getString("aciertos_dia", "") == hoy()) p.getInt("aciertos_n", 0) else 0
+    }
+
+    /** Suma un acierto a hoy y devuelve el total del día. */
+    fun registrarAcierto(context: Context): Int {
+        val n = aciertosHoy(context) + 1
+        prefs(context).edit().putString("aciertos_dia", hoy()).putInt("aciertos_n", n).apply()
+        return n
+    }
+
+    private fun hoy(): String =
+        java.text.SimpleDateFormat("yyyy-MM-dd", java.util.Locale.US).format(java.util.Date())
+
     /** 75 -> "1 min 15 s" */
     fun formatear(seconds: Int): String {
         val m = seconds / 60

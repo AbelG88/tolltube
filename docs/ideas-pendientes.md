@@ -6,8 +6,8 @@ Lista viva. Lo hecho se tacha en [cambios.md](cambios.md).
 
 | Release | Contenido | Estado |
 |---|---|---|
-| 4 (1.4) | Emociones (caras), voz (leer el ejercicio), ayuda tras errores, PIN de padres | en curso |
-| 5 (1.5) | Aviso suave antes del ejercicio, estrellas / contador diario | idea |
+| 4 (1.4) | Emociones (caras), voz (leer el ejercicio), ayuda tras errores, PIN de padres, pausa del video | hecho |
+| 5 (1.5) | Estrellas / contador diario, orientación en el registro | hecho; falta el aviso suave previo |
 | 6 (1.6) | Más tipos: letras, colores y formas, contar, secuencias; niveles de dificultad; historial de aciertos por tipo | idea |
 
 ## Ideas

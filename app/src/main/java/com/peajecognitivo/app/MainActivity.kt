@@ -104,6 +104,7 @@ class MainActivity : AppCompatActivity() {
             appendLine("${marca(conectado)} Servicio conectado y vivo")
             appendLine("Última app detectada: $ultimo")
             appendLine("YouTube detectado ahora: ${if (youtube) "sí" else "no"}")
+            appendLine("⭐ Ejercicios bien resueltos hoy: ${SettingsStore.aciertosHoy(this@MainActivity)}")
             append("Timer: ${ExerciseTimerManager.descripcionEstado()}")
         }
     }

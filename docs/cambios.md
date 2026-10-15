@@ -10,6 +10,13 @@ https://github.com/AbelG88/tolltube/releases
 - [x] Sumas y restas con imágenes (emojis) acompañando los números (release 2)
 - [x] Más tipos de ejercicio (animales, objetos) y elegirlos desde el menú (release 2)
 
+## Release 5: versión 1.5-MVP
+
+- **Orientación en el registro:** la línea `OVERLAY show()` ahora dice si la pantalla estaba horizontal o vertical.
+- **Estrellas del día:** al resolver bien, el cartelito muestra ⭐ y cuántos ejercicios van hoy; el panel de estado también. Se reinicia cada día. Sin castigos ni puntos negativos.
+
+Pendiente de [ideas-pendientes.md](ideas-pendientes.md): aviso previo suave, más tipos de ejercicio y niveles.
+
 ## Release 4.2: versión 1.4.2-MVP
 
 - **El video se pausa cuando aparece el ejercicio.** Se pide el foco de audio (YouTube se pausa solo) y se manda la tecla "pausa" de medios. Nunca manda "play": al terminar, el video queda pausado o se reanuda según lo haga YouTube. Sirve también para escuchar la voz. En el registro: líneas `AUDIO ...`.
