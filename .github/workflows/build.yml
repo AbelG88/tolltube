@@ -39,9 +39,9 @@ jobs:
       env:
         GH_TOKEN: ${{ github.token }}
       run: |
-        cp app/build/outputs/apk/debug/app-debug.apk peaje-cognitivo-debug.apk
-        gh release create "build-${{ github.run_number }}" peaje-cognitivo-debug.apk \
-          --title "Build #${{ github.run_number }}" \
-          --notes "APK de debug compilado desde el commit ${{ github.sha }}" \
+        cp app/build/outputs/apk/debug/app-debug.apk peaje-cognitivo.apk
+        gh release create "build-${{ github.run_number }}" peaje-cognitivo.apk \
+          --title "Peaje Cognitivo - build #${{ github.run_number }}" \
+          --notes "Compilado desde el commit ${{ github.sha }}" \
           --target "${{ github.sha }}" \
           --latest

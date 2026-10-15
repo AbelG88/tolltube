@@ -68,6 +68,7 @@ object PeajeOverlayManager {
             }
             overlayView = null
             PeajeLog.d("OVERLAY respuesta correcta, overlay cerrado")
+            SettingsStore.registrarResultado(context, ejercicio.tipo, errores)
             val total = SettingsStore.registrarAcierto(context)
             PeajeLog.d("OVERLAY aciertos de hoy: $total")
             Toast.makeText(context, "¡Muy bien! 🎉 ⭐ $total hoy", Toast.LENGTH_SHORT).show()

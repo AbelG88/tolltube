@@ -7,8 +7,8 @@ Lista viva. Lo hecho se tacha en [cambios.md](cambios.md).
 | Release | Contenido | Estado |
 |---|---|---|
 | 4 (1.4) | Emociones (caras), voz (leer el ejercicio), ayuda tras errores, PIN de padres, pausa del video | hecho |
-| 5 (1.5) | Estrellas / contador diario, orientación en el registro | hecho; falta el aviso suave previo |
-| 6 (1.6) | Más tipos: letras, colores y formas, contar, secuencias; niveles de dificultad; historial de aciertos por tipo | idea |
+| 5 (1.5) | Estrellas / contador diario, orientación en el registro | hecho |
+| 6 (1.6) | Más tipos: letras, colores, formas, contar, secuencias; niveles de dificultad; historial de aciertos por tipo | hecho |
 
 ## Ideas
 
@@ -16,7 +16,7 @@ Lista viva. Lo hecho se tacha en [cambios.md](cambios.md).
 - **Voz:** que el celu lea la pregunta en voz alta. Apagada por defecto, se activa en el menú.
 - **Ayuda tras errores:** resaltar la opción correcta tras el primer error; en sumas y restas, mostrar la respuesta como pista tras dos errores. Evita la frustración.
 - **PIN de padres:** para que el niño no pueda cambiar los ajustes ni ver el registro.
-- **Aviso previo:** un cartelito "En 10 segundos viene un ejercicio" para anticipar (útil con niños que se frustran con cortes bruscos).
+- **Aviso previo:** descartado por Abel.
 - **Estrellas / contador diario:** refuerzo positivo, sin castigo.
 - **Más tipos:** letras y sílabas, colores, formas, contar objetos, completar secuencias.
 - **Niveles de dificultad** por tipo, e historial de aciertos para los padres.

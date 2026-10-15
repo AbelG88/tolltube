@@ -4,7 +4,7 @@
 
 ### Opción A: GitHub Actions (recomendada, 100% gratis)
 
-El repo es `AbelG88/tolltube`. Cada push a `main` compila solo y deja el APK en **Releases** (https://github.com/AbelG88/tolltube/releases/latest). Desde el celu, bajá `peaje-cognitivo-debug.apk` de ahí: es la forma más fácil. Lo de abajo (Artifacts) es el camino alternativo.
+El repo es `AbelG88/tolltube`. Cada push a `main` compila solo y deja el APK en **Releases** (https://github.com/AbelG88/tolltube/releases/latest). Desde el celu, bajá `peaje-cognitivo.apk` de ahí: es la forma más fácil. Lo de abajo (Artifacts) es el camino alternativo.
 
 1. **Ir a la pestaña "Actions"** del repo en GitHub
 2. Si no arrancó solo, tocar **"Build APK"** y luego "Run workflow"

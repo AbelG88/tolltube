@@ -59,6 +59,35 @@ object SettingsStore {
         prefs(context).edit().putString("pin", pin).apply()
     }
 
+    /** Nivel de dificultad: 1 fácil, 2 medio (por defecto), 3 difícil. */
+    fun getNivel(context: Context): Int = prefs(context).getInt("nivel", 2).coerceIn(1, 3)
+
+    fun setNivel(context: Context, nivel: Int) {
+        prefs(context).edit().putInt("nivel", nivel.coerceIn(1, 3)).apply()
+    }
+
+    /** Historial acumulado por tipo: ejercicios resueltos y errores cometidos. */
+    fun registrarResultado(context: Context, tipo: ExerciseType, errores: Int) {
+        val p = prefs(context)
+        p.edit()
+            .putInt("hist_${tipo.clave}_ok", p.getInt("hist_${tipo.clave}_ok", 0) + 1)
+            .putInt("hist_${tipo.clave}_err", p.getInt("hist_${tipo.clave}_err", 0) + errores)
+            .apply()
+    }
+
+    fun historial(context: Context, tipo: ExerciseType): Pair<Int, Int> {
+        val p = prefs(context)
+        return Pair(p.getInt("hist_${tipo.clave}_ok", 0), p.getInt("hist_${tipo.clave}_err", 0))
+    }
+
+    fun borrarHistorial(context: Context) {
+        val e = prefs(context).edit()
+        ExerciseType.values().forEach {
+            e.remove("hist_${it.clave}_ok").remove("hist_${it.clave}_err")
+        }
+        e.apply()
+    }
+
     /** Aciertos de hoy (se reinicia solo cada día). */
     fun aciertosHoy(context: Context): Int {
         val p = prefs(context)

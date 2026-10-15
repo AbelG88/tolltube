@@ -69,12 +69,19 @@ class MainActivity : AppCompatActivity() {
             SettingsStore.setVoz(this, activa)
             PeajeLog.d("AJUSTES voz: $activa")
         }
+        configurarNivel()
+        findViewById<Button>(R.id.btnBorrarHistorial).setOnClickListener {
+            SettingsStore.borrarHistorial(this)
+            mostrarHistorial()
+            Toast.makeText(this, "Progreso borrado", Toast.LENGTH_SHORT).show()
+        }
         findViewById<Button>(R.id.btnPin).setOnClickListener { PinGate.configurar(this) }
     }
 
     override fun onResume() {
         super.onResume()
         PinGate.exigir(this)
+        mostrarHistorial()
         handler.post(refrescarEstado)
     }
 
@@ -176,7 +183,12 @@ class MainActivity : AppCompatActivity() {
             ExerciseType.RESTA to findViewById(R.id.cbResta),
             ExerciseType.ANIMALES to findViewById(R.id.cbAnimales),
             ExerciseType.OBJETOS to findViewById(R.id.cbObjetos),
-            ExerciseType.EMOCIONES to findViewById(R.id.cbEmociones)
+            ExerciseType.EMOCIONES to findViewById(R.id.cbEmociones),
+            ExerciseType.LETRAS to findViewById(R.id.cbLetras),
+            ExerciseType.COLORES to findViewById(R.id.cbColores),
+            ExerciseType.FORMAS to findViewById(R.id.cbFormas),
+            ExerciseType.CONTAR to findViewById(R.id.cbContar),
+            ExerciseType.SECUENCIAS to findViewById(R.id.cbSecuencias)
         )
 
         val actuales = SettingsStore.getTipos(this)
@@ -195,6 +207,29 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    // ---------- Dificultad y progreso ----------
+
+    private fun configurarNivel() {
+        val grupo = findViewById<android.widget.RadioGroup>(R.id.rgNivel)
+        val ids = listOf(R.id.rbNivel1, R.id.rbNivel2, R.id.rbNivel3)
+        grupo.check(ids[SettingsStore.getNivel(this) - 1])
+        grupo.setOnCheckedChangeListener { _, id ->
+            val nivel = ids.indexOf(id) + 1
+            if (nivel > 0) {
+                SettingsStore.setNivel(this, nivel)
+                PeajeLog.d("AJUSTES dificultad: $nivel")
+            }
+        }
+    }
+
+    private fun mostrarHistorial() {
+        val texto = ExerciseType.values().joinToString("\n") { tipo ->
+            val (ok, err) = SettingsStore.historial(this, tipo)
+            "${tipo.etiqueta}: $ok bien, $err errores"
+        }
+        findViewById<TextView>(R.id.tvHistorial).text = texto
     }
 
     // ---------- Permisos ----------

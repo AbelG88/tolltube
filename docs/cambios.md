@@ -10,6 +10,13 @@ https://github.com/AbelG88/tolltube/releases
 - [x] Sumas y restas con imágenes (emojis) acompañando los números (release 2)
 - [x] Más tipos de ejercicio (animales, objetos) y elegirlos desde el menú (release 2)
 
+## Release 6: versión 1.6-MVP
+
+- **Cinco tipos nuevos:** 🔤 Letras (nivel fácil: reconocer la letra; medio y difícil: con qué letra empieza el animal), 🎨 Colores (corazones de colores), 🔷 Formas, 🔢 Contar (dibujos repetidos, respuesta con teclado) y ➡️ Secuencias de números (qué número sigue). Hay que tildarlos en el menú.
+- **Dificultad:** Fácil / Medio (por defecto, igual que antes) / Difícil. Cambia los rangos de sumas, restas, contar y secuencias, y el modo de Letras.
+- **Progreso por tipo:** ejercicios resueltos y errores acumulados, en la pantalla principal (detrás del PIN), con botón para borrarlo. Se guarda solo en el celu.
+- **APK sin la palabra "debug":** el archivo del Release ahora es `peaje-cognitivo.apk` y el título dice "Peaje Cognitivo - build #N". Por dentro sigue siendo el mismo tipo de compilación y la misma firma, así que se instala encima de la versión anterior.
+
 ## Release 5: versión 1.5-MVP
 
 - **Orientación en el registro:** la línea `OVERLAY show()` ahora dice si la pantalla estaba horizontal o vertical.

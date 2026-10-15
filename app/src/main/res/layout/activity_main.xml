@@ -192,6 +192,41 @@
             android:text="😊 Emociones (caras)"
             android:textSize="16sp" />
 
+        <CheckBox
+            android:id="@+id/cbLetras"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="🔤 Letras"
+            android:textSize="16sp" />
+
+        <CheckBox
+            android:id="@+id/cbColores"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="🎨 Colores"
+            android:textSize="16sp" />
+
+        <CheckBox
+            android:id="@+id/cbFormas"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="🔷 Formas"
+            android:textSize="16sp" />
+
+        <CheckBox
+            android:id="@+id/cbContar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="🔢 Contar"
+            android:textSize="16sp" />
+
+        <CheckBox
+            android:id="@+id/cbSecuencias"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="➡️ Secuencias de números"
+            android:textSize="16sp" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -200,6 +235,70 @@
             android:text="Si marcás varios, salen mezclados."
             android:textColor="#888"
             android:textSize="12sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="📈 Dificultad"
+            android:textColor="#333"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <RadioGroup
+            android:id="@+id/rgNivel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:orientation="vertical">
+
+            <RadioButton
+                android:id="@+id/rbNivel1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Fácil"
+                android:textSize="16sp" />
+
+            <RadioButton
+                android:id="@+id/rbNivel2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Medio"
+                android:textSize="16sp" />
+
+            <RadioButton
+                android:id="@+id/rbNivel3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Difícil"
+                android:textSize="16sp" />
+        </RadioGroup>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="📊 Progreso por tipo"
+            android:textColor="#333"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvHistorial"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:lineSpacingMultiplier="1.2"
+            android:textColor="#444"
+            android:textSize="14sp" />
+
+        <Button
+            android:id="@+id/btnBorrarHistorial"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Borrar progreso"
+            android:textSize="14sp" />
 
         <CheckBox
             android:id="@+id/cbVoz"
