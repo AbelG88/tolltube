@@ -18,7 +18,20 @@ Estado: **hipótesis a verificar en el celular**. Escrito a partir de leer el c�
 
 ## Hipótesis
 
-### H1: el timer se cancela por eventos de otras ventanas (la más probable)
+**Estado después de la prueba con registro del 14/10/2026 (versión 1.2, Motorola):**
+
+| Hipótesis | Estado |
+|-----------|--------|
+| H1 | **Confirmada.** Ver "Resultados de la prueba con registro" más abajo |
+| H2 | No se observó. Falta probar el escenario F (YouTube ya abierto al activar el servicio) |
+| H3 | No se observó: `addView OK` las 3 veces |
+| H4 | **Mitigada.** Con el timer interno el retraso fue de 2 a 29 ms |
+| H5 | No se observó en ~15 minutos de registro |
+| H6 | Sin probar en horizontal con la 1.2 (el overlay ahora tiene scroll) |
+| H7 | No se observó: no hay líneas `CRASH` |
+| H8 | Descartada para YouTube normal: el paquete es `com.google.android.youtube` |
+
+### H1: el timer se cancela por eventos de otras ventanas (confirmada el 14/10)
 
 Cualquier cambio de ventana de otro paquete cuenta como "salió de YouTube": el teclado (al tocar el campo de respuesta), la barra de notificaciones, SystemUI, el volumen, el propio overlay. Eso cancela la alarma. Al volver a YouTube **no siempre** llega un evento nuevo, así que el timer queda cancelado hasta salir y volver a entrar.
 
@@ -130,9 +143,9 @@ Predicción inicial según el código. Se corrige con los logs.
 
 | Escenario | Predicción | Resultado real | Hipótesis |
 |-----------|------------|----------------|-----------|
-| A | Funciona | _pendiente_ | |
-| B | Falla en el ciclo siguiente | _pendiente_ | H1 |
-| C | Falla | _pendiente_ | H1 |
+| A | Funciona | Funcionó: overlay a los 30 s, con 2 ms de retraso | |
+| B | Falla en el ciclo siguiente | El timer se cancela cuando se cierra el teclado. Mecanismo confirmado en el log; falta confirmar que el usuario seguía en YouTube | H1 |
+| C | Falla | El timer se cancela, y se recupera solo si YouTube emite un evento después. Pasó las 2 veces que siguió en YouTube | H1 |
 | D | Falla | _pendiente_ | H2 |
 | E | Funciona | _pendiente_ | H2 |
 | F | Falla | _pendiente_ | H2 |
@@ -147,13 +160,38 @@ Una fila por prueba real.
 |-------|-----------------------|-----------|-----------|----------------|-------|
 | | | | | | |
 
+## Resultados de la prueba con registro (versión 1.2)
+
+Celular Motorola (launcher `com.motorola.launcher3`), YouTube en vertical, timer en 30 s, 14/10/2026 entre las 20:45 y las 21:00. El log completo no se subió al repo porque es público y muestra qué apps se usaron; abajo va solo lo relevante.
+
+**Lo que funcionó.** Tres overlays, todos a tiempo: a las 20:47:01, 20:47:38 y 20:48:14. Retraso del timer: 2, 29 y 25 ms. Los ejercicios de objetos y animales (con botones) se cerraron bien y el ciclo siguió.
+
+**Lo que muestra el log sobre la fragilidad (H1).** Hay tres cosas que apagan el timer, y el servicio lo trata como "salió de YouTube":
+
+1. **Barra del sistema.** `com.android.systemui` cancela el timer (20:46:29, 20:46:31 y 20:50:53). Las dos primeras veces YouTube emitió un evento nuevo en menos de 1,5 s y el timer volvió a armarse. Eso no está garantizado.
+2. **El propio overlay.** Cada vez que aparece, la ventana del overlay (`com.peajecognitivo.app`, `ScrollView`) cancela el timer (20:47:02, 20:47:39, 20:48:14). El ciclo continúa solo porque YouTube emite un evento cuando el overlay se cierra (20:47:08, 20:47:44, 20:48:29). Funciona por suerte, no por diseño.
+3. **El teclado.** En la suma de las 20:48, YouTube rearmó el timer a las 20:48:29.099 y el teclado (`com.google.android.inputmethod.latin`) lo canceló 0,5 s después, al cerrarse. Después no hubo ningún evento de YouTube hasta las 20:50:51, así que si el usuario siguió viendo YouTube en ese rato, el overlay no iba a salir. Es el mismo mecanismo que explica el "a veces sí, a veces no": los ejercicios con botones no abren teclado y el ciclo sigue; los numéricos sí, y el timer puede morir.
+
+```
+20:48:29.098 EVENTO pkg=com.google.android.youtube ... false -> true
+20:48:29.099 -> entró a YouTube: startTimer
+20:48:29.585 EVENTO pkg=com.google.android.inputmethod.latin ... true -> false
+20:48:29.587 -> salió de YouTube (por pkg=com.google.android.inputmethod.latin): pauseTimer
+20:48:29.588 TIMER cancelado
+```
+
+**Pregunta abierta.** ¿El usuario seguía en YouTube después de la suma 3+5 de las 20:48? Si sí, ahí hubo una falla real.
+
 ## Después del diagnóstico
 
-Cuando los logs confirmen cuáles hipótesis son reales, el arreglo probable es:
+El arreglo para H1, ya con evidencia:
 
-- **H1:** ignorar eventos de teclado, SystemUI y del propio paquete. Solo cancelar el timer cuando el paquete en primer plano sea una app real distinta de YouTube.
+- **H1:** dejar de apagar el timer por eventos. El timer corre mientras haya un evento de YouTube reciente y, **en cada ciclo, se consulta cuál es la app realmente en pantalla** (`rootInActiveWindow`) en lugar de fiarse de `isYouTubeActive`. Así el teclado, la barra del sistema y el propio overlay dejan de importar.
+
+Para el resto, si aparecen:
+
 - **H2:** al conectar el servicio, consultar la ventana activa (`rootInActiveWindow`) para inicializar `isYouTubeActive`.
 - **H3:** asignar `overlayView` solo después de que `addView` tenga éxito.
-- **H4:** pasar a un temporizador propio mientras YouTube está activo, en vez de `setRepeating`.
+- **H4:** pasar a un temporizador propio mientras YouTube está activo, en vez de `setRepeating`. *Hecho en la 1.1.*
 - **H5:** pedir exclusión de optimización de batería y documentar los pasos por marca.
-- **H6:** envolver el layout en un `ScrollView` y reducir tamaños en horizontal.
+- **H6:** envolver el layout en un `ScrollView` y reducir tamaños en horizontal. *Hecho en la 1.2 (falta probarlo en horizontal).*
