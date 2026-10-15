@@ -1,6 +1,8 @@
 package com.peajecognitivo.app
 
 import android.content.Context
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.graphics.PixelFormat
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -50,7 +52,11 @@ object PeajeOverlayManager {
         tvVisual.text = ejercicio.visual
         tvPrompt.text = ejercicio.pregunta
 
+        Voz.hablar(context, ejercicio.hablado)
+        var errores = 0
+
         val cerrarConExito = {
+            Voz.callar()
             try {
                 windowManager.removeView(vista)
             } catch (e: Exception) {
@@ -79,9 +85,15 @@ object PeajeOverlayManager {
                 if (respuesta == ejercicio.correcta) {
                     cerrarConExito()
                 } else {
-                    PeajeLog.d("OVERLAY respuesta incorrecta: '$respuesta'")
-                    etAnswer.error = "No es correcto. Probá de nuevo."
+                    errores++
+                    PeajeLog.d("OVERLAY respuesta incorrecta: '$respuesta' (errores=$errores)")
                     etAnswer.text.clear()
+                    if (errores >= 2) {
+                        // Ayuda: después de dos errores se muestra la respuesta como pista
+                        tvPrompt.text = "${ejercicio.pregunta}\n💡 Pista: la respuesta es ${ejercicio.correcta}"
+                    } else {
+                        etAnswer.error = "No es correcto. Probá de nuevo."
+                    }
                 }
             }
 
@@ -109,9 +121,19 @@ object PeajeOverlayManager {
                     if (texto == ejercicio.correcta) {
                         cerrarConExito()
                     } else {
-                        PeajeLog.d("OVERLAY opción incorrecta: '$texto'")
+                        errores++
+                        PeajeLog.d("OVERLAY opción incorrecta: '$texto' (errores=$errores)")
                         boton.isEnabled = false
                         boton.alpha = 0.35f
+                        if (errores >= 1) {
+                            // Ayuda: tras el primer error se resalta la opción correcta en verde
+                            botones.forEachIndexed { j, otro ->
+                                if (opciones[j] == ejercicio.correcta) {
+                                    otro.backgroundTintList =
+                                        ColorStateList.valueOf(Color.parseColor("#4CAF50"))
+                                }
+                            }
+                        }
                         Toast.makeText(context, "Casi 🙂 Probá con otra", Toast.LENGTH_SHORT).show()
                     }
                 }

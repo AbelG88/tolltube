@@ -35,6 +35,7 @@ class LogActivity : AppCompatActivity() {
         }
 
         cargar()
+        PinGate.exigir(this)
     }
 
     private fun cargar() {

@@ -62,6 +62,16 @@ class MainActivity : AppCompatActivity() {
 
         mostrarIntervaloActual()
         configurarTipos()
+
+        val cbVoz = findViewById<CheckBox>(R.id.cbVoz)
+        cbVoz.isChecked = SettingsStore.getVoz(this)
+        cbVoz.setOnCheckedChangeListener { _, activa ->
+            SettingsStore.setVoz(this, activa)
+            PeajeLog.d("AJUSTES voz: $activa")
+        }
+        findViewById<Button>(R.id.btnPin).setOnClickListener { PinGate.configurar(this) }
+
+        PinGate.exigir(this)
     }
 
     override fun onResume() {
@@ -165,7 +175,8 @@ class MainActivity : AppCompatActivity() {
             ExerciseType.SUMA to findViewById(R.id.cbSuma),
             ExerciseType.RESTA to findViewById(R.id.cbResta),
             ExerciseType.ANIMALES to findViewById(R.id.cbAnimales),
-            ExerciseType.OBJETOS to findViewById(R.id.cbObjetos)
+            ExerciseType.OBJETOS to findViewById(R.id.cbObjetos),
+            ExerciseType.EMOCIONES to findViewById(R.id.cbEmociones)
         )
 
         val actuales = SettingsStore.getTipos(this)

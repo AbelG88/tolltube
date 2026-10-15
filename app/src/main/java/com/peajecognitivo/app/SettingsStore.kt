@@ -46,6 +46,19 @@ object SettingsStore {
             .apply()
     }
 
+    fun getVoz(context: Context): Boolean = prefs(context).getBoolean("voz", false)
+
+    fun setVoz(context: Context, activa: Boolean) {
+        prefs(context).edit().putBoolean("voz", activa).apply()
+    }
+
+    /** PIN de padres. Vacío = sin PIN. */
+    fun getPin(context: Context): String = prefs(context).getString("pin", "") ?: ""
+
+    fun setPin(context: Context, pin: String) {
+        prefs(context).edit().putString("pin", pin).apply()
+    }
+
     /** 75 -> "1 min 15 s" */
     fun formatear(seconds: Int): String {
         val m = seconds / 60

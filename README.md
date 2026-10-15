@@ -71,7 +71,7 @@ Desde la app: pantalla principal → **⏱️ Tiempo entre ejercicios** → minu
 
 Desde el Build #16 en adelante todos los APK van firmados con la misma clave (`app/debug.keystore`), así que se instalan **encima** del anterior sin desinstalar. La primera vez, si tenías instalado el Build #15 o anterior, hay que **desinstalarlo** (esa versión se firmó con otra clave). Después de actualizar, apagá y prendé el servicio de accesibilidad.
 
-El historial de versiones está en [docs/cambios.md](docs/cambios.md).
+El historial de versiones está en [docs/cambios.md](docs/cambios.md). Ideas y pendientes: [docs/ideas-pendientes.md](docs/ideas-pendientes.md).
 
 ## Para cambiar el ejercicio
 

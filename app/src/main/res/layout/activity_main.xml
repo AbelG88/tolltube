@@ -185,6 +185,13 @@
             android:text="🎈 Objetos"
             android:textSize="16sp" />
 
+        <CheckBox
+            android:id="@+id/cbEmociones"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="😊 Emociones (caras)"
+            android:textSize="16sp" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -193,6 +200,23 @@
             android:text="Si marcás varios, salen mezclados."
             android:textColor="#888"
             android:textSize="12sp" />
+
+        <CheckBox
+            android:id="@+id/cbVoz"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="🔊 Leer el ejercicio en voz alta"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/btnPin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:padding="16dp"
+            android:text="🔒 PIN de padres"
+            android:textSize="16sp" />
 
         <Button
             android:id="@+id/btnTestOverlay"

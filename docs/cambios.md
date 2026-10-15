@@ -10,6 +10,15 @@ https://github.com/AbelG88/tolltube/releases
 - [x] Sumas y restas con imágenes (emojis) acompañando los números (release 2)
 - [x] Más tipos de ejercicio (animales, objetos) y elegirlos desde el menú (release 2)
 
+## Release 4: versión 1.4-MVP
+
+Ideas y próximos pasos: [ideas-pendientes.md](ideas-pendientes.md).
+
+- **Emociones:** nuevo tipo "¿Cómo se siente?" con caras (feliz, triste, enojado, asustado, sorprendido, con sueño). Si venías con tipos guardados de antes, hay que tildarlo en el menú.
+- **Voz:** casilla "Leer el ejercicio en voz alta" (apagada por defecto). Usa el motor de voz del sistema, en español.
+- **Ayuda tras errores:** en opciones, tras el primer error se resalta en verde la correcta; en sumas y restas, tras dos errores aparece la respuesta como pista.
+- **PIN de padres:** botón para poner, cambiar o quitar un PIN de 4 a 6 números. Protege la pantalla de ajustes y el registro (queda desbloqueado 5 minutos).
+
 ## Release 3: versión 1.3-MVP
 
 Arreglo de H1 (ver [diagnostico-intermitencia.md](diagnostico-intermitencia.md)), con la evidencia del registro de la 1.2: el teclado, la barra del sistema y el propio overlay apagaban el timer.

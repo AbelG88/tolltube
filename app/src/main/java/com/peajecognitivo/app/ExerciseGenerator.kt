@@ -32,6 +32,11 @@ object ExerciseGenerator {
         "🔔" to "Campana", "✏️" to "Lápiz", "👓" to "Anteojos"
     )
 
+    private val emociones = listOf(
+        "😊" to "Feliz", "😢" to "Triste", "😠" to "Enojado",
+        "😨" to "Asustado", "😮" to "Sorprendido", "😴" to "Con sueño"
+    )
+
     fun siguiente(context: Context): Exercise {
         val tipos = SettingsStore.getTipos(context).toList()
         var ejercicio = generar(tipos.random())
@@ -50,6 +55,7 @@ object ExerciseGenerator {
         ExerciseType.RESTA -> resta()
         ExerciseType.ANIMALES -> eleccion(tipo, animales, "¿Qué animal es?")
         ExerciseType.OBJETOS -> eleccion(tipo, objetos, "¿Qué es esto?")
+        ExerciseType.EMOCIONES -> eleccion(tipo, emociones, "¿Cómo se siente?")
     }
 
     private fun suma(): Exercise {
@@ -63,7 +69,8 @@ object ExerciseGenerator {
             pregunta = "$a + $b = ?",
             opciones = null,
             correcta = (a + b).toString(),
-            resumen = "suma $a+$b"
+            resumen = "suma $a+$b",
+            hablado = "$a más $b. ¿Cuánto es?"
         )
     }
 
@@ -78,7 +85,8 @@ object ExerciseGenerator {
             pregunta = "$a − $b = ?",
             opciones = null,
             correcta = (a - b).toString(),
-            resumen = "resta $a-$b"
+            resumen = "resta $a-$b",
+            hablado = "$a menos $b. ¿Cuánto es?"
         )
     }
 
