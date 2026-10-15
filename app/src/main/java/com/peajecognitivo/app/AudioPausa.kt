@@ -16,6 +16,7 @@ object AudioPausa {
     private var pedido: AudioFocusRequest? = null
 
     fun pausar(context: Context) {
+        if (pedido != null) return // ya está pausado (por ejemplo, al reintentar tras un error)
         try {
             val am = context.applicationContext.getSystemService(Context.AUDIO_SERVICE) as AudioManager
             val solicitud = AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN_TRANSIENT)

@@ -10,6 +10,16 @@ https://github.com/AbelG88/tolltube/releases
 - [x] Sumas y restas con imágenes (emojis) acompañando los números (release 2)
 - [x] Más tipos de ejercicio (animales, objetos) y elegirlos desde el menú (release 2)
 
+## Release 7: versión 1.7-MVP
+
+Motivo: probando con el usuario final, elegía opciones incorrectas hasta que quedaba la correcta (por descarte).
+
+- **Opción incorrecta → pantalla "Esa no es. Leé con atención".** Tapa todo, muestra el dibujo, la pregunta y la respuesta correcta, y la lee en voz alta si la voz está activada. Hay una cuenta regresiva y el botón "Entendí, probar de nuevo" recién se habilita al terminar. Nunca desbloquea la pantalla.
+- **Ejercicio nuevo después.** Al tocar "Entendí" sale un ejercicio distinto (no se puede ir descartando opciones del mismo).
+- **La espera crece con los errores seguidos:** 5, 8, 11 y 12 segundos (tope). Se reinicia al acertar.
+- **Se sacó la ayuda de resaltar en verde la opción correcta** (ya no hace falta y permitía acertar sin pensar).
+- Los errores siguen sumando al progreso por tipo. Las sumas y restas con teclado no cambian.
+
 ## Release 6.1: versión 1.6.1-MVP
 
 - **El campo de respuesta y el botón OK pasaron arriba** del ejercicio (justo debajo del título), y todo el contenido está pegado al borde superior. En Android nuevo el teclado volvía a tapar el botón.

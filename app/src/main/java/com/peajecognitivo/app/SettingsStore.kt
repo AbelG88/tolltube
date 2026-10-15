@@ -75,6 +75,11 @@ object SettingsStore {
             .apply()
     }
 
+    fun registrarError(context: Context, tipo: ExerciseType) {
+        val p = prefs(context)
+        p.edit().putInt("hist_${tipo.clave}_err", p.getInt("hist_${tipo.clave}_err", 0) + 1).apply()
+    }
+
     fun historial(context: Context, tipo: ExerciseType): Pair<Int, Int> {
         val p = prefs(context)
         return Pair(p.getInt("hist_${tipo.clave}_ok", 0), p.getInt("hist_${tipo.clave}_err", 0))

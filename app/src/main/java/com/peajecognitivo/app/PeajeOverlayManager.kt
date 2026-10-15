@@ -1,8 +1,6 @@
 package com.peajecognitivo.app
 
 import android.content.Context
-import android.content.res.ColorStateList
-import android.graphics.Color
 import android.graphics.PixelFormat
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -18,6 +16,81 @@ import android.widget.Toast
 object PeajeOverlayManager {
 
     private var overlayView: View? = null
+
+    /** Errores seguidos con opciones, sin acertar en el medio. Alarga la pausa de "pensá". */
+    private var erroresSeguidos = 0
+    private val handler = android.os.Handler(android.os.Looper.getMainLooper())
+
+    /**
+     * Pantalla obligatoria tras elegir una opción incorrecta: se lee la respuesta, hay que esperar
+     * una cuenta regresiva y recién ahí aparece un ejercicio nuevo. Nunca desbloquea la pantalla.
+     */
+    private fun mostrarReflexion(
+        context: Context,
+        windowManager: WindowManager,
+        vistaEjercicio: View,
+        params: WindowManager.LayoutParams,
+        ejercicio: Exercise
+    ) {
+        erroresSeguidos++
+        val espera = minOf(2 + 3 * erroresSeguidos, 12)
+        PeajeLog.d("OVERLAY reflexión por opción incorrecta (errores seguidos=$erroresSeguidos, espera=${espera}s)")
+
+        val vista = LayoutInflater.from(context).inflate(R.layout.overlay_reflexion, null)
+        vista.findViewById<TextView>(R.id.tvRefVisual).text = ejercicio.visual
+        vista.findViewById<TextView>(R.id.tvRefTexto).text =
+            "${ejercicio.pregunta}\n👉 ${ejercicio.correcta}"
+        val tvCuenta = vista.findViewById<TextView>(R.id.tvRefCuenta)
+        val btn = vista.findViewById<Button>(R.id.btnRefOk)
+        btn.isEnabled = false
+
+        try {
+            windowManager.removeView(vistaEjercicio)
+        } catch (e: Exception) {
+            PeajeLog.d("OVERLAY error al quitar ejercicio: ${e.javaClass.simpleName}: ${e.message}")
+        }
+        overlayView = vista
+        try {
+            windowManager.addView(vista, params)
+        } catch (e: Exception) {
+            PeajeLog.d("OVERLAY reflexión addView FALLÓ: ${e.javaClass.simpleName}: ${e.message}")
+            overlayView = null
+            AudioPausa.soltar(context)
+            throw e
+        }
+        Voz.hablar(
+            context,
+            "Esa no es. ${ejercicio.hablado} La respuesta es ${ejercicio.correcta}. Leé con atención."
+        )
+
+        var restante = espera
+        val cuenta = object : Runnable {
+            override fun run() {
+                if (overlayView !== vista) return // se quitó por otro camino
+                if (restante > 0) {
+                    tvCuenta.text = "Podés seguir en $restante…"
+                    restante--
+                    handler.postDelayed(this, 1000)
+                } else {
+                    tvCuenta.text = "Listo"
+                    btn.isEnabled = true
+                }
+            }
+        }
+        handler.post(cuenta)
+
+        btn.setOnClickListener {
+            Voz.callar()
+            try {
+                windowManager.removeView(vista)
+            } catch (e: Exception) {
+                PeajeLog.d("OVERLAY error al quitar reflexión: ${e.javaClass.simpleName}: ${e.message}")
+            }
+            overlayView = null
+            PeajeLog.d("OVERLAY reflexión terminada, ejercicio nuevo")
+            show(context)
+        }
+    }
 
     fun show(context: Context) {
         if (overlayView != null) {
@@ -70,7 +143,8 @@ object PeajeOverlayManager {
             }
             overlayView = null
             PeajeLog.d("OVERLAY respuesta correcta, overlay cerrado")
-            SettingsStore.registrarResultado(context, ejercicio.tipo, errores)
+            erroresSeguidos = 0
+            SettingsStore.registrarResultado(context, ejercicio.tipo, 0)
             val total = SettingsStore.registrarAcierto(context)
             PeajeLog.d("OVERLAY aciertos de hoy: $total")
             Toast.makeText(context, "¡Muy bien! 🎉 ⭐ $total hoy", Toast.LENGTH_SHORT).show()
@@ -95,6 +169,7 @@ object PeajeOverlayManager {
                     cerrarConExito()
                 } else {
                     errores++
+                    SettingsStore.registrarError(context, ejercicio.tipo)
                     PeajeLog.d("OVERLAY respuesta incorrecta: '$respuesta' (errores=$errores)")
                     etAnswer.text.clear()
                     if (errores >= 2) {
@@ -130,20 +205,9 @@ object PeajeOverlayManager {
                     if (texto == ejercicio.correcta) {
                         cerrarConExito()
                     } else {
-                        errores++
-                        PeajeLog.d("OVERLAY opción incorrecta: '$texto' (errores=$errores)")
-                        boton.isEnabled = false
-                        boton.alpha = 0.35f
-                        if (errores >= 1) {
-                            // Ayuda: tras el primer error se resalta la opción correcta en verde
-                            botones.forEachIndexed { j, otro ->
-                                if (opciones[j] == ejercicio.correcta) {
-                                    otro.backgroundTintList =
-                                        ColorStateList.valueOf(Color.parseColor("#4CAF50"))
-                                }
-                            }
-                        }
-                        Toast.makeText(context, "Casi 🙂 Probá con otra", Toast.LENGTH_SHORT).show()
+                        SettingsStore.registrarError(context, ejercicio.tipo)
+                        PeajeLog.d("OVERLAY opción incorrecta: '$texto'")
+                        mostrarReflexion(context, windowManager, vista, params, ejercicio)
                     }
                 }
             }
