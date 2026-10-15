@@ -10,8 +10,9 @@ import androidx.appcompat.app.AlertDialog
 
 /** PIN de padres: protege la pantalla de ajustes y el registro. */
 object PinGate {
-    private const val VALIDEZ_MS = 5 * 60 * 1000L
+    private const val VALIDEZ_MS = 60 * 1000L
     private var desbloqueadoHasta = 0L
+    private var dialogoAbierto = false
 
     private fun campo(activity: Activity, pista: String): EditText = EditText(activity).apply {
         inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_VARIATION_PASSWORD
@@ -23,6 +24,8 @@ object PinGate {
     fun exigir(activity: Activity) {
         val pin = SettingsStore.getPin(activity)
         if (pin.isEmpty() || SystemClock.elapsedRealtime() < desbloqueadoHasta) return
+        if (dialogoAbierto) return
+        dialogoAbierto = true
 
         val contenido = activity.findViewById<View>(android.R.id.content)
         contenido.visibility = View.INVISIBLE
@@ -32,13 +35,18 @@ object PinGate {
             .setView(et)
             .setCancelable(false)
             .setPositiveButton("Entrar", null)
-            .setNegativeButton("Salir") { _, _ -> activity.finish() }
+            .setNegativeButton("Salir") { _, _ ->
+                dialogoAbierto = false
+                activity.finish()
+            }
             .create()
+        dialogo.setOnDismissListener { dialogoAbierto = false }
         dialogo.setOnShowListener {
             dialogo.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
                 if (et.text.toString() == pin) {
                     desbloqueadoHasta = SystemClock.elapsedRealtime() + VALIDEZ_MS
                     contenido.visibility = View.VISIBLE
+                    dialogoAbierto = false
                     dialogo.dismiss()
                 } else {
                     et.text.clear()
@@ -64,7 +72,7 @@ object PinGate {
                     Toast.makeText(activity, "El PIN debe tener de 4 a 6 números", Toast.LENGTH_SHORT).show()
                 } else {
                     SettingsStore.setPin(activity, nuevo)
-                    desbloqueadoHasta = SystemClock.elapsedRealtime() + VALIDEZ_MS
+                    desbloqueadoHasta = 0L // para que se pida la próxima vez que se entre
                     Toast.makeText(activity, "PIN guardado ✓", Toast.LENGTH_SHORT).show()
                 }
                 PeajeLog.d("AJUSTES PIN ${if (SettingsStore.getPin(activity).isEmpty()) "sin PIN" else "con PIN"}")

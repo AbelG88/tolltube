@@ -10,6 +10,14 @@ https://github.com/AbelG88/tolltube/releases
 - [x] Sumas y restas con imágenes (emojis) acompañando los números (release 2)
 - [x] Más tipos de ejercicio (animales, objetos) y elegirlos desde el menú (release 2)
 
+## Release 4.1: versión 1.4.1-MVP
+
+Arreglos tras probar la 1.4:
+
+- **Botón OK al lado del campo de respuesta** en sumas y restas (antes quedaba debajo y el teclado lo tapaba).
+- **Versión en el registro:** primera línea de la pantalla de registro (y de lo que se copia o comparte) y línea `PROCESO versión=...` cada vez que arranca la app.
+- **PIN:** no se pedía porque se pedía solo al crear la pantalla y quedaba desbloqueado al guardarlo. Ahora se pide cada vez que se vuelve a la app, y vale 1 minuto después de ingresarlo. Al poner un PIN nuevo no queda desbloqueado.
+
 ## Release 4: versión 1.4-MVP
 
 Ideas y próximos pasos: [ideas-pendientes.md](ideas-pendientes.md).

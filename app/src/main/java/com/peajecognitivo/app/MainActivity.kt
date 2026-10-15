@@ -70,12 +70,11 @@ class MainActivity : AppCompatActivity() {
             PeajeLog.d("AJUSTES voz: $activa")
         }
         findViewById<Button>(R.id.btnPin).setOnClickListener { PinGate.configurar(this) }
-
-        PinGate.exigir(this)
     }
 
     override fun onResume() {
         super.onResume()
+        PinGate.exigir(this)
         handler.post(refrescarEstado)
     }
 

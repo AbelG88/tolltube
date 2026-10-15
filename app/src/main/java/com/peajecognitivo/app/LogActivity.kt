@@ -35,17 +35,30 @@ class LogActivity : AppCompatActivity() {
         }
 
         cargar()
+    }
+
+    private fun textoLog(): String {
+        val version = try {
+            packageManager.getPackageInfo(packageName, 0).versionName
+        } catch (e: Exception) {
+            "?"
+        }
+        return "Versión de la app: $version\n" + PeajeLog.leer(this, LINEAS)
+    }
+
+    override fun onResume() {
+        super.onResume()
         PinGate.exigir(this)
     }
 
     private fun cargar() {
-        tvLog.text = PeajeLog.leer(this, LINEAS)
+        tvLog.text = textoLog()
         scrollLog.post { scrollLog.fullScroll(View.FOCUS_DOWN) }
     }
 
     private fun copiar() {
         val cm = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-        cm.setPrimaryClip(ClipData.newPlainText("Registro Peaje", PeajeLog.leer(this, LINEAS)))
+        cm.setPrimaryClip(ClipData.newPlainText("Registro Peaje", textoLog()))
         Toast.makeText(this, "Registro copiado ✓", Toast.LENGTH_SHORT).show()
     }
 
@@ -53,7 +66,7 @@ class LogActivity : AppCompatActivity() {
         val intent = Intent(Intent.ACTION_SEND).apply {
             type = "text/plain"
             putExtra(Intent.EXTRA_SUBJECT, "Registro Peaje Cognitivo")
-            putExtra(Intent.EXTRA_TEXT, PeajeLog.leer(this@LogActivity, LINEAS))
+            putExtra(Intent.EXTRA_TEXT, textoLog())
         }
         startActivity(Intent.createChooser(intent, "Compartir registro"))
     }

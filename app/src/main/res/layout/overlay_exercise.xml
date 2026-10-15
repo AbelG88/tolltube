@@ -50,12 +50,12 @@
             android:id="@+id/llNumeric"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:orientation="vertical">
+            android:gravity="center"
+            android:orientation="horizontal">
 
             <EditText
                 android:id="@+id/etAnswer"
-                android:layout_width="200dp"
+                android:layout_width="140dp"
                 android:layout_height="80dp"
                 android:background="@drawable/bg_answer"
                 android:hint="?"
@@ -68,13 +68,14 @@
 
             <Button
                 android:id="@+id/btnSubmit"
-                android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
+                android:layout_width="wrap_content"
+                android:layout_height="80dp"
+                android:layout_marginStart="12dp"
                 android:backgroundTint="#4CAF50"
-                android:padding="16dp"
-                android:text="✓ CONTINUAR"
-                android:textSize="22sp" />
+                android:paddingStart="24dp"
+                android:paddingEnd="24dp"
+                android:text="✓ OK"
+                android:textSize="26sp" />
         </LinearLayout>
 
         <!-- Respuesta tocando una opción (animales y objetos) -->

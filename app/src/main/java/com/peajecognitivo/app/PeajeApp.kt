@@ -10,6 +10,12 @@ class PeajeApp : Application() {
     override fun onCreate() {
         super.onCreate()
         PeajeLog.attach(this)
+        val version = try {
+            packageManager.getPackageInfo(packageName, 0).versionName
+        } catch (e: Exception) {
+            "?"
+        }
+        PeajeLog.d("PROCESO versión=$version")
 
         val anterior = Thread.getDefaultUncaughtExceptionHandler()
         Thread.setDefaultUncaughtExceptionHandler { hilo, error ->
