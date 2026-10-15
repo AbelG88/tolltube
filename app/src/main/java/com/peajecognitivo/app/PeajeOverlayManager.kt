@@ -52,11 +52,13 @@ object PeajeOverlayManager {
         tvVisual.text = ejercicio.visual
         tvPrompt.text = ejercicio.pregunta
 
+        AudioPausa.pausar(context)
         Voz.hablar(context, ejercicio.hablado)
         var errores = 0
 
         val cerrarConExito = {
             Voz.callar()
+            AudioPausa.soltar(context)
             try {
                 windowManager.removeView(vista)
             } catch (e: Exception) {
@@ -147,6 +149,7 @@ object PeajeOverlayManager {
             // OJO: comportamiento original sin cambios. overlayView queda asignado
             // aunque addView haya fallado, y la excepción se propaga.
             PeajeLog.d("OVERLAY addView FALLÓ: ${e.javaClass.simpleName}: ${e.message}")
+            AudioPausa.soltar(context)
             throw e
         }
     }

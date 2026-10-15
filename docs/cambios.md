@@ -10,6 +10,10 @@ https://github.com/AbelG88/tolltube/releases
 - [x] Sumas y restas con imágenes (emojis) acompañando los números (release 2)
 - [x] Más tipos de ejercicio (animales, objetos) y elegirlos desde el menú (release 2)
 
+## Release 4.2: versión 1.4.2-MVP
+
+- **El video se pausa cuando aparece el ejercicio.** Se pide el foco de audio (YouTube se pausa solo) y se manda la tecla "pausa" de medios. Nunca manda "play": al terminar, el video queda pausado o se reanuda según lo haga YouTube. Sirve también para escuchar la voz. En el registro: líneas `AUDIO ...`.
+
 ## Release 4.1: versión 1.4.1-MVP
 
 Arreglos tras probar la 1.4:
