@@ -10,6 +10,12 @@ https://github.com/AbelG88/tolltube/releases
 - [x] Sumas y restas con imágenes (emojis) acompañando los números (release 2)
 - [x] Más tipos de ejercicio (animales, objetos) y elegirlos desde el menú (release 2)
 
+## Release 8: versión 1.8-MVP
+
+- **Interruptor "Peaje activado / APAGADO"** arriba de todo en la pantalla principal. Apagado, el timer se detiene y el ejercicio no aparece nunca (el botón "Probar overlay" sigue andando). Está detrás del PIN, y el estado se ve en el panel.
+- **Ejercicios seguidos:** nuevo campo junto al tiempo (1 a 20). Con "30 segundos" y "5", cada 30 s hay que resolver 5 ejercicios juntos y recién ahí se libera el video. El título del overlay dice "2 de 5". Los errores no reinician la cuenta: el ejercicio fallado se reemplaza por otro y sigue la serie. El tiempo hasta la próxima serie se cuenta desde que se resuelve la última.
+- Un solo botón guarda tiempo y cantidad.
+
 ## Release 7: versión 1.7-MVP
 
 Motivo: probando con el usuario final, elegía opciones incorrectas hasta que quedaba la correcta (por descarte).

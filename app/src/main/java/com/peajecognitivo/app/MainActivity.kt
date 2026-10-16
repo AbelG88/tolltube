@@ -18,6 +18,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var etMinutes: EditText
     private lateinit var etSeconds: EditText
+    private lateinit var etSerie: EditText
     private lateinit var tvIntervalCurrent: TextView
     private lateinit var tvEstado: TextView
 
@@ -35,6 +36,17 @@ class MainActivity : AppCompatActivity() {
 
         etMinutes = findViewById(R.id.etMinutes)
         etSeconds = findViewById(R.id.etSeconds)
+        etSerie = findViewById(R.id.etSerie)
+
+        val swActivo = findViewById<android.widget.Switch>(R.id.swActivo)
+        swActivo.isChecked = SettingsStore.getActivo(this)
+        swActivo.text = if (swActivo.isChecked) "Peaje activado" else "Peaje APAGADO"
+        swActivo.setOnCheckedChangeListener { _, activo ->
+            SettingsStore.setActivo(this, activo)
+            swActivo.text = if (activo) "Peaje activado" else "Peaje APAGADO"
+            if (!activo) ExerciseTimerManager.detener()
+            PeajeLog.d("AJUSTES interruptor: ${if (activo) "ACTIVADO" else "APAGADO"}")
+        }
         tvIntervalCurrent = findViewById(R.id.tvIntervalCurrent)
         tvEstado = findViewById(R.id.tvEstado)
 
@@ -112,6 +124,7 @@ class MainActivity : AppCompatActivity() {
             appendLine("Última app detectada: $ultimo")
             appendLine("YouTube detectado ahora: ${if (youtube) "sí" else "no"}")
             appendLine("⭐ Ejercicios bien resueltos hoy: ${SettingsStore.aciertosHoy(this@MainActivity)}")
+            appendLine("Peaje: ${if (SettingsStore.getActivo(this@MainActivity)) "activado" else "APAGADO"}")
             append("Timer: ${ExerciseTimerManager.descripcionEstado()}")
         }
     }
@@ -137,7 +150,10 @@ class MainActivity : AppCompatActivity() {
         val total = SettingsStore.getIntervalSeconds(this)
         etMinutes.setText((total / 60).toString())
         etSeconds.setText((total % 60).toString())
-        tvIntervalCurrent.text = "Tiempo actual: ${SettingsStore.formatear(total)}"
+        val serie = SettingsStore.getSerie(this)
+        etSerie.setText(serie.toString())
+        tvIntervalCurrent.text =
+            "Cada ${SettingsStore.formatear(total)}: $serie ejercicio${if (serie == 1) "" else "s"} seguido${if (serie == 1) "" else "s"}"
     }
 
     private fun guardarIntervalo() {
@@ -146,6 +162,11 @@ class MainActivity : AppCompatActivity() {
 
         if (segundos > 59) {
             Toast.makeText(this, "Los segundos van de 0 a 59", Toast.LENGTH_SHORT).show()
+            return
+        }
+        val serie = etSerie.text.toString().trim().toIntOrNull() ?: 1
+        if (serie < 1 || serie > SettingsStore.MAX_SERIE) {
+            Toast.makeText(this, "Los ejercicios seguidos van de 1 a ${SettingsStore.MAX_SERIE}", Toast.LENGTH_SHORT).show()
             return
         }
         val total = minutos * 60 + segundos
@@ -163,14 +184,15 @@ class MainActivity : AppCompatActivity() {
         }
 
         SettingsStore.setIntervalSeconds(this, total)
+        SettingsStore.setSerie(this, serie)
         ExerciseTimerManager.reprogramar(this)
-        PeajeLog.d("AJUSTES intervalo guardado: ${total}s")
+        PeajeLog.d("AJUSTES intervalo guardado: ${total}s, ejercicios seguidos: $serie")
         mostrarIntervaloActual()
         etMinutes.clearFocus()
         etSeconds.clearFocus()
         Toast.makeText(
             this,
-            "Guardado: cada ${SettingsStore.formatear(total)} ✓",
+            "Guardado: cada ${SettingsStore.formatear(total)}, $serie seguido(s) ✓",
             Toast.LENGTH_SHORT
         ).show()
     }

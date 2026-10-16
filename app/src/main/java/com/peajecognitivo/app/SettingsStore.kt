@@ -59,6 +59,22 @@ object SettingsStore {
         prefs(context).edit().putString("pin", pin).apply()
     }
 
+    /** Interruptor general. Apagado: el peaje no aparece nunca (solo el botón de prueba). */
+    fun getActivo(context: Context): Boolean = prefs(context).getBoolean("activo", true)
+
+    fun setActivo(context: Context, activo: Boolean) {
+        prefs(context).edit().putBoolean("activo", activo).apply()
+    }
+
+    /** Cuántos ejercicios seguidos hay que resolver cada vez que suena el timer. */
+    const val MAX_SERIE = 20
+
+    fun getSerie(context: Context): Int = prefs(context).getInt("serie", 1).coerceIn(1, MAX_SERIE)
+
+    fun setSerie(context: Context, n: Int) {
+        prefs(context).edit().putInt("serie", n.coerceIn(1, MAX_SERIE)).apply()
+    }
+
     /** Nivel de dificultad: 1 fácil, 2 medio (por defecto), 3 difícil. */
     fun getNivel(context: Context): Int = prefs(context).getInt("nivel", 2).coerceIn(1, 3)
 

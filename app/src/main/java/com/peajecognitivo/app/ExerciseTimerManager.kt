@@ -36,6 +36,12 @@ class ExerciseTimerManager {
         private fun alSonar() {
             val ctx = appContext ?: return
             if (!running) return
+            if (!SettingsStore.getActivo(ctx)) {
+                running = false
+                esperandoCierre = false
+                PeajeLog.d("TIMER detenido: el peaje está apagado en los ajustes")
+                return
+            }
 
             val retraso = SystemClock.elapsedRealtime() - proximaEsperada
             val (pantalla, paquete) = PeajeAccessibilityService.clasificarPantalla()
@@ -71,6 +77,7 @@ class ExerciseTimerManager {
 
         fun startTimer(context: Context) {
             if (running) return   // ya corriendo: no se anota para no llenar el registro
+            if (!SettingsStore.getActivo(context)) return
             running = true
             appContext = context.applicationContext
             programar(appContext!!)
@@ -82,6 +89,14 @@ class ExerciseTimerManager {
             handler.removeCallbacks(tick)
             programar(appContext ?: context.applicationContext)
             PeajeLog.d("TIMER reiniciado tras resolver el ejercicio")
+        }
+
+        /** Para el timer por completo (interruptor apagado). */
+        fun detener() {
+            handler.removeCallbacks(tick)
+            running = false
+            esperandoCierre = false
+            PeajeLog.d("TIMER detenido por el interruptor")
         }
 
         /** Se llama al guardar un tiempo nuevo: si hay un ciclo en curso, se reprograma ya. */

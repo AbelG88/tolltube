@@ -38,6 +38,16 @@
             android:textColor="#999"
             android:textSize="12sp" />
 
+        <Switch
+            android:id="@+id/swActivo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="12dp"
+            android:text="Peaje activado"
+            android:textColor="#333"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
         <Button
             android:id="@+id/btnEnableOverlay"
             android:layout_width="match_parent"
@@ -130,13 +140,40 @@
                 android:textSize="18sp" />
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="12dp"
+                android:text="Ejercicios seguidos"
+                android:textColor="#333"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/etSerie"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:hint="1"
+                android:importantForAutofill="no"
+                android:inputType="number"
+                android:maxLength="2"
+                android:textSize="24sp" />
+        </LinearLayout>
+
         <Button
             android:id="@+id/btnSaveInterval"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:padding="16dp"
-            android:text="💾 Guardar tiempo"
+            android:text="💾 Guardar tiempo y cantidad"
             android:textSize="16sp" />
 
         <TextView

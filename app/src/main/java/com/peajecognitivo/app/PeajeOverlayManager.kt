@@ -19,6 +19,10 @@ object PeajeOverlayManager {
 
     /** Errores seguidos con opciones, sin acertar en el medio. Alarga la pausa de "pensá". */
     private var erroresSeguidos = 0
+
+    /** Serie actual: cuántos ejercicios hay que resolver juntos y cuántos van. */
+    private var serieTotal = 1
+    private var serieHechos = 0
     private val handler = android.os.Handler(android.os.Looper.getMainLooper())
 
     /**
@@ -88,11 +92,24 @@ object PeajeOverlayManager {
             }
             overlayView = null
             PeajeLog.d("OVERLAY reflexión terminada, ejercicio nuevo")
-            show(context)
+            mostrar(context)
         }
     }
 
+    /** Empieza una serie nueva (la que pide el timer o el botón de prueba). */
     fun show(context: Context) {
+        if (overlayView != null) {
+            PeajeLog.d("OVERLAY show() ignorado: ya hay un overlay marcado como visible")
+            return
+        }
+        serieTotal = SettingsStore.getSerie(context)
+        serieHechos = 0
+        PeajeLog.d("OVERLAY serie nueva: $serieTotal ejercicio(s) seguidos")
+        mostrar(context)
+    }
+
+    /** Muestra un ejercicio de la serie en curso. */
+    private fun mostrar(context: Context) {
         if (overlayView != null) {
             PeajeLog.d("OVERLAY show() ignorado: ya hay un overlay marcado como visible")
             return
@@ -126,6 +143,10 @@ object PeajeOverlayManager {
         val llNumeric = vista.findViewById<LinearLayout>(R.id.llNumeric)
         val llOptions = vista.findViewById<LinearLayout>(R.id.llOptions)
 
+        if (serieTotal > 1) {
+            vista.findViewById<TextView>(R.id.tvQuestion).text =
+                "🛑 Peaje Cognitivo · ${serieHechos + 1} de $serieTotal"
+        }
         tvVisual.text = ejercicio.visual
         tvPrompt.text = ejercicio.pregunta
 
@@ -135,21 +156,28 @@ object PeajeOverlayManager {
 
         val cerrarConExito = {
             Voz.callar()
-            AudioPausa.soltar(context)
             try {
                 windowManager.removeView(vista)
             } catch (e: Exception) {
                 PeajeLog.d("OVERLAY error al quitar: ${e.javaClass.simpleName}: ${e.message}")
             }
             overlayView = null
-            PeajeLog.d("OVERLAY respuesta correcta, overlay cerrado")
             erroresSeguidos = 0
             SettingsStore.registrarResultado(context, ejercicio.tipo, 0)
             val total = SettingsStore.registrarAcierto(context)
-            PeajeLog.d("OVERLAY aciertos de hoy: $total")
-            Toast.makeText(context, "¡Muy bien! 🎉 ⭐ $total hoy", Toast.LENGTH_SHORT).show()
-            // El tiempo hasta el próximo ejercicio se cuenta desde que se resolvió este
-            ExerciseTimerManager.alCerrarEjercicio(context)
+            serieHechos++
+            PeajeLog.d("OVERLAY respuesta correcta ($serieHechos de $serieTotal). Aciertos de hoy: $total")
+            if (serieHechos < serieTotal) {
+                // Faltan ejercicios de la serie: no se libera nada, sigue el siguiente
+                Toast.makeText(context, "¡Bien! ⭐ $total hoy. Faltan ${serieTotal - serieHechos}", Toast.LENGTH_SHORT).show()
+                mostrar(context)
+            } else {
+                AudioPausa.soltar(context)
+                PeajeLog.d("OVERLAY serie completa, overlay cerrado")
+                Toast.makeText(context, "¡Muy bien! 🎉 ⭐ $total hoy", Toast.LENGTH_SHORT).show()
+                // El tiempo hasta el próximo ejercicio se cuenta desde que se resolvió la serie
+                ExerciseTimerManager.alCerrarEjercicio(context)
+            }
         }
 
         val opciones = ejercicio.opciones
