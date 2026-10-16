@@ -44,7 +44,7 @@ class ExerciseTimerManager {
             }
 
             val retraso = SystemClock.elapsedRealtime() - proximaEsperada
-            val (pantalla, paquete) = PeajeAccessibilityService.clasificarPantalla()
+            val (pantalla, paquete) = Deteccion.clasificar(ctx)
             PeajeLog.d(
                 "TIMER sonó. en_pantalla=$paquete -> $pantalla retraso_vs_esperado=${retraso}ms"
             )

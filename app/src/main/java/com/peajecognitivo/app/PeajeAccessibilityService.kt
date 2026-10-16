@@ -36,7 +36,7 @@ class PeajeAccessibilityService : AccessibilityService() {
 
         private var instancia: PeajeAccessibilityService? = null
 
-        private val YOUTUBE_PACKAGES = setOf(
+        val YOUTUBE_PACKAGES = setOf(
             "com.google.android.youtube",
             "com.google.android.youtube.tv",
             "com.google.android.apps.youtube.kids",
@@ -107,7 +107,7 @@ class PeajeAccessibilityService : AccessibilityService() {
     private fun revisarPantallaInicial() {
         val (pantalla, paquete) = clasificarPantalla()
         PeajeLog.d("SERVICIO revisó la pantalla: en_pantalla=$paquete -> $pantalla")
-        if (pantalla == Pantalla.YOUTUBE) {
+        if (pantalla == Pantalla.YOUTUBE && Deteccion.usaAccesibilidad(this)) {
             isYouTubeActive = true
             ExerciseTimerManager.startTimer(this)
         }
@@ -145,7 +145,7 @@ class PeajeAccessibilityService : AccessibilityService() {
 
         // Los eventos ya NO apagan el timer. Solo lo arrancan cuando aparece YouTube.
         // Quién está realmente en pantalla se decide en cada ciclo del timer.
-        if (enYoutube) {
+        if (enYoutube && Deteccion.usaAccesibilidad(this)) {
             ExerciseTimerManager.startTimer(this)
         }
     }

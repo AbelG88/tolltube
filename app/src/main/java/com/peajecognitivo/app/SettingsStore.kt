@@ -59,6 +59,14 @@ object SettingsStore {
         prefs(context).edit().putString("pin", pin).apply()
     }
 
+    /** Cómo se detecta YouTube: "acc" (accesibilidad, por defecto) o "uso" (uso de apps). */
+    fun getDeteccion(context: Context): String =
+        prefs(context).getString("deteccion", Deteccion.ACCESIBILIDAD) ?: Deteccion.ACCESIBILIDAD
+
+    fun setDeteccion(context: Context, modo: String) {
+        prefs(context).edit().putString("deteccion", modo).apply()
+    }
+
     /** Interruptor general. Apagado: el peaje no aparece nunca (solo el botón de prueba). */
     fun getActivo(context: Context): Boolean = prefs(context).getBoolean("activo", true)
 

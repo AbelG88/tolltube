@@ -88,11 +88,13 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this, "Progreso borrado", Toast.LENGTH_SHORT).show()
         }
         findViewById<Button>(R.id.btnPin).setOnClickListener { PinGate.configurar(this) }
+        configurarDeteccion()
     }
 
     override fun onResume() {
         super.onResume()
         PinGate.exigir(this)
+        arrancarMonitorSiCorresponde()
         mostrarHistorial()
         handler.post(refrescarEstado)
     }
@@ -119,10 +121,16 @@ class MainActivity : AppCompatActivity() {
 
         tvEstado.text = buildString {
             appendLine("${marca(overlayOk)} Permiso para dibujar encima de otras apps")
-            appendLine("${marca(habilitado)} Accesibilidad activada en Ajustes")
-            appendLine("${marca(conectado)} Servicio conectado y vivo")
-            appendLine("Última app detectada: $ultimo")
-            appendLine("YouTube detectado ahora: ${if (youtube) "sí" else "no"}")
+            if (Deteccion.modo(this@MainActivity) == Deteccion.USO) {
+                appendLine("${marca(UsoApps.tienePermiso(this@MainActivity))} Acceso a datos de uso")
+                appendLine("${marca(PeajeMonitorService.vivo)} Servicio de monitoreo vivo")
+                appendLine("Última app detectada: ${UsoApps.ultimoPaquete ?: "(ninguna todavía)"}")
+            } else {
+                appendLine("${marca(habilitado)} Accesibilidad activada en Ajustes")
+                appendLine("${marca(conectado)} Servicio conectado y vivo")
+                appendLine("Última app detectada: $ultimo")
+                appendLine("YouTube detectado ahora: ${if (youtube) "sí" else "no"}")
+            }
             appendLine("⭐ Ejercicios bien resueltos hoy: ${SettingsStore.aciertosHoy(this@MainActivity)}")
             appendLine("Peaje: ${if (SettingsStore.getActivo(this@MainActivity)) "activado" else "APAGADO"}")
             append("Timer: ${ExerciseTimerManager.descripcionEstado()}")
@@ -228,6 +236,42 @@ class MainActivity : AppCompatActivity() {
                     PeajeLog.d("AJUSTES tipos de ejercicio: ${elegidos.joinToString { it.clave }}")
                 }
             }
+        }
+    }
+
+    // ---------- Modo de detección ----------
+
+    private fun configurarDeteccion() {
+        val grupo = findViewById<android.widget.RadioGroup>(R.id.rgDeteccion)
+        grupo.check(if (Deteccion.modo(this) == Deteccion.USO) R.id.rbDetUso else R.id.rbDetAcc)
+        grupo.setOnCheckedChangeListener { _, id ->
+            val modo = if (id == R.id.rbDetUso) Deteccion.USO else Deteccion.ACCESIBILIDAD
+            SettingsStore.setDeteccion(this, modo)
+            ExerciseTimerManager.detener()
+            PeajeLog.d("AJUSTES modo de detección: $modo")
+            if (modo == Deteccion.USO) {
+                if (Build.VERSION.SDK_INT >= 33 &&
+                    checkSelfPermission(android.Manifest.permission.POST_NOTIFICATIONS) !=
+                    android.content.pm.PackageManager.PERMISSION_GRANTED
+                ) {
+                    requestPermissions(arrayOf(android.Manifest.permission.POST_NOTIFICATIONS), 1)
+                }
+                if (!UsoApps.tienePermiso(this)) {
+                    Toast.makeText(this, "Falta dar el acceso a datos de uso (botón 3)", Toast.LENGTH_LONG).show()
+                }
+                arrancarMonitorSiCorresponde()
+            } else {
+                PeajeMonitorService.detener(this)
+            }
+        }
+        findViewById<Button>(R.id.btnUsoPermiso).setOnClickListener {
+            startActivity(Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS))
+        }
+    }
+
+    private fun arrancarMonitorSiCorresponde() {
+        if (Deteccion.modo(this) == Deteccion.USO && UsoApps.tienePermiso(this)) {
+            PeajeMonitorService.iniciar(this)
         }
     }
 

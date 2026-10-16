@@ -10,6 +10,20 @@ https://github.com/AbelG88/tolltube/releases
 - [x] Sumas y restas con imágenes (emojis) acompañando los números (release 2)
 - [x] Más tipos de ejercicio (animales, objetos) y elegirlos desde el menú (release 2)
 
+## Release 9: versión 1.9-MVP
+
+Primer paso del camino a Google Play (ver [camino-a-play-store.md](camino-a-play-store.md)): detectar YouTube **sin servicio de accesibilidad**.
+
+- **Dos modos de detección**, a elegir en la pantalla principal ("🔍 Cómo detecta YouTube"):
+  - **Accesibilidad (como hasta ahora)**: es el valor por defecto, para no romper lo que ya anda.
+  - **Uso de apps (nuevo)**: usa `UsageStatsManager`. Pide el permiso especial "Acceso a datos de uso" (botón 3) y corre un servicio en primer plano con una notificación fija ("Peaje Cognitivo - Cuidando el tiempo de pantalla"). Cada 1,5 s mira qué app está en primer plano.
+- **El resto no cambia:** el timer, el overlay, la pausa del video, las series y todo lo demás funcionan igual en los dos modos. Solo cambia cómo se sabe que YouTube está en pantalla.
+- **Arranque con el celu:** en modo nuevo, el monitoreo se reactiva al prender el teléfono.
+- **Panel de estado** y **registro** muestran el modo: líneas `USO app en primer plano: ...` y `MONITOR servicio iniciado/detenido`.
+- Al cambiar de modo se detiene el timer y se vuelve a arrancar solo al detectar YouTube.
+
+Qué probar con el modo nuevo: ver [camino-a-play-store.md](camino-a-play-store.md).
+
 ## Release 8: versión 1.8-MVP
 
 - **Interruptor "Peaje activado / APAGADO"** arriba de todo en la pantalla principal. Apagado, el timer se detiene y el ejercicio no aparece nunca (el botón "Probar overlay" sigue andando). Está detrás del PIN, y el estado se ve en el panel.

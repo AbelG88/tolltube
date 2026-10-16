@@ -65,6 +65,46 @@
             android:text="2️⃣ Activar servicio de accesibilidad"
             android:textSize="16sp" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="🔍 Cómo detecta YouTube"
+            android:textColor="#333"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <RadioGroup
+            android:id="@+id/rgDeteccion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:orientation="vertical">
+
+            <RadioButton
+                android:id="@+id/rbDetAcc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Accesibilidad (como hasta ahora)"
+                android:textSize="16sp" />
+
+            <RadioButton
+                android:id="@+id/rbDetUso"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Uso de apps (nuevo)"
+                android:textSize="16sp" />
+        </RadioGroup>
+
+        <Button
+            android:id="@+id/btnUsoPermiso"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:padding="16dp"
+            android:text="3️⃣ Dar acceso a datos de uso (solo modo nuevo)"
+            android:textSize="16sp" />
+
         <!-- Estado en vivo: sirve para ver por qué no aparece el overlay -->
         <TextView
             android:layout_width="wrap_content"
