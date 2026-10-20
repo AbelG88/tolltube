@@ -10,6 +10,16 @@ Lista viva. Lo hecho se tacha en [cambios.md](cambios.md).
 | 5 (1.5) | Estrellas / contador diario, orientación en el registro | hecho |
 | 6 (1.6) | Más tipos: letras, colores, formas, contar, secuencias; niveles de dificultad; historial de aciertos por tipo | hecho |
 
+## Idea en diseño: módulos de ejercicios importables
+
+Pedido de Abel (2026-10-20): una pantalla de carga de módulos de ejercicios, temáticos o por edad, que se puedan importar y sacar.
+Preguntas abiertas antes de construirlo:
+- Formato del módulo (propuesta: un archivo JSON con nombre, edad sugerida y lista de ejercicios).
+- Cómo se importa (desde un archivo del celu, o un enlace).
+- Qué tipos de ejercicio puede traer un módulo (elegir opción, respuesta numérica, secuencia).
+- Si los ejercicios actuales pasan a ser módulos "de fábrica" que también se pueden apagar.
+- Derechos de las imágenes de módulos de terceros (para una futura versión comercial).
+
 ## Ideas
 
 - **Emociones:** identificar caras felices, tristes, enojadas, asustadas (idea de Abel). Va en el release 4 con emojis.

@@ -89,6 +89,28 @@ class MainActivity : AppCompatActivity() {
         }
         findViewById<Button>(R.id.btnPin).setOnClickListener { PinGate.configurar(this) }
         configurarDeteccion()
+
+        val swSolo = findViewById<android.widget.Switch>(R.id.swSoloReproduciendo)
+        swSolo.isChecked = SettingsStore.getSoloReproduciendo(this)
+        swSolo.setOnCheckedChangeListener { _, v ->
+            SettingsStore.setSoloReproduciendo(this, v)
+            PeajeLog.d("AJUSTES contar solo mientras se reproduce: $v")
+        }
+
+        val llAv = findViewById<android.view.View>(R.id.llAvanzado)
+        val btnAv = findViewById<Button>(R.id.btnAvanzado)
+        btnAv.setOnClickListener {
+            val abrir = llAv.visibility != android.view.View.VISIBLE
+            llAv.visibility = if (abrir) android.view.View.VISIBLE else android.view.View.GONE
+            btnAv.text = if (abrir) "⚙️ Avanzado ▾" else "⚙️ Avanzado ▸"
+        }
+        // Al arrancar, si el modo normal está activo y falta el permiso de notificaciones, se pide
+        if (Deteccion.modo(this) == Deteccion.USO && Build.VERSION.SDK_INT >= 33 &&
+            checkSelfPermission(android.Manifest.permission.POST_NOTIFICATIONS) !=
+            android.content.pm.PackageManager.PERMISSION_GRANTED
+        ) {
+            requestPermissions(arrayOf(android.Manifest.permission.POST_NOTIFICATIONS), 1)
+        }
     }
 
     override fun onResume() {

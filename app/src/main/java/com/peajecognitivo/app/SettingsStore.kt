@@ -59,12 +59,19 @@ object SettingsStore {
         prefs(context).edit().putString("pin", pin).apply()
     }
 
-    /** Cómo se detecta YouTube: "acc" (accesibilidad, por defecto) o "uso" (uso de apps). */
+    /** Cómo se detecta YouTube: "uso" (uso de apps, por defecto) o "acc" (accesibilidad, alternativo). */
     fun getDeteccion(context: Context): String =
-        prefs(context).getString("deteccion", Deteccion.ACCESIBILIDAD) ?: Deteccion.ACCESIBILIDAD
+        prefs(context).getString("deteccion", Deteccion.USO) ?: Deteccion.USO
 
     fun setDeteccion(context: Context, modo: String) {
         prefs(context).edit().putString("deteccion", modo).apply()
+    }
+
+    /** Si está activo, el tiempo solo corre mientras YouTube está en pantalla Y hay audio sonando. */
+    fun getSoloReproduciendo(context: Context): Boolean = prefs(context).getBoolean("solo_reproduciendo", true)
+
+    fun setSoloReproduciendo(context: Context, v: Boolean) {
+        prefs(context).edit().putBoolean("solo_reproduciendo", v).apply()
     }
 
     /** Interruptor general. Apagado: el peaje no aparece nunca (solo el botón de prueba). */

@@ -10,6 +10,13 @@ https://github.com/AbelG88/tolltube/releases
 - [x] Sumas y restas con imágenes (emojis) acompañando los números (release 2)
 - [x] Más tipos de ejercicio (animales, objetos) y elegirlos desde el menú (release 2)
 
+## Release 10: versión 2.0-MVP
+
+- **Modo "Uso de apps" por defecto.** Los pasos de la pantalla principal son ahora solo dos: permiso de dibujar sobre otras apps y acceso a datos de uso.
+- **Accesibilidad pasa a "⚙️ Avanzado"** (se despliega con el botón): ahí se elige el modo de detección y se activa el servicio de accesibilidad, solo por si el modo normal no anda en algún celu. Si ya tenías guardado el modo accesibilidad, se respeta.
+- **Contar solo mientras se reproduce audio** (interruptor, activado por defecto): el tiempo hasta el próximo ejercicio solo corre si YouTube está en pantalla Y hay audio sonando. Si no, la cuenta se queda quieta y retoma donde estaba. El panel de estado lo indica ("en pausa: no hay YouTube sonando") y el registro anota `TIMER cuenta en pausa / reanudada`. Apagado, funciona como antes.
+- Al arrancar la app se pide el permiso de notificaciones si falta (la notificación fija del monitoreo lo necesita en Android 13+).
+
 ## Release 9.1: versión 1.9.1-MVP
 
 - En modo "Uso de apps", el servicio de accesibilidad ya no anota los cambios de ventana en el registro (llenaban las últimas 300 líneas y tapaban las líneas `USO` y `MONITOR`). En modo "Accesibilidad" todo sigue igual.

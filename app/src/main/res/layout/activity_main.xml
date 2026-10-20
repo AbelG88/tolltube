@@ -57,53 +57,70 @@
             android:textSize="16sp" />
 
         <Button
-            android:id="@+id/btnEnableAccessibility"
+            android:id="@+id/btnUsoPermiso"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:padding="16dp"
-            android:text="2️⃣ Activar servicio de accesibilidad"
+            android:text="2️⃣ Dar acceso a datos de uso"
             android:textSize="16sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:text="🔍 Cómo detecta YouTube"
-            android:textColor="#333"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-        <RadioGroup
-            android:id="@+id/rgDeteccion"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:orientation="vertical">
-
-            <RadioButton
-                android:id="@+id/rbDetAcc"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Accesibilidad (como hasta ahora)"
-                android:textSize="16sp" />
-
-            <RadioButton
-                android:id="@+id/rbDetUso"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Uso de apps (nuevo)"
-                android:textSize="16sp" />
-        </RadioGroup>
 
         <Button
-            android:id="@+id/btnUsoPermiso"
+            android:id="@+id/btnAvanzado"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:padding="16dp"
-            android:text="3️⃣ Dar acceso a datos de uso (solo modo nuevo)"
-            android:textSize="16sp" />
+            android:layout_marginTop="16dp"
+            android:text="⚙️ Avanzado ▸"
+            android:textSize="14sp" />
+
+        <!-- Solo por si el modo normal no funciona en algún celu -->
+        <LinearLayout
+            android:id="@+id/llAvanzado"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="🔍 Cómo detecta YouTube"
+                android:textColor="#333"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <RadioGroup
+                android:id="@+id/rgDeteccion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:orientation="vertical">
+
+                <RadioButton
+                    android:id="@+id/rbDetUso"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Uso de apps (recomendado)"
+                    android:textSize="16sp" />
+
+                <RadioButton
+                    android:id="@+id/rbDetAcc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Accesibilidad (alternativo)"
+                    android:textSize="16sp" />
+            </RadioGroup>
+
+            <Button
+                android:id="@+id/btnEnableAccessibility"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:padding="16dp"
+                android:text="Activar servicio de accesibilidad (solo modo alternativo)"
+                android:textSize="14sp" />
+        </LinearLayout>
 
         <!-- Estado en vivo: sirve para ver por qué no aparece el overlay -->
         <TextView
@@ -223,6 +240,15 @@
             android:layout_marginTop="8dp"
             android:textColor="#666"
             android:textSize="14sp" />
+
+        <Switch
+            android:id="@+id/swSoloReproduciendo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="Contar solo mientras se reproduce audio"
+            android:textColor="#333"
+            android:textSize="16sp" />
 
         <TextView
             android:layout_width="wrap_content"

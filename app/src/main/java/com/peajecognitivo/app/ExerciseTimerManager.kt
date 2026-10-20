@@ -27,10 +27,35 @@ class ExerciseTimerManager {
         // Cuándo debía sonar el próximo ciclo (elapsedRealtime). Sirve para medir retrasos y para el panel.
         private var proximaEsperada = 0L
 
+        // Tiempo que falta para el próximo ejercicio. Baja de a 1 s, y con "contar solo mientras
+        // se reproduce" solo baja si YouTube está en pantalla Y hay audio sonando.
+        private var restanteMs = 0L
+        private var contando = true
+
         private val tick = object : Runnable {
             override fun run() {
-                alSonar()
+                alTick()
             }
+        }
+
+        private fun reproduciendo(ctx: Context): Boolean {
+            val (pantalla, _) = Deteccion.clasificar(ctx)
+            if (pantalla != Pantalla.YOUTUBE) return false
+            val am = ctx.getSystemService(Context.AUDIO_SERVICE) as android.media.AudioManager
+            return am.isMusicActive
+        }
+
+        private fun alTick() {
+            val ctx = appContext ?: return
+            if (!running || esperandoCierre) return
+            val cuenta = if (SettingsStore.getSoloReproduciendo(ctx)) reproduciendo(ctx) else true
+            if (cuenta != contando) {
+                contando = cuenta
+                PeajeLog.d(if (cuenta) "TIMER cuenta reanudada" else "TIMER cuenta en pausa (no hay YouTube sonando)")
+            }
+            if (cuenta) restanteMs -= 1000
+            proximaEsperada = SystemClock.elapsedRealtime() + restanteMs
+            if (restanteMs <= 0) alSonar() else handler.postDelayed(tick, 1000)
         }
 
         private fun alSonar() {
@@ -70,8 +95,11 @@ class ExerciseTimerManager {
         private fun programar(ctx: Context) {
             val intervalo = SettingsStore.getIntervalMs(ctx)
             esperandoCierre = false
+            restanteMs = intervalo
+            contando = true
             proximaEsperada = SystemClock.elapsedRealtime() + intervalo
-            handler.postDelayed(tick, intervalo)
+            handler.removeCallbacks(tick)
+            handler.postDelayed(tick, 1000)
             PeajeLog.d("TIMER programado: próximo en ${intervalo / 1000}s")
         }
 
@@ -112,8 +140,9 @@ class ExerciseTimerManager {
             !running -> "detenido (se activa al abrir YouTube)"
             esperandoCierre -> "esperando que se resuelva el ejercicio"
             else -> {
-                val faltan = ((proximaEsperada - SystemClock.elapsedRealtime()) / 1000).coerceAtLeast(0)
-                "corriendo, próximo ejercicio en ${faltan}s"
+                val faltan = (restanteMs / 1000).coerceAtLeast(0)
+                val pausa = if (contando) "" else " (en pausa: no hay YouTube sonando)"
+                "corriendo, próximo ejercicio en ${faltan}s$pausa"
             }
         }
     }
