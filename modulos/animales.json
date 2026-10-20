@@ -1,0 +1,272 @@
+{
+ "formato": 1,
+ "nombre": "Animales",
+ "descripcion": "Reconocer animales",
+ "edad": "3 a 7 años",
+ "ejercicios": [
+  {
+   "tipo": "opciones",
+   "visual": "🐶",
+   "pregunta": "¿Qué animal es?",
+   "correcta": "Perro",
+   "incorrectas": [
+    "Conejo",
+    "Cerdo",
+    "Tortuga"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🐱",
+   "pregunta": "¿Qué animal es?",
+   "correcta": "Gato",
+   "incorrectas": [
+    "Pato",
+    "Caracol",
+    "Conejo"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🐭",
+   "pregunta": "¿Qué animal es?",
+   "correcta": "Ratón",
+   "incorrectas": [
+    "Gato",
+    "Pato",
+    "Rana"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🐰",
+   "pregunta": "¿Qué animal es?",
+   "correcta": "Conejo",
+   "incorrectas": [
+    "Abeja",
+    "Pez",
+    "Caracol"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🐻",
+   "pregunta": "¿Qué animal es?",
+   "correcta": "Oso",
+   "incorrectas": [
+    "Elefante",
+    "Rana",
+    "Pato"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🐼",
+   "pregunta": "¿Qué animal es?",
+   "correcta": "Panda",
+   "incorrectas": [
+    "Pingüino",
+    "Caracol",
+    "Gallina"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🐯",
+   "pregunta": "¿Qué animal es?",
+   "correcta": "Tigre",
+   "incorrectas": [
+    "Perro",
+    "Elefante",
+    "Gallina"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🦁",
+   "pregunta": "¿Qué animal es?",
+   "correcta": "León",
+   "incorrectas": [
+    "Panda",
+    "Mariposa",
+    "Conejo"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🐮",
+   "pregunta": "¿Qué animal es?",
+   "correcta": "Vaca",
+   "incorrectas": [
+    "Tortuga",
+    "Gato",
+    "Tigre"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🐷",
+   "pregunta": "¿Qué animal es?",
+   "correcta": "Cerdo",
+   "incorrectas": [
+    "Rana",
+    "Oso",
+    "León"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🐸",
+   "pregunta": "¿Qué animal es?",
+   "correcta": "Rana",
+   "incorrectas": [
+    "Pingüino",
+    "Tortuga",
+    "Ratón"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🐵",
+   "pregunta": "¿Qué animal es?",
+   "correcta": "Mono",
+   "incorrectas": [
+    "Panda",
+    "Elefante",
+    "Pingüino"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🐔",
+   "pregunta": "¿Qué animal es?",
+   "correcta": "Gallina",
+   "incorrectas": [
+    "Pulpo",
+    "Vaca",
+    "Oso"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🐧",
+   "pregunta": "¿Qué animal es?",
+   "correcta": "Pingüino",
+   "incorrectas": [
+    "Caballo",
+    "Pulpo",
+    "Vaca"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🐴",
+   "pregunta": "¿Qué animal es?",
+   "correcta": "Caballo",
+   "incorrectas": [
+    "Pato",
+    "Pingüino",
+    "Mono"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🐘",
+   "pregunta": "¿Qué animal es?",
+   "correcta": "Elefante",
+   "incorrectas": [
+    "Caracol",
+    "Gallina",
+    "León"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🐢",
+   "pregunta": "¿Qué animal es?",
+   "correcta": "Tortuga",
+   "incorrectas": [
+    "Oso",
+    "Ratón",
+    "Panda"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🐍",
+   "pregunta": "¿Qué animal es?",
+   "correcta": "Serpiente",
+   "incorrectas": [
+    "Oso",
+    "León",
+    "Caracol"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🐙",
+   "pregunta": "¿Qué animal es?",
+   "correcta": "Pulpo",
+   "incorrectas": [
+    "León",
+    "Perro",
+    "Elefante"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🐠",
+   "pregunta": "¿Qué animal es?",
+   "correcta": "Pez",
+   "incorrectas": [
+    "Pulpo",
+    "Panda",
+    "Vaca"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🦋",
+   "pregunta": "¿Qué animal es?",
+   "correcta": "Mariposa",
+   "incorrectas": [
+    "Cerdo",
+    "Perro",
+    "Oso"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🐝",
+   "pregunta": "¿Qué animal es?",
+   "correcta": "Abeja",
+   "incorrectas": [
+    "Pingüino",
+    "Serpiente",
+    "Mono"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🐌",
+   "pregunta": "¿Qué animal es?",
+   "correcta": "Caracol",
+   "incorrectas": [
+    "Pez",
+    "Pulpo",
+    "Rana"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🦆",
+   "pregunta": "¿Qué animal es?",
+   "correcta": "Pato",
+   "incorrectas": [
+    "Oso",
+    "Caracol",
+    "Tortuga"
+   ]
+  }
+ ]
+}

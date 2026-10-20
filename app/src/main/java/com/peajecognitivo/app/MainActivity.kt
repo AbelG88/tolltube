@@ -236,14 +236,7 @@ class MainActivity : AppCompatActivity() {
         val casillas: Map<ExerciseType, CheckBox> = mapOf(
             ExerciseType.SUMA to findViewById(R.id.cbSuma),
             ExerciseType.RESTA to findViewById(R.id.cbResta),
-            ExerciseType.ANIMALES to findViewById(R.id.cbAnimales),
-            ExerciseType.OBJETOS to findViewById(R.id.cbObjetos),
-            ExerciseType.EMOCIONES to findViewById(R.id.cbEmociones),
-            ExerciseType.LETRAS to findViewById(R.id.cbLetras),
-            ExerciseType.COLORES to findViewById(R.id.cbColores),
-            ExerciseType.FORMAS to findViewById(R.id.cbFormas),
-            ExerciseType.CONTAR to findViewById(R.id.cbContar),
-            ExerciseType.SECUENCIAS to findViewById(R.id.cbSecuencias)
+            ExerciseType.CONTAR to findViewById(R.id.cbContar)
         )
 
         val actuales = SettingsStore.getTipos(this)

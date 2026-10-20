@@ -275,59 +275,10 @@
             android:textSize="16sp" />
 
         <CheckBox
-            android:id="@+id/cbAnimales"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="🐶 Animales"
-            android:textSize="16sp" />
-
-        <CheckBox
-            android:id="@+id/cbObjetos"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="🎈 Objetos"
-            android:textSize="16sp" />
-
-        <CheckBox
-            android:id="@+id/cbEmociones"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="😊 Emociones (caras)"
-            android:textSize="16sp" />
-
-        <CheckBox
-            android:id="@+id/cbLetras"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="🔤 Letras"
-            android:textSize="16sp" />
-
-        <CheckBox
-            android:id="@+id/cbColores"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="🎨 Colores"
-            android:textSize="16sp" />
-
-        <CheckBox
-            android:id="@+id/cbFormas"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="🔷 Formas"
-            android:textSize="16sp" />
-
-        <CheckBox
             android:id="@+id/cbContar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="🔢 Contar"
-            android:textSize="16sp" />
-
-        <CheckBox
-            android:id="@+id/cbSecuencias"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="➡️ Secuencias de números"
             android:textSize="16sp" />
 
         <TextView

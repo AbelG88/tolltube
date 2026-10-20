@@ -1,0 +1,183 @@
+{
+ "formato": 1,
+ "nombre": "Secuencias de números",
+ "descripcion": "Qué número sigue",
+ "edad": "5 a 8 años",
+ "ejercicios": [
+  {
+   "tipo": "numero",
+   "visual": "🔢",
+   "pregunta": "1 · 2 · 3 · 4 · ?",
+   "hablado": "1, 2, 3, 4. ¿Qué número sigue?",
+   "correcta": "5"
+  },
+  {
+   "tipo": "numero",
+   "visual": "🔢",
+   "pregunta": "2 · 3 · 4 · 5 · ?",
+   "hablado": "2, 3, 4, 5. ¿Qué número sigue?",
+   "correcta": "6"
+  },
+  {
+   "tipo": "numero",
+   "visual": "🔢",
+   "pregunta": "3 · 4 · 5 · 6 · ?",
+   "hablado": "3, 4, 5, 6. ¿Qué número sigue?",
+   "correcta": "7"
+  },
+  {
+   "tipo": "numero",
+   "visual": "🔢",
+   "pregunta": "4 · 5 · 6 · 7 · ?",
+   "hablado": "4, 5, 6, 7. ¿Qué número sigue?",
+   "correcta": "8"
+  },
+  {
+   "tipo": "numero",
+   "visual": "🔢",
+   "pregunta": "5 · 6 · 7 · 8 · ?",
+   "hablado": "5, 6, 7, 8. ¿Qué número sigue?",
+   "correcta": "9"
+  },
+  {
+   "tipo": "numero",
+   "visual": "🔢",
+   "pregunta": "1 · 3 · 5 · 7 · ?",
+   "hablado": "1, 3, 5, 7. ¿Qué número sigue?",
+   "correcta": "9"
+  },
+  {
+   "tipo": "numero",
+   "visual": "🔢",
+   "pregunta": "2 · 4 · 6 · 8 · ?",
+   "hablado": "2, 4, 6, 8. ¿Qué número sigue?",
+   "correcta": "10"
+  },
+  {
+   "tipo": "numero",
+   "visual": "🔢",
+   "pregunta": "3 · 5 · 7 · 9 · ?",
+   "hablado": "3, 5, 7, 9. ¿Qué número sigue?",
+   "correcta": "11"
+  },
+  {
+   "tipo": "numero",
+   "visual": "🔢",
+   "pregunta": "4 · 6 · 8 · 10 · ?",
+   "hablado": "4, 6, 8, 10. ¿Qué número sigue?",
+   "correcta": "12"
+  },
+  {
+   "tipo": "numero",
+   "visual": "🔢",
+   "pregunta": "5 · 7 · 9 · 11 · ?",
+   "hablado": "5, 7, 9, 11. ¿Qué número sigue?",
+   "correcta": "13"
+  },
+  {
+   "tipo": "numero",
+   "visual": "🔢",
+   "pregunta": "0 · 3 · 6 · 9 · ?",
+   "hablado": "0, 3, 6, 9. ¿Qué número sigue?",
+   "correcta": "12"
+  },
+  {
+   "tipo": "numero",
+   "visual": "🔢",
+   "pregunta": "2 · 5 · 8 · 11 · ?",
+   "hablado": "2, 5, 8, 11. ¿Qué número sigue?",
+   "correcta": "14"
+  },
+  {
+   "tipo": "numero",
+   "visual": "🔢",
+   "pregunta": "4 · 7 · 10 · 13 · ?",
+   "hablado": "4, 7, 10, 13. ¿Qué número sigue?",
+   "correcta": "16"
+  },
+  {
+   "tipo": "numero",
+   "visual": "🔢",
+   "pregunta": "6 · 9 · 12 · 15 · ?",
+   "hablado": "6, 9, 12, 15. ¿Qué número sigue?",
+   "correcta": "18"
+  },
+  {
+   "tipo": "numero",
+   "visual": "🔢",
+   "pregunta": "8 · 11 · 14 · 17 · ?",
+   "hablado": "8, 11, 14, 17. ¿Qué número sigue?",
+   "correcta": "20"
+  },
+  {
+   "tipo": "numero",
+   "visual": "🔢",
+   "pregunta": "0 · 5 · 10 · 15 · ?",
+   "hablado": "0, 5, 10, 15. ¿Qué número sigue?",
+   "correcta": "20"
+  },
+  {
+   "tipo": "numero",
+   "visual": "🔢",
+   "pregunta": "2 · 7 · 12 · 17 · ?",
+   "hablado": "2, 7, 12, 17. ¿Qué número sigue?",
+   "correcta": "22"
+  },
+  {
+   "tipo": "numero",
+   "visual": "🔢",
+   "pregunta": "4 · 9 · 14 · 19 · ?",
+   "hablado": "4, 9, 14, 19. ¿Qué número sigue?",
+   "correcta": "24"
+  },
+  {
+   "tipo": "numero",
+   "visual": "🔢",
+   "pregunta": "6 · 11 · 16 · 21 · ?",
+   "hablado": "6, 11, 16, 21. ¿Qué número sigue?",
+   "correcta": "26"
+  },
+  {
+   "tipo": "numero",
+   "visual": "🔢",
+   "pregunta": "8 · 13 · 18 · 23 · ?",
+   "hablado": "8, 13, 18, 23. ¿Qué número sigue?",
+   "correcta": "28"
+  },
+  {
+   "tipo": "numero",
+   "visual": "🔢",
+   "pregunta": "0 · 10 · 20 · 30 · ?",
+   "hablado": "0, 10, 20, 30. ¿Qué número sigue?",
+   "correcta": "40"
+  },
+  {
+   "tipo": "numero",
+   "visual": "🔢",
+   "pregunta": "2 · 12 · 22 · 32 · ?",
+   "hablado": "2, 12, 22, 32. ¿Qué número sigue?",
+   "correcta": "42"
+  },
+  {
+   "tipo": "numero",
+   "visual": "🔢",
+   "pregunta": "4 · 14 · 24 · 34 · ?",
+   "hablado": "4, 14, 24, 34. ¿Qué número sigue?",
+   "correcta": "44"
+  },
+  {
+   "tipo": "numero",
+   "visual": "🔢",
+   "pregunta": "6 · 16 · 26 · 36 · ?",
+   "hablado": "6, 16, 26, 36. ¿Qué número sigue?",
+   "correcta": "46"
+  },
+  {
+   "tipo": "numero",
+   "visual": "🔢",
+   "pregunta": "8 · 18 · 28 · 38 · ?",
+   "hablado": "8, 18, 28, 38. ¿Qué número sigue?",
+   "correcta": "48"
+  }
+ ]
+}

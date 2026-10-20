@@ -1,0 +1,74 @@
+{
+ "formato": 1,
+ "nombre": "Colores",
+ "descripcion": "Reconocer colores",
+ "edad": "3 a 6 años",
+ "ejercicios": [
+  {
+   "tipo": "opciones",
+   "visual": "❤️",
+   "pregunta": "¿De qué color es?",
+   "correcta": "Rojo",
+   "incorrectas": [
+    "Negro",
+    "Azul",
+    "Verde"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "💛",
+   "pregunta": "¿De qué color es?",
+   "correcta": "Amarillo",
+   "incorrectas": [
+    "Azul",
+    "Negro",
+    "Rojo"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "💚",
+   "pregunta": "¿De qué color es?",
+   "correcta": "Verde",
+   "incorrectas": [
+    "Amarillo",
+    "Rojo",
+    "Violeta"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "💙",
+   "pregunta": "¿De qué color es?",
+   "correcta": "Azul",
+   "incorrectas": [
+    "Violeta",
+    "Amarillo",
+    "Negro"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "💜",
+   "pregunta": "¿De qué color es?",
+   "correcta": "Violeta",
+   "incorrectas": [
+    "Amarillo",
+    "Azul",
+    "Verde"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🖤",
+   "pregunta": "¿De qué color es?",
+   "correcta": "Negro",
+   "incorrectas": [
+    "Violeta",
+    "Rojo",
+    "Amarillo"
+   ]
+  }
+ ]
+}

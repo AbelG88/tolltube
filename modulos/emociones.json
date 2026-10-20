@@ -1,0 +1,74 @@
+{
+ "formato": 1,
+ "nombre": "Emociones",
+ "descripcion": "Reconocer emociones en caras",
+ "edad": "3 a 7 años",
+ "ejercicios": [
+  {
+   "tipo": "opciones",
+   "visual": "😊",
+   "pregunta": "¿Cómo se siente?",
+   "correcta": "Feliz",
+   "incorrectas": [
+    "Enojado",
+    "Asustado",
+    "Sorprendido"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "😢",
+   "pregunta": "¿Cómo se siente?",
+   "correcta": "Triste",
+   "incorrectas": [
+    "Enojado",
+    "Con sueño",
+    "Feliz"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "😠",
+   "pregunta": "¿Cómo se siente?",
+   "correcta": "Enojado",
+   "incorrectas": [
+    "Sorprendido",
+    "Triste",
+    "Feliz"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "😨",
+   "pregunta": "¿Cómo se siente?",
+   "correcta": "Asustado",
+   "incorrectas": [
+    "Con sueño",
+    "Sorprendido",
+    "Triste"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "😮",
+   "pregunta": "¿Cómo se siente?",
+   "correcta": "Sorprendido",
+   "incorrectas": [
+    "Feliz",
+    "Con sueño",
+    "Triste"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "😴",
+   "pregunta": "¿Cómo se siente?",
+   "correcta": "Con sueño",
+   "incorrectas": [
+    "Asustado",
+    "Enojado",
+    "Feliz"
+   ]
+  }
+ ]
+}

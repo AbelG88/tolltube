@@ -1,0 +1,305 @@
+{
+ "formato": 1,
+ "nombre": "Objetos",
+ "descripcion": "Reconocer objetos cotidianos",
+ "edad": "3 a 7 años",
+ "ejercicios": [
+  {
+   "tipo": "opciones",
+   "visual": "⚽",
+   "pregunta": "¿Qué es esto?",
+   "correcta": "Pelota",
+   "incorrectas": [
+    "Flor",
+    "Pizza",
+    "Helado"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🚗",
+   "pregunta": "¿Qué es esto?",
+   "correcta": "Auto",
+   "incorrectas": [
+    "Campana",
+    "Colectivo",
+    "Lamparita"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🚌",
+   "pregunta": "¿Qué es esto?",
+   "correcta": "Colectivo",
+   "incorrectas": [
+    "Lápiz",
+    "Helado",
+    "Anteojos"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "✈️",
+   "pregunta": "¿Qué es esto?",
+   "correcta": "Avión",
+   "incorrectas": [
+    "Sol",
+    "Guitarra",
+    "Bicicleta"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🚲",
+   "pregunta": "¿Qué es esto?",
+   "correcta": "Bicicleta",
+   "incorrectas": [
+    "Estrella",
+    "Pizza",
+    "Guitarra"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🏠",
+   "pregunta": "¿Qué es esto?",
+   "correcta": "Casa",
+   "incorrectas": [
+    "Auto",
+    "Reloj",
+    "Colectivo"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "📚",
+   "pregunta": "¿Qué es esto?",
+   "correcta": "Libros",
+   "incorrectas": [
+    "Reloj",
+    "Lamparita",
+    "Casa"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "⏰",
+   "pregunta": "¿Qué es esto?",
+   "correcta": "Reloj",
+   "incorrectas": [
+    "Avión",
+    "Paraguas",
+    "Flor"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🔑",
+   "pregunta": "¿Qué es esto?",
+   "correcta": "Llave",
+   "incorrectas": [
+    "Auto",
+    "Avión",
+    "Pelota"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🎈",
+   "pregunta": "¿Qué es esto?",
+   "correcta": "Globo",
+   "incorrectas": [
+    "Árbol",
+    "Bicicleta",
+    "Sol"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🍞",
+   "pregunta": "¿Qué es esto?",
+   "correcta": "Pan",
+   "incorrectas": [
+    "Avión",
+    "Zapatilla",
+    "Flor"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "☂️",
+   "pregunta": "¿Qué es esto?",
+   "correcta": "Paraguas",
+   "incorrectas": [
+    "Pelota",
+    "Colectivo",
+    "Libros"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "👟",
+   "pregunta": "¿Qué es esto?",
+   "correcta": "Zapatilla",
+   "incorrectas": [
+    "Flor",
+    "Guitarra",
+    "Bicicleta"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🎸",
+   "pregunta": "¿Qué es esto?",
+   "correcta": "Guitarra",
+   "incorrectas": [
+    "Pizza",
+    "Llave",
+    "Paraguas"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "📱",
+   "pregunta": "¿Qué es esto?",
+   "correcta": "Celular",
+   "incorrectas": [
+    "Flor",
+    "Paraguas",
+    "Estrella"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "💡",
+   "pregunta": "¿Qué es esto?",
+   "correcta": "Lamparita",
+   "incorrectas": [
+    "Avión",
+    "Estrella",
+    "Celular"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "⭐",
+   "pregunta": "¿Qué es esto?",
+   "correcta": "Estrella",
+   "incorrectas": [
+    "Lamparita",
+    "Globo",
+    "Colectivo"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🌙",
+   "pregunta": "¿Qué es esto?",
+   "correcta": "Luna",
+   "incorrectas": [
+    "Bicicleta",
+    "Avión",
+    "Campana"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "☀️",
+   "pregunta": "¿Qué es esto?",
+   "correcta": "Sol",
+   "incorrectas": [
+    "Pan",
+    "Campana",
+    "Llave"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🌳",
+   "pregunta": "¿Qué es esto?",
+   "correcta": "Árbol",
+   "incorrectas": [
+    "Lamparita",
+    "Torta",
+    "Casa"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🌸",
+   "pregunta": "¿Qué es esto?",
+   "correcta": "Flor",
+   "incorrectas": [
+    "Estrella",
+    "Pelota",
+    "Libros"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🍕",
+   "pregunta": "¿Qué es esto?",
+   "correcta": "Pizza",
+   "incorrectas": [
+    "Estrella",
+    "Paraguas",
+    "Bicicleta"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🍦",
+   "pregunta": "¿Qué es esto?",
+   "correcta": "Helado",
+   "incorrectas": [
+    "Torta",
+    "Luna",
+    "Pelota"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🎂",
+   "pregunta": "¿Qué es esto?",
+   "correcta": "Torta",
+   "incorrectas": [
+    "Lápiz",
+    "Estrella",
+    "Globo"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🔔",
+   "pregunta": "¿Qué es esto?",
+   "correcta": "Campana",
+   "incorrectas": [
+    "Flor",
+    "Colectivo",
+    "Helado"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "✏️",
+   "pregunta": "¿Qué es esto?",
+   "correcta": "Lápiz",
+   "incorrectas": [
+    "Llave",
+    "Estrella",
+    "Paraguas"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "👓",
+   "pregunta": "¿Qué es esto?",
+   "correcta": "Anteojos",
+   "incorrectas": [
+    "Casa",
+    "Paraguas",
+    "Campana"
+   ]
+  }
+ ]
+}

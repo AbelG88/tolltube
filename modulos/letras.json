@@ -1,0 +1,428 @@
+{
+ "formato": 1,
+ "nombre": "Letras",
+ "descripcion": "Reconocer letras e iniciales de animales",
+ "edad": "4 a 7 años",
+ "ejercicios": [
+  {
+   "tipo": "opciones",
+   "visual": "A",
+   "pregunta": "¿Qué letra es?",
+   "correcta": "A",
+   "incorrectas": [
+    "P",
+    "O",
+    "S"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "E",
+   "pregunta": "¿Qué letra es?",
+   "correcta": "E",
+   "incorrectas": [
+    "B",
+    "A",
+    "I"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "I",
+   "pregunta": "¿Qué letra es?",
+   "correcta": "I",
+   "incorrectas": [
+    "T",
+    "E",
+    "P"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "O",
+   "pregunta": "¿Qué letra es?",
+   "correcta": "O",
+   "incorrectas": [
+    "C",
+    "A",
+    "T"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "U",
+   "pregunta": "¿Qué letra es?",
+   "correcta": "U",
+   "incorrectas": [
+    "O",
+    "A",
+    "E"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "M",
+   "pregunta": "¿Qué letra es?",
+   "correcta": "M",
+   "incorrectas": [
+    "S",
+    "B",
+    "E"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "P",
+   "pregunta": "¿Qué letra es?",
+   "correcta": "P",
+   "incorrectas": [
+    "O",
+    "E",
+    "T"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "S",
+   "pregunta": "¿Qué letra es?",
+   "correcta": "S",
+   "incorrectas": [
+    "P",
+    "A",
+    "E"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "L",
+   "pregunta": "¿Qué letra es?",
+   "correcta": "L",
+   "incorrectas": [
+    "O",
+    "C",
+    "A"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "T",
+   "pregunta": "¿Qué letra es?",
+   "correcta": "T",
+   "incorrectas": [
+    "C",
+    "B",
+    "P"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "C",
+   "pregunta": "¿Qué letra es?",
+   "correcta": "C",
+   "incorrectas": [
+    "A",
+    "O",
+    "B"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "B",
+   "pregunta": "¿Qué letra es?",
+   "correcta": "B",
+   "incorrectas": [
+    "L",
+    "I",
+    "U"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🐶",
+   "pregunta": "¿Con qué letra empieza?",
+   "hablado": "¿Con qué letra empieza el nombre de este animal?",
+   "correcta": "P",
+   "incorrectas": [
+    "N",
+    "E",
+    "S"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🐱",
+   "pregunta": "¿Con qué letra empieza?",
+   "hablado": "¿Con qué letra empieza el nombre de este animal?",
+   "correcta": "G",
+   "incorrectas": [
+    "D",
+    "T",
+    "K"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🐭",
+   "pregunta": "¿Con qué letra empieza?",
+   "hablado": "¿Con qué letra empieza el nombre de este animal?",
+   "correcta": "R",
+   "incorrectas": [
+    "S",
+    "W",
+    "F"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🐰",
+   "pregunta": "¿Con qué letra empieza?",
+   "hablado": "¿Con qué letra empieza el nombre de este animal?",
+   "correcta": "C",
+   "incorrectas": [
+    "E",
+    "T",
+    "V"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🐻",
+   "pregunta": "¿Con qué letra empieza?",
+   "hablado": "¿Con qué letra empieza el nombre de este animal?",
+   "correcta": "O",
+   "incorrectas": [
+    "G",
+    "L",
+    "D"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🐼",
+   "pregunta": "¿Con qué letra empieza?",
+   "hablado": "¿Con qué letra empieza el nombre de este animal?",
+   "correcta": "P",
+   "incorrectas": [
+    "S",
+    "X",
+    "C"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🐯",
+   "pregunta": "¿Con qué letra empieza?",
+   "hablado": "¿Con qué letra empieza el nombre de este animal?",
+   "correcta": "T",
+   "incorrectas": [
+    "S",
+    "B",
+    "U"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🦁",
+   "pregunta": "¿Con qué letra empieza?",
+   "hablado": "¿Con qué letra empieza el nombre de este animal?",
+   "correcta": "L",
+   "incorrectas": [
+    "G",
+    "Q",
+    "W"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🐮",
+   "pregunta": "¿Con qué letra empieza?",
+   "hablado": "¿Con qué letra empieza el nombre de este animal?",
+   "correcta": "V",
+   "incorrectas": [
+    "R",
+    "N",
+    "Z"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🐷",
+   "pregunta": "¿Con qué letra empieza?",
+   "hablado": "¿Con qué letra empieza el nombre de este animal?",
+   "correcta": "C",
+   "incorrectas": [
+    "L",
+    "P",
+    "T"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🐸",
+   "pregunta": "¿Con qué letra empieza?",
+   "hablado": "¿Con qué letra empieza el nombre de este animal?",
+   "correcta": "R",
+   "incorrectas": [
+    "O",
+    "L",
+    "J"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🐵",
+   "pregunta": "¿Con qué letra empieza?",
+   "hablado": "¿Con qué letra empieza el nombre de este animal?",
+   "correcta": "M",
+   "incorrectas": [
+    "H",
+    "F",
+    "X"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🐔",
+   "pregunta": "¿Con qué letra empieza?",
+   "hablado": "¿Con qué letra empieza el nombre de este animal?",
+   "correcta": "G",
+   "incorrectas": [
+    "Z",
+    "I",
+    "C"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🐧",
+   "pregunta": "¿Con qué letra empieza?",
+   "hablado": "¿Con qué letra empieza el nombre de este animal?",
+   "correcta": "P",
+   "incorrectas": [
+    "T",
+    "J",
+    "R"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🐴",
+   "pregunta": "¿Con qué letra empieza?",
+   "hablado": "¿Con qué letra empieza el nombre de este animal?",
+   "correcta": "C",
+   "incorrectas": [
+    "Q",
+    "L",
+    "Y"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🐘",
+   "pregunta": "¿Con qué letra empieza?",
+   "hablado": "¿Con qué letra empieza el nombre de este animal?",
+   "correcta": "E",
+   "incorrectas": [
+    "P",
+    "K",
+    "U"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🐢",
+   "pregunta": "¿Con qué letra empieza?",
+   "hablado": "¿Con qué letra empieza el nombre de este animal?",
+   "correcta": "T",
+   "incorrectas": [
+    "C",
+    "D",
+    "Q"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🐍",
+   "pregunta": "¿Con qué letra empieza?",
+   "hablado": "¿Con qué letra empieza el nombre de este animal?",
+   "correcta": "S",
+   "incorrectas": [
+    "N",
+    "F",
+    "Z"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🐙",
+   "pregunta": "¿Con qué letra empieza?",
+   "hablado": "¿Con qué letra empieza el nombre de este animal?",
+   "correcta": "P",
+   "incorrectas": [
+    "K",
+    "E",
+    "Q"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🐠",
+   "pregunta": "¿Con qué letra empieza?",
+   "hablado": "¿Con qué letra empieza el nombre de este animal?",
+   "correcta": "P",
+   "incorrectas": [
+    "N",
+    "B",
+    "W"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🦋",
+   "pregunta": "¿Con qué letra empieza?",
+   "hablado": "¿Con qué letra empieza el nombre de este animal?",
+   "correcta": "M",
+   "incorrectas": [
+    "C",
+    "Z",
+    "S"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🐝",
+   "pregunta": "¿Con qué letra empieza?",
+   "hablado": "¿Con qué letra empieza el nombre de este animal?",
+   "correcta": "A",
+   "incorrectas": [
+    "T",
+    "L",
+    "X"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🐌",
+   "pregunta": "¿Con qué letra empieza?",
+   "hablado": "¿Con qué letra empieza el nombre de este animal?",
+   "correcta": "C",
+   "incorrectas": [
+    "M",
+    "U",
+    "Q"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🦆",
+   "pregunta": "¿Con qué letra empieza?",
+   "hablado": "¿Con qué letra empieza el nombre de este animal?",
+   "correcta": "P",
+   "incorrectas": [
+    "T",
+    "O",
+    "C"
+   ]
+  }
+ ]
+}

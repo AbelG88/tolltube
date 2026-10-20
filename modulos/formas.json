@@ -1,0 +1,74 @@
+{
+ "formato": 1,
+ "nombre": "Formas",
+ "descripcion": "Reconocer formas",
+ "edad": "3 a 6 años",
+ "ejercicios": [
+  {
+   "tipo": "opciones",
+   "visual": "⚫",
+   "pregunta": "¿Qué forma es?",
+   "correcta": "Círculo",
+   "incorrectas": [
+    "Estrella",
+    "Cuadrado",
+    "Corazón"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "⬛",
+   "pregunta": "¿Qué forma es?",
+   "correcta": "Cuadrado",
+   "incorrectas": [
+    "Círculo",
+    "Rombo",
+    "Estrella"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🔺",
+   "pregunta": "¿Qué forma es?",
+   "correcta": "Triángulo",
+   "incorrectas": [
+    "Cuadrado",
+    "Rombo",
+    "Círculo"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "⭐",
+   "pregunta": "¿Qué forma es?",
+   "correcta": "Estrella",
+   "incorrectas": [
+    "Rombo",
+    "Triángulo",
+    "Círculo"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🔷",
+   "pregunta": "¿Qué forma es?",
+   "correcta": "Rombo",
+   "incorrectas": [
+    "Estrella",
+    "Corazón",
+    "Cuadrado"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "❤️",
+   "pregunta": "¿Qué forma es?",
+   "correcta": "Corazón",
+   "incorrectas": [
+    "Círculo",
+    "Cuadrado",
+    "Rombo"
+   ]
+  }
+ ]
+}

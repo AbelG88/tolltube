@@ -145,3 +145,8 @@ Resultado de probar la 1.1: no apareció el overlay, aun con los permisos dados.
 - Interruptor "Usar también los ejercicios de fábrica": apagado, salen solo los módulos activos (si no hay ninguno, se usan los de fábrica).
 - Validación con mensaje claro si el archivo está mal (máx. 200 ejercicios, 300 KB).
 - Botón "Copiar modelo" y ejemplo en `docs/modulos-ejemplo/dinosaurios.json`.
+
+## Release 12 — 2.2-MVP: ejercicios de fábrica reducidos a 3
+- De fábrica quedan solo **Sumas, Restas y Contar** (se generan con código).
+- Animales, Objetos, Emociones, Colores, Formas, Letras y Secuencias pasaron a **módulos** `.json` en la carpeta `modulos/` del repo. Ya no vienen instalados: se importan desde "📦 Módulos de ejercicios".
+- Cada release del APK también adjunta los `.json` de `modulos/` para bajarlos directo desde el teléfono.
