@@ -1,0 +1,10 @@
+{
+  "formato": 1,
+  "nombre": "Los dinosaurios",
+  "descripcion": "Ejercicios sobre dinosaurios",
+  "edad": "4 a 6 años",
+  "ejercicios": [
+    {"tipo": "opciones", "visual": "🦖", "pregunta": "¿Cómo se llama este dinosaurio?", "correcta": "T-Rex", "incorrectas": ["Perro", "Gato"]},
+    {"tipo": "numero", "visual": "🦕🦕🦕", "pregunta": "¿Cuántos dinosaurios hay?", "correcta": "3"}
+  ]
+}

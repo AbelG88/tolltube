@@ -36,7 +36,9 @@ object SettingsStore {
         val guardados = prefs(context).getStringSet(KEY_TIPOS, null)
         val tipos: Set<ExerciseType> =
             guardados?.mapNotNull { ExerciseType.desdeClave(it) }?.toSet() ?: emptySet()
-        return if (tipos.isEmpty()) ExerciseType.values().toSet() else tipos
+        val todos = ExerciseType.values().filter { it != ExerciseType.MODULOS }.toSet()
+        val propios = tipos.filter { it != ExerciseType.MODULOS }.toSet()
+        return if (propios.isEmpty()) todos else propios
     }
 
     fun setTipos(context: Context, tipos: Set<ExerciseType>) {
@@ -72,6 +74,13 @@ object SettingsStore {
 
     fun setSoloReproduciendo(context: Context, v: Boolean) {
         prefs(context).edit().putBoolean("solo_reproduciendo", v).apply()
+    }
+
+    /** Si también se usan los ejercicios de fábrica (con módulos activos se pueden dejar solo los módulos). */
+    fun getFabrica(context: Context): Boolean = prefs(context).getBoolean("fabrica", true)
+
+    fun setFabrica(context: Context, v: Boolean) {
+        prefs(context).edit().putBoolean("fabrica", v).apply()
     }
 
     /** Interruptor general. Apagado: el peaje no aparece nunca (solo el botón de prueba). */

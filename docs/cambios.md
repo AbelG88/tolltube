@@ -138,3 +138,10 @@ Resultado de probar la 1.1: no apareció el overlay, aun con los permisos dados.
 - Logs de diagnóstico con el tag `Peaje`.
 - Documentación en `docs/`.
 - El APK se publica como Release en cada build.
+
+## Release 11 — 2.1-MVP: módulos de ejercicios importables
+- Nueva pantalla "📦 Módulos de ejercicios" (protegida por PIN): importa archivos `.json` desde el teléfono, los lista con interruptor de activado y botón para quitar.
+- Tipos de ejercicio en un módulo: `opciones` (3 botones) y `numero` (teclado). Solo texto/emojis; no se cargan imágenes ni código de afuera.
+- Interruptor "Usar también los ejercicios de fábrica": apagado, salen solo los módulos activos (si no hay ninguno, se usan los de fábrica).
+- Validación con mensaje claro si el archivo está mal (máx. 200 ejercicios, 300 KB).
+- Botón "Copiar modelo" y ejemplo en `docs/modulos-ejemplo/dinosaurios.json`.

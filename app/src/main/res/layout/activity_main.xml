@@ -421,6 +421,15 @@
             android:textSize="16sp" />
 
         <Button
+            android:id="@+id/btnModulos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:padding="16dp"
+            android:text="📦 Módulos de ejercicios (importar)"
+            android:textSize="16sp" />
+
+        <Button
             android:id="@+id/btnTestOverlay"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

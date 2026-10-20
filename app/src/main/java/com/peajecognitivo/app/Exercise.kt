@@ -10,7 +10,8 @@ enum class ExerciseType(val clave: String, val etiqueta: String) {
     COLORES("colores", "🎨 Colores"),
     FORMAS("formas", "🔷 Formas"),
     CONTAR("contar", "🔢 Contar"),
-    SECUENCIAS("secuencias", "➡️ Secuencias de números");
+    SECUENCIAS("secuencias", "➡️ Secuencias de números"),
+    MODULOS("modulos", "📦 Módulos importados");
 
     companion object {
         fun desdeClave(clave: String): ExerciseType? = values().firstOrNull { it.clave == clave }

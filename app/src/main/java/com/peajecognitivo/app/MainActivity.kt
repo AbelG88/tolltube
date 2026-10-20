@@ -89,6 +89,9 @@ class MainActivity : AppCompatActivity() {
         }
         findViewById<Button>(R.id.btnPin).setOnClickListener { PinGate.configurar(this) }
         configurarDeteccion()
+        findViewById<Button>(R.id.btnModulos).setOnClickListener {
+            startActivity(Intent(this, ModulosActivity::class.java))
+        }
 
         val swSolo = findViewById<android.widget.Switch>(R.id.swSoloReproduciendo)
         swSolo.isChecked = SettingsStore.getSoloReproduciendo(this)

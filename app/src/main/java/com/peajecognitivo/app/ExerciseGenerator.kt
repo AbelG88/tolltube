@@ -53,11 +53,20 @@ object ExerciseGenerator {
     fun siguiente(context: Context): Exercise {
         val tipos = SettingsStore.getTipos(context).toList()
         val nivel = SettingsStore.getNivel(context)
-        var ejercicio = generar(tipos.random(), nivel)
+        val hayModulos = ModulosStore.hayActivos(context)
+        val usarFabrica = SettingsStore.getFabrica(context) || !hayModulos
+
+        fun uno(): Exercise {
+            // Los módulos activos cuentan como un tipo más (o son lo único si se apagó "de fábrica")
+            val deModulo = hayModulos && (!usarFabrica || Random.nextInt(tipos.size + 1) == tipos.size)
+            return (if (deModulo) ModulosStore.alAzar(context) else null) ?: generar(tipos.random(), nivel)
+        }
+
+        var ejercicio = uno()
         var intentos = 0
         // Evita repetir exactamente el mismo ejercicio dos veces seguidas
         while (ejercicio.resumen == ultimoResumen && intentos < 10) {
-            ejercicio = generar(tipos.random(), nivel)
+            ejercicio = uno()
             intentos++
         }
         ultimoResumen = ejercicio.resumen
@@ -75,6 +84,7 @@ object ExerciseGenerator {
         ExerciseType.ANIMALES -> eleccion(tipo, animales, "¿Qué animal es?")
         ExerciseType.OBJETOS -> eleccion(tipo, objetos, "¿Qué es esto?")
         ExerciseType.EMOCIONES -> eleccion(tipo, emociones, "¿Cómo se siente?")
+        ExerciseType.MODULOS -> suma(nivel) // no se usa: los módulos salen de ModulosStore
     }
 
     private fun suma(nivel: Int): Exercise {

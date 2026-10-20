@@ -37,6 +37,10 @@
         </activity>
 
         <activity
+            android:name=".ModulosActivity"
+            android:exported="false" />
+
+        <activity
             android:name=".LogActivity"
             android:exported="false" />
 
