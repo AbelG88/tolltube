@@ -43,3 +43,8 @@ Preguntas abiertas antes de construirlo:
 ## Forma de trabajo
 
 Cada release se compila en GitHub Actions y se publica en https://github.com/AbelG88/tolltube/releases/latest. Los releases se verifican solo por compilación; la prueba en el celu es de Abel.
+
+## Próximo: campo obligatorio de compatibilidad en los módulos (pedido por Abel)
+- Hoy el único chequeo es `"formato": 1`. Agregar un valor que **sí o sí** tenga que estar para que el módulo se acepte (p. ej. `"app": "peaje-cognitivo"` + `"formato"` con versión mínima).
+- Sin ese campo, o con un formato que la app no entiende, se rechaza con un mensaje claro ("este archivo no es un módulo de Peaje Cognitivo / requiere una versión más nueva").
+- A decidir: nombre y valor del campo; si además se pide una versión mínima de la app; actualizar el modelo de "Copiar modelo" y el ejemplo en docs/modulos-ejemplo.
