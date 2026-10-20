@@ -10,6 +10,10 @@ https://github.com/AbelG88/tolltube/releases
 - [x] Sumas y restas con imágenes (emojis) acompañando los números (release 2)
 - [x] Más tipos de ejercicio (animales, objetos) y elegirlos desde el menú (release 2)
 
+## Release 9.1: versión 1.9.1-MVP
+
+- En modo "Uso de apps", el servicio de accesibilidad ya no anota los cambios de ventana en el registro (llenaban las últimas 300 líneas y tapaban las líneas `USO` y `MONITOR`). En modo "Accesibilidad" todo sigue igual.
+
 ## Release 9: versión 1.9-MVP
 
 Primer paso del camino a Google Play (ver [camino-a-play-store.md](camino-a-play-store.md)): detectar YouTube **sin servicio de accesibilidad**.

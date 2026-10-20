@@ -129,6 +129,8 @@ class PeajeAccessibilityService : AccessibilityService() {
 
     override fun onAccessibilityEvent(event: AccessibilityEvent?) {
         if (event?.eventType != AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED) return
+        // En modo "Uso de apps" este servicio no hace nada (ni anota eventos en el registro)
+        if (!Deteccion.usaAccesibilidad(this)) return
         val paquete = event.packageName?.toString() ?: return
         ultimoPaquete = paquete
 
