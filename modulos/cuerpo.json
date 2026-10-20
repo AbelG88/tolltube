@@ -1,0 +1,98 @@
+{
+ "formato": 1,
+ "nombre": "El cuerpo humano",
+ "descripcion": "Partes del cuerpo y sentidos",
+ "edad": "3 a 7 años",
+ "ejercicios": [
+  {
+   "tipo": "opciones",
+   "visual": "👀",
+   "pregunta": "¿Con qué vemos?",
+   "correcta": "Con los ojos",
+   "incorrectas": [
+    "Con las orejas",
+    "Con la nariz",
+    "Con las manos"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "👂",
+   "pregunta": "¿Con qué escuchamos?",
+   "correcta": "Con las orejas",
+   "incorrectas": [
+    "Con los ojos",
+    "Con la boca",
+    "Con los pies"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "👃",
+   "pregunta": "¿Con qué olemos?",
+   "correcta": "Con la nariz",
+   "incorrectas": [
+    "Con los ojos",
+    "Con las manos",
+    "Con las orejas"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "👄",
+   "pregunta": "¿Con qué hablamos?",
+   "correcta": "Con la boca",
+   "incorrectas": [
+    "Con la nariz",
+    "Con las orejas",
+    "Con los ojos"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "✋",
+   "pregunta": "¿Con qué agarramos las cosas?",
+   "correcta": "Con las manos",
+   "incorrectas": [
+    "Con los ojos",
+    "Con las orejas",
+    "Con la nariz"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🍽️",
+   "pregunta": "¿Con qué comemos?",
+   "correcta": "Con la boca",
+   "incorrectas": [
+    "Con los ojos",
+    "Con las orejas",
+    "Con los pies"
+   ]
+  },
+  {
+   "tipo": "numero",
+   "visual": "👀",
+   "pregunta": "¿Cuántos ojos tenemos?",
+   "correcta": "2"
+  },
+  {
+   "tipo": "numero",
+   "visual": "✋",
+   "pregunta": "¿Cuántos dedos tiene una mano?",
+   "correcta": "5"
+  },
+  {
+   "tipo": "numero",
+   "visual": "👂",
+   "pregunta": "¿Cuántas orejas tenemos?",
+   "correcta": "2"
+  },
+  {
+   "tipo": "numero",
+   "visual": "👃",
+   "pregunta": "¿Cuántas narices tenemos?",
+   "correcta": "1"
+  }
+ ]
+}

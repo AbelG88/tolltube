@@ -1,0 +1,118 @@
+{
+ "formato": 1,
+ "nombre": "Sonidos de animales",
+ "descripcion": "Qué animal hace cada sonido",
+ "edad": "3 a 6 años",
+ "ejercicios": [
+  {
+   "tipo": "opciones",
+   "visual": "🔊 Guau guau",
+   "pregunta": "¿Qué animal hace así?",
+   "correcta": "Perro",
+   "incorrectas": [
+    "Gato",
+    "Vaca",
+    "Pato"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🔊 Miau",
+   "pregunta": "¿Qué animal hace así?",
+   "correcta": "Gato",
+   "incorrectas": [
+    "Perro",
+    "Vaca",
+    "Gallina"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🔊 Muuu",
+   "pregunta": "¿Qué animal hace así?",
+   "correcta": "Vaca",
+   "incorrectas": [
+    "Perro",
+    "Gato",
+    "Cerdo"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🔊 Cuac cuac",
+   "pregunta": "¿Qué animal hace así?",
+   "correcta": "Pato",
+   "incorrectas": [
+    "Gato",
+    "Caballo",
+    "Vaca"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🔊 Pío pío",
+   "pregunta": "¿Qué animal hace así?",
+   "correcta": "Pollito",
+   "incorrectas": [
+    "Perro",
+    "Vaca",
+    "Gato"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🔊 Oinc oinc",
+   "pregunta": "¿Qué animal hace así?",
+   "correcta": "Cerdo",
+   "incorrectas": [
+    "Pato",
+    "Gato",
+    "Perro"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🔊 Beee",
+   "pregunta": "¿Qué animal hace así?",
+   "correcta": "Oveja",
+   "incorrectas": [
+    "Vaca",
+    "Perro",
+    "Pato"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🔊 Croac",
+   "pregunta": "¿Qué animal hace así?",
+   "correcta": "Rana",
+   "incorrectas": [
+    "Gato",
+    "Perro",
+    "Vaca"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🔊 Grrr",
+   "pregunta": "¿Qué animal hace así?",
+   "correcta": "León",
+   "incorrectas": [
+    "Pato",
+    "Gato",
+    "Rana"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🔊 Iiiih",
+   "pregunta": "¿Qué animal hace así?",
+   "correcta": "Caballo",
+   "incorrectas": [
+    "Gato",
+    "Perro",
+    "Pato"
+   ]
+  }
+ ]
+}

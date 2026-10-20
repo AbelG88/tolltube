@@ -9,6 +9,7 @@ import android.os.Looper
 import android.provider.Settings
 import android.widget.Button
 import android.widget.CheckBox
+import android.widget.LinearLayout
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
@@ -121,6 +122,7 @@ class MainActivity : AppCompatActivity() {
         PinGate.exigir(this)
         arrancarMonitorSiCorresponde()
         mostrarHistorial()
+        refrescarModulos()
         handler.post(refrescarEstado)
     }
 
@@ -245,15 +247,76 @@ class MainActivity : AppCompatActivity() {
         casillas.forEach { (_, casilla) ->
             casilla.setOnCheckedChangeListener { _, _ ->
                 val elegidos = casillas.filter { it.value.isChecked }.keys
-                if (elegidos.isEmpty()) {
-                    // Tiene que quedar al menos un tipo: se vuelve a tildar la que se acaba de sacar
+                if (elegidos.isEmpty() && !ModulosStore.hayActivos(this)) {
+                    // Tiene que quedar al menos una opción (de fábrica o módulo)
                     casilla.isChecked = true
-                    Toast.makeText(this, "Tiene que quedar al menos un tipo", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Tiene que quedar al menos un tipo o módulo", Toast.LENGTH_SHORT).show()
                 } else {
                     SettingsStore.setTipos(this, elegidos)
                     PeajeLog.d("AJUSTES tipos de ejercicio: ${elegidos.joinToString { it.clave }}")
                 }
             }
+        }
+        refrescarModulos()
+    }
+
+    private fun fabricaTildados(): Int =
+        listOf(R.id.cbSuma, R.id.cbResta, R.id.cbContar).count { findViewById<CheckBox>(it).isChecked }
+
+    /** Los módulos importados aparecen junto a los tipos de fábrica, con otro color y su botón "Quitar". */
+    private fun refrescarModulos() {
+        val cont = findViewById<LinearLayout>(R.id.llModulos)
+        cont.removeAllViews()
+        val d = resources.displayMetrics.density
+        ModulosStore.listar(this).forEach { m ->
+            val fila = LinearLayout(this).apply {
+                orientation = LinearLayout.HORIZONTAL
+                gravity = android.view.Gravity.CENTER_VERTICAL
+                setBackgroundColor(0xFFE8F0FE.toInt())
+                setPadding((8 * d).toInt(), 0, (8 * d).toInt(), 0)
+                layoutParams = LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT
+                ).apply { topMargin = (4 * d).toInt() }
+            }
+            val cb = CheckBox(this).apply {
+                text = "📦 ${m.nombre}" + (if (m.edad.isNotEmpty()) " (${m.edad})" else "")
+                textSize = 16f
+                isChecked = ModulosStore.activo(this@MainActivity, m.id)
+                layoutParams = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
+                setOnCheckedChangeListener { _, v ->
+                    val otrosActivos = ModulosStore.listar(this@MainActivity)
+                        .any { it.id != m.id && ModulosStore.activo(this@MainActivity, it.id) }
+                    if (!v && fabricaTildados() == 0 && !otrosActivos) {
+                        isChecked = true
+                        Toast.makeText(this@MainActivity, "Tiene que quedar al menos un tipo o módulo", Toast.LENGTH_SHORT).show()
+                    } else {
+                        ModulosStore.setActivo(this@MainActivity, m.id, v)
+                        PeajeLog.d("AJUSTES módulo '${m.nombre}': $v")
+                    }
+                }
+            }
+            val quitar = Button(this).apply {
+                text = "Quitar"
+                setOnClickListener {
+                    androidx.appcompat.app.AlertDialog.Builder(this@MainActivity)
+                        .setTitle("¿Quitar el módulo?")
+                        .setMessage(m.nombre)
+                        .setPositiveButton("Quitar") { _, _ ->
+                            ModulosStore.borrar(this@MainActivity, m.id)
+                            if (fabricaTildados() == 0 && !ModulosStore.hayActivos(this@MainActivity)) {
+                                // No puede quedar sin ejercicios: se vuelven a activar los de fábrica
+                                listOf(R.id.cbSuma, R.id.cbResta, R.id.cbContar)
+                                    .forEach { findViewById<CheckBox>(it).isChecked = true }
+                            }
+                            refrescarModulos()
+                        }
+                        .setNegativeButton("Cancelar", null)
+                        .show()
+                }
+            }
+            fila.addView(cb)
+            fila.addView(quitar)
+            cont.addView(fila)
         }
     }
 

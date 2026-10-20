@@ -1,0 +1,129 @@
+{
+ "formato": 1,
+ "nombre": "Días y meses",
+ "descripcion": "Calendario",
+ "edad": "5 a 8 años",
+ "ejercicios": [
+  {
+   "tipo": "opciones",
+   "visual": "📅",
+   "pregunta": "¿Qué día viene después del lunes?",
+   "correcta": "Martes",
+   "incorrectas": [
+    "Jueves",
+    "Domingo",
+    "Viernes"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "📅",
+   "pregunta": "¿Qué día viene después del martes?",
+   "correcta": "Miércoles",
+   "incorrectas": [
+    "Lunes",
+    "Viernes",
+    "Sábado"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "📅",
+   "pregunta": "¿Qué día viene después del miércoles?",
+   "correcta": "Jueves",
+   "incorrectas": [
+    "Lunes",
+    "Domingo",
+    "Martes"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "📅",
+   "pregunta": "¿Qué día viene después del jueves?",
+   "correcta": "Viernes",
+   "incorrectas": [
+    "Lunes",
+    "Martes",
+    "Miércoles"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "📅",
+   "pregunta": "¿Qué día viene después del viernes?",
+   "correcta": "Sábado",
+   "incorrectas": [
+    "Lunes",
+    "Jueves",
+    "Martes"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "📅",
+   "pregunta": "¿Qué día viene después del sábado?",
+   "correcta": "Domingo",
+   "incorrectas": [
+    "Lunes",
+    "Martes",
+    "Viernes"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "📅",
+   "pregunta": "¿Qué día viene después del domingo?",
+   "correcta": "Lunes",
+   "incorrectas": [
+    "Sábado",
+    "Martes",
+    "Viernes"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🗓️",
+   "pregunta": "¿Cuál es el primer mes del año?",
+   "correcta": "Enero",
+   "incorrectas": [
+    "Marzo",
+    "Julio",
+    "Diciembre"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🗓️",
+   "pregunta": "¿Cuál es el último mes del año?",
+   "correcta": "Diciembre",
+   "incorrectas": [
+    "Enero",
+    "Junio",
+    "Octubre"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🎄",
+   "pregunta": "¿En qué mes es Navidad?",
+   "correcta": "Diciembre",
+   "incorrectas": [
+    "Enero",
+    "Marzo",
+    "Julio"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🎆",
+   "pregunta": "¿Qué mes viene después de enero?",
+   "correcta": "Febrero",
+   "incorrectas": [
+    "Marzo",
+    "Mayo",
+    "Abril"
+   ]
+  }
+ ]
+}

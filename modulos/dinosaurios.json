@@ -1,0 +1,110 @@
+{
+ "formato": 1,
+ "nombre": "Los dinosaurios",
+ "descripcion": "Ejercicios sobre dinosaurios",
+ "edad": "4 a 7 años",
+ "ejercicios": [
+  {
+   "tipo": "opciones",
+   "visual": "🦖",
+   "pregunta": "¿Cómo se llama este dinosaurio?",
+   "correcta": "T-Rex",
+   "incorrectas": [
+    "Perro",
+    "Gato",
+    "Vaca"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🦕",
+   "pregunta": "¿Qué dinosaurio tiene el cuello muy largo?",
+   "correcta": "Diplodocus",
+   "incorrectas": [
+    "T-Rex",
+    "Pez",
+    "Pato"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🦖",
+   "pregunta": "El T-Rex comía...",
+   "correcta": "Carne",
+   "incorrectas": [
+    "Pasto",
+    "Helado",
+    "Pan"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🦕",
+   "pregunta": "El Diplodocus comía...",
+   "correcta": "Plantas",
+   "incorrectas": [
+    "Carne",
+    "Pizza",
+    "Peces"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🥚",
+   "pregunta": "¿De dónde nacían los dinosaurios?",
+   "correcta": "De un huevo",
+   "incorrectas": [
+    "De una semilla",
+    "De una flor",
+    "De una nube"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "☄️",
+   "pregunta": "Los dinosaurios ya no existen. ¿Hace mucho que vivieron?",
+   "correcta": "Sí, muchísimo",
+   "incorrectas": [
+    "No, ayer",
+    "Viven en mi casa",
+    "No sé"
+   ]
+  },
+  {
+   "tipo": "numero",
+   "visual": "🦕🦕🦕",
+   "pregunta": "¿Cuántos dinosaurios hay?",
+   "correcta": "3"
+  },
+  {
+   "tipo": "numero",
+   "visual": "🦖🦖",
+   "pregunta": "¿Cuántos T-Rex hay?",
+   "correcta": "2"
+  },
+  {
+   "tipo": "numero",
+   "visual": "🦕🦕🦕🦕🦕",
+   "pregunta": "¿Cuántos dinosaurios hay?",
+   "correcta": "5"
+  },
+  {
+   "tipo": "numero",
+   "visual": "🦖🦖🦖🦖",
+   "pregunta": "¿Cuántos T-Rex hay?",
+   "correcta": "4"
+  },
+  {
+   "tipo": "numero",
+   "visual": "🦖\n➕\n🦖🦖",
+   "pregunta": "¿Cuántos dinosaurios hay en total?",
+   "correcta": "3"
+  },
+  {
+   "tipo": "numero",
+   "visual": "🦕🦕🦕🦕\n➖\n🦕",
+   "pregunta": "Había 4 y se fue 1. ¿Cuántos quedan?",
+   "correcta": "3"
+  }
+ ]
+}

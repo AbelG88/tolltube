@@ -1,0 +1,107 @@
+{
+ "formato": 1,
+ "nombre": "El clima",
+ "descripcion": "Reconocer el clima",
+ "edad": "3 a 7 años",
+ "ejercicios": [
+  {
+   "tipo": "opciones",
+   "visual": "☀️",
+   "pregunta": "¿Qué clima es?",
+   "correcta": "Sol",
+   "incorrectas": [
+    "Nubes",
+    "Lluvia",
+    "Nieve"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🌧️",
+   "pregunta": "¿Qué clima es?",
+   "correcta": "Lluvia",
+   "incorrectas": [
+    "Viento",
+    "Arco iris",
+    "Rayo"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "❄️",
+   "pregunta": "¿Qué clima es?",
+   "correcta": "Nieve",
+   "incorrectas": [
+    "Sol",
+    "Arco iris",
+    "Rayo"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🌈",
+   "pregunta": "¿Qué clima es?",
+   "correcta": "Arco iris",
+   "incorrectas": [
+    "Sol",
+    "Nubes",
+    "Viento"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "☁️",
+   "pregunta": "¿Qué clima es?",
+   "correcta": "Nubes",
+   "incorrectas": [
+    "Lluvia",
+    "Viento",
+    "Sol"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "⚡",
+   "pregunta": "¿Qué clima es?",
+   "correcta": "Rayo",
+   "incorrectas": [
+    "Sol",
+    "Viento",
+    "Arco iris"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "💨",
+   "pregunta": "¿Qué clima es?",
+   "correcta": "Viento",
+   "incorrectas": [
+    "Arco iris",
+    "Lluvia",
+    "Nubes"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "☂️",
+   "pregunta": "¿Cuándo usamos paraguas?",
+   "correcta": "Cuando llueve",
+   "incorrectas": [
+    "Cuando hay sol",
+    "Cuando es de noche",
+    "Cuando comemos"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🧥",
+   "pregunta": "¿Cuándo usamos abrigo?",
+   "correcta": "Cuando hace frío",
+   "incorrectas": [
+    "Cuando hace calor",
+    "En la pileta",
+    "En la playa"
+   ]
+  }
+ ]
+}

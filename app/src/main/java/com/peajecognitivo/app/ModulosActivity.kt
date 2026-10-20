@@ -19,8 +19,6 @@ import androidx.appcompat.app.AppCompatActivity
 /** Pantalla para importar, activar y quitar módulos de ejercicios (archivos JSON). */
 class ModulosActivity : AppCompatActivity() {
 
-    private lateinit var lista: LinearLayout
-
     private val selector =
         registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri: Uri? ->
             if (uri != null) importar(uri)
@@ -43,43 +41,15 @@ class ModulosActivity : AppCompatActivity() {
             setTextColor(0xFF333333.toInt())
         })
         raiz.addView(TextView(this).apply {
-            text = "Paquetes de ejercicios temáticos o por edad, en archivos .json. Se mezclan con los de fábrica o los reemplazan."
+            text = "Paquetes de ejercicios temáticos o por edad, en archivos .json. Al importar uno vas a volver a la pantalla principal, donde aparece junto a los tipos de ejercicio para activarlo o quitarlo."
             textSize = 14f
             setPadding(0, dp(8), 0, dp(12))
         })
-
-        val swFabrica = Switch(this).apply {
-            text = "Usar también los ejercicios de fábrica"
-            textSize = 16f
-            isChecked = SettingsStore.getFabrica(this@ModulosActivity)
-            setOnCheckedChangeListener { _, v ->
-                SettingsStore.setFabrica(this@ModulosActivity, v)
-                PeajeLog.d("AJUSTES ejercicios de fábrica: $v")
-                if (!v && !ModulosStore.hayActivos(this@ModulosActivity)) {
-                    Toast.makeText(
-                        this@ModulosActivity,
-                        "Sin módulos activos se usan los de fábrica igual",
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
-            }
-        }
-        raiz.addView(swFabrica)
 
         raiz.addView(Button(this).apply {
             text = "📥 Importar módulo (.json)"
             setOnClickListener { selector.launch(arrayOf("*/*")) }
         })
-
-        raiz.addView(TextView(this).apply {
-            text = "Módulos cargados"
-            textSize = 18f
-            setTextColor(0xFF333333.toInt())
-            setPadding(0, dp(20), 0, dp(4))
-        })
-
-        lista = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL }
-        raiz.addView(lista)
 
         raiz.addView(TextView(this).apply {
             text = "¿Cómo armar un módulo?"
@@ -104,7 +74,6 @@ class ModulosActivity : AppCompatActivity() {
             setBackgroundColor(0xFFF5F5F5.toInt())
             addView(raiz)
         })
-        refrescar()
     }
 
     override fun onResume() {
@@ -121,7 +90,7 @@ class ModulosActivity : AppCompatActivity() {
             }
             val m = ModulosStore.importar(this, String(bytes, Charsets.UTF_8))
             Toast.makeText(this, "Módulo \"${m.nombre}\" importado (${m.items.size} ejercicios) ✓", Toast.LENGTH_LONG).show()
-            refrescar()
+            finish() // vuelve a la pantalla principal, donde aparece el módulo
         } catch (e: IllegalArgumentException) {
             PeajeLog.d("MODULOS importación rechazada: ${e.message}")
             AlertDialog.Builder(this)
@@ -132,45 +101,6 @@ class ModulosActivity : AppCompatActivity() {
         } catch (e: Exception) {
             PeajeLog.d("MODULOS error al importar: ${e.javaClass.simpleName}: ${e.message}")
             Toast.makeText(this, "No se pudo leer el archivo", Toast.LENGTH_LONG).show()
-        }
-    }
-
-    private fun refrescar() {
-        lista.removeAllViews()
-        val modulos = ModulosStore.listar(this)
-        if (modulos.isEmpty()) {
-            lista.addView(TextView(this).apply {
-                text = "Todavía no hay módulos importados."
-                textSize = 14f
-            })
-            return
-        }
-        modulos.forEach { m ->
-            val detalle = listOf(m.edad, "${m.items.size} ejercicios").filter { it.isNotEmpty() }.joinToString(" · ")
-            lista.addView(Switch(this).apply {
-                text = "${m.nombre}\n$detalle"
-                textSize = 16f
-                isChecked = ModulosStore.activo(this@ModulosActivity, m.id)
-                setOnCheckedChangeListener { _, v ->
-                    ModulosStore.setActivo(this@ModulosActivity, m.id, v)
-                    PeajeLog.d("AJUSTES módulo '${m.nombre}': $v")
-                }
-            })
-            lista.addView(Button(this).apply {
-                text = "Quitar \"${m.nombre}\""
-                visibility = View.VISIBLE
-                setOnClickListener {
-                    AlertDialog.Builder(this@ModulosActivity)
-                        .setTitle("¿Quitar el módulo?")
-                        .setMessage(m.nombre)
-                        .setPositiveButton("Quitar") { _, _ ->
-                            ModulosStore.borrar(this@ModulosActivity, m.id)
-                            refrescar()
-                        }
-                        .setNegativeButton("Cancelar", null)
-                        .show()
-                }
-            })
         }
     }
 }

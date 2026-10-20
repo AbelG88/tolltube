@@ -1,0 +1,173 @@
+{
+ "formato": 1,
+ "nombre": "Los transportes",
+ "descripcion": "Medios de transporte",
+ "edad": "3 a 7 años",
+ "ejercicios": [
+  {
+   "tipo": "opciones",
+   "visual": "🚗",
+   "pregunta": "¿Qué transporte es?",
+   "correcta": "Auto",
+   "incorrectas": [
+    "Helicóptero",
+    "Ambulancia",
+    "Tren"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🚌",
+   "pregunta": "¿Qué transporte es?",
+   "correcta": "Colectivo",
+   "incorrectas": [
+    "Tractor",
+    "Tren",
+    "Barco"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🚲",
+   "pregunta": "¿Qué transporte es?",
+   "correcta": "Bicicleta",
+   "incorrectas": [
+    "Ambulancia",
+    "Auto",
+    "Colectivo"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "✈️",
+   "pregunta": "¿Qué transporte es?",
+   "correcta": "Avión",
+   "incorrectas": [
+    "Ambulancia",
+    "Barco",
+    "Camión de bomberos"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🚂",
+   "pregunta": "¿Qué transporte es?",
+   "correcta": "Tren",
+   "incorrectas": [
+    "Tractor",
+    "Colectivo",
+    "Barco"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🚢",
+   "pregunta": "¿Qué transporte es?",
+   "correcta": "Barco",
+   "incorrectas": [
+    "Helicóptero",
+    "Avión",
+    "Tractor"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🚁",
+   "pregunta": "¿Qué transporte es?",
+   "correcta": "Helicóptero",
+   "incorrectas": [
+    "Tren",
+    "Auto",
+    "Colectivo"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🚒",
+   "pregunta": "¿Qué transporte es?",
+   "correcta": "Camión de bomberos",
+   "incorrectas": [
+    "Cohete",
+    "Colectivo",
+    "Helicóptero"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🚑",
+   "pregunta": "¿Qué transporte es?",
+   "correcta": "Ambulancia",
+   "incorrectas": [
+    "Colectivo",
+    "Tren",
+    "Helicóptero"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🚜",
+   "pregunta": "¿Qué transporte es?",
+   "correcta": "Tractor",
+   "incorrectas": [
+    "Colectivo",
+    "Auto",
+    "Cohete"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🚀",
+   "pregunta": "¿Qué transporte es?",
+   "correcta": "Cohete",
+   "incorrectas": [
+    "Avión",
+    "Moto",
+    "Auto"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🛵",
+   "pregunta": "¿Qué transporte es?",
+   "correcta": "Moto",
+   "incorrectas": [
+    "Camión de bomberos",
+    "Helicóptero",
+    "Tractor"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🌊",
+   "pregunta": "¿Cuál va por el agua?",
+   "correcta": "Barco",
+   "incorrectas": [
+    "Auto",
+    "Tren",
+    "Bicicleta"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "☁️",
+   "pregunta": "¿Cuál vuela por el cielo?",
+   "correcta": "Avión",
+   "incorrectas": [
+    "Barco",
+    "Colectivo",
+    "Tractor"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🛤️",
+   "pregunta": "¿Cuál va por las vías?",
+   "correcta": "Tren",
+   "incorrectas": [
+    "Avión",
+    "Barco",
+    "Moto"
+   ]
+  }
+ ]
+}

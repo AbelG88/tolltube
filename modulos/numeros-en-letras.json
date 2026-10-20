@@ -1,0 +1,74 @@
+{
+ "formato": 1,
+ "nombre": "Números en letras",
+ "descripcion": "Leer el número escrito",
+ "edad": "5 a 8 años",
+ "ejercicios": [
+  {
+   "tipo": "numero",
+   "visual": "✏️",
+   "pregunta": "¿Qué número es \"cero\"?",
+   "correcta": "0"
+  },
+  {
+   "tipo": "numero",
+   "visual": "✏️",
+   "pregunta": "¿Qué número es \"uno\"?",
+   "correcta": "1"
+  },
+  {
+   "tipo": "numero",
+   "visual": "✏️",
+   "pregunta": "¿Qué número es \"dos\"?",
+   "correcta": "2"
+  },
+  {
+   "tipo": "numero",
+   "visual": "✏️",
+   "pregunta": "¿Qué número es \"tres\"?",
+   "correcta": "3"
+  },
+  {
+   "tipo": "numero",
+   "visual": "✏️",
+   "pregunta": "¿Qué número es \"cuatro\"?",
+   "correcta": "4"
+  },
+  {
+   "tipo": "numero",
+   "visual": "✏️",
+   "pregunta": "¿Qué número es \"cinco\"?",
+   "correcta": "5"
+  },
+  {
+   "tipo": "numero",
+   "visual": "✏️",
+   "pregunta": "¿Qué número es \"seis\"?",
+   "correcta": "6"
+  },
+  {
+   "tipo": "numero",
+   "visual": "✏️",
+   "pregunta": "¿Qué número es \"siete\"?",
+   "correcta": "7"
+  },
+  {
+   "tipo": "numero",
+   "visual": "✏️",
+   "pregunta": "¿Qué número es \"ocho\"?",
+   "correcta": "8"
+  },
+  {
+   "tipo": "numero",
+   "visual": "✏️",
+   "pregunta": "¿Qué número es \"nueve\"?",
+   "correcta": "9"
+  },
+  {
+   "tipo": "numero",
+   "visual": "✏️",
+   "pregunta": "¿Qué número es \"diez\"?",
+   "correcta": "10"
+  }
+ ]
+}

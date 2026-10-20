@@ -19,12 +19,12 @@ object ExerciseGenerator {
         val tipos = SettingsStore.getTipos(context).toList()
         val nivel = SettingsStore.getNivel(context)
         val hayModulos = ModulosStore.hayActivos(context)
-        val usarFabrica = SettingsStore.getFabrica(context) || !hayModulos
 
         fun uno(): Exercise {
-            // Los módulos activos cuentan como un tipo más (o son lo único si se apagó "de fábrica")
-            val deModulo = hayModulos && (!usarFabrica || Random.nextInt(tipos.size + 1) == tipos.size)
-            return (if (deModulo) ModulosStore.alAzar(context) else null) ?: generar(tipos.random(), nivel)
+            // Los módulos activos cuentan como una opción más junto a los tipos de fábrica tildados
+            val deModulo = hayModulos && (tipos.isEmpty() || Random.nextInt(tipos.size + 1) == tipos.size)
+            if (deModulo) ModulosStore.alAzar(context)?.let { return it }
+            return generar(if (tipos.isEmpty()) ExerciseType.SUMA else tipos.random(), nivel)
         }
 
         var ejercicio = uno()

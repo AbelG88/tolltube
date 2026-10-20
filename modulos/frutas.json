@@ -1,0 +1,129 @@
+{
+ "formato": 1,
+ "nombre": "Las frutas",
+ "descripcion": "Reconocer frutas",
+ "edad": "3 a 7 años",
+ "ejercicios": [
+  {
+   "tipo": "opciones",
+   "visual": "🍎",
+   "pregunta": "¿Qué fruta es?",
+   "correcta": "Manzana",
+   "incorrectas": [
+    "Durazno",
+    "Ananá",
+    "Limón"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🍌",
+   "pregunta": "¿Qué fruta es?",
+   "correcta": "Banana",
+   "incorrectas": [
+    "Durazno",
+    "Ananá",
+    "Naranja"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🍓",
+   "pregunta": "¿Qué fruta es?",
+   "correcta": "Frutilla",
+   "incorrectas": [
+    "Uva",
+    "Ananá",
+    "Durazno"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🍇",
+   "pregunta": "¿Qué fruta es?",
+   "correcta": "Uva",
+   "incorrectas": [
+    "Limón",
+    "Frutilla",
+    "Banana"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🍊",
+   "pregunta": "¿Qué fruta es?",
+   "correcta": "Naranja",
+   "incorrectas": [
+    "Durazno",
+    "Cereza",
+    "Frutilla"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🍒",
+   "pregunta": "¿Qué fruta es?",
+   "correcta": "Cereza",
+   "incorrectas": [
+    "Banana",
+    "Ananá",
+    "Manzana"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🍉",
+   "pregunta": "¿Qué fruta es?",
+   "correcta": "Sandía",
+   "incorrectas": [
+    "Limón",
+    "Pera",
+    "Durazno"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🍐",
+   "pregunta": "¿Qué fruta es?",
+   "correcta": "Pera",
+   "incorrectas": [
+    "Limón",
+    "Frutilla",
+    "Manzana"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🍑",
+   "pregunta": "¿Qué fruta es?",
+   "correcta": "Durazno",
+   "incorrectas": [
+    "Ananá",
+    "Banana",
+    "Manzana"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🍍",
+   "pregunta": "¿Qué fruta es?",
+   "correcta": "Ananá",
+   "incorrectas": [
+    "Manzana",
+    "Uva",
+    "Durazno"
+   ]
+  },
+  {
+   "tipo": "opciones",
+   "visual": "🍋",
+   "pregunta": "¿Qué fruta es?",
+   "correcta": "Limón",
+   "incorrectas": [
+    "Ananá",
+    "Manzana",
+    "Pera"
+   ]
+  }
+ ]
+}

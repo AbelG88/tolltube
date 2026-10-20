@@ -31,18 +31,14 @@ object SettingsStore {
             .apply()
     }
 
-    /** Tipos de ejercicio habilitados. Si no hay nada guardado, están todos. Nunca devuelve vacío. */
+    /** Tipos de fábrica habilitados. Sin nada guardado están todos; puede quedar vacío si hay módulos activos. */
     fun getTipos(context: Context): Set<ExerciseType> {
-        val guardados = prefs(context).getStringSet(KEY_TIPOS, null)
-        val tipos: Set<ExerciseType> =
-            guardados?.mapNotNull { ExerciseType.desdeClave(it) }?.toSet() ?: emptySet()
-        val todos = ExerciseType.values().filter { it != ExerciseType.MODULOS }.toSet()
-        val propios = tipos.filter { it != ExerciseType.MODULOS }.toSet()
-        return if (propios.isEmpty()) todos else propios
+        val fabrica = ExerciseType.values().filter { it != ExerciseType.MODULOS }.toSet()
+        val guardados = prefs(context).getStringSet(KEY_TIPOS, null) ?: return fabrica
+        return guardados.mapNotNull { ExerciseType.desdeClave(it) }.filter { it in fabrica }.toSet()
     }
 
     fun setTipos(context: Context, tipos: Set<ExerciseType>) {
-        if (tipos.isEmpty()) return
         prefs(context).edit()
             .putStringSet(KEY_TIPOS, tipos.map { it.clave }.toSet())
             .apply()
@@ -74,13 +70,6 @@ object SettingsStore {
 
     fun setSoloReproduciendo(context: Context, v: Boolean) {
         prefs(context).edit().putBoolean("solo_reproduciendo", v).apply()
-    }
-
-    /** Si también se usan los ejercicios de fábrica (con módulos activos se pueden dejar solo los módulos). */
-    fun getFabrica(context: Context): Boolean = prefs(context).getBoolean("fabrica", true)
-
-    fun setFabrica(context: Context, v: Boolean) {
-        prefs(context).edit().putBoolean("fabrica", v).apply()
     }
 
     /** Interruptor general. Apagado: el peaje no aparece nunca (solo el botón de prueba). */

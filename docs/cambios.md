@@ -150,3 +150,8 @@ Resultado de probar la 1.1: no apareció el overlay, aun con los permisos dados.
 - De fábrica quedan solo **Sumas, Restas y Contar** (se generan con código).
 - Animales, Objetos, Emociones, Colores, Formas, Letras y Secuencias pasaron a **módulos** `.json` en la carpeta `modulos/` del repo. Ya no vienen instalados: se importan desde "📦 Módulos de ejercicios".
 - Cada release del APK también adjunta los `.json` de `modulos/` para bajarlos directo desde el teléfono.
+
+## Release 13 — 2.3-MVP: módulos en la pantalla principal + 9 módulos nuevos
+- Los módulos importados aparecen en la pantalla principal junto a los tipos de ejercicio, con fondo celeste, casilla de activado y botón "Quitar". Los de fábrica (Sumas, Restas, Contar) no tienen "Quitar".
+- Al importar un módulo se vuelve a la pantalla principal. Se eliminó el interruptor "usar los de fábrica": ahora se destildan los de fábrica directamente (tiene que quedar al menos un tipo o módulo activo).
+- Módulos nuevos en `modulos/`: Dinosaurios, Frutas, Transportes, Clima, Cuerpo humano, Sonidos de animales, Números de todos los días, Números en letras, Días y meses.

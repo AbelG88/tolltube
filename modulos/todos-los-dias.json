@@ -1,0 +1,80 @@
+{
+ "formato": 1,
+ "nombre": "Números de todos los días",
+ "descripcion": "Datos para contar con números",
+ "edad": "4 a 8 años",
+ "ejercicios": [
+  {
+   "tipo": "numero",
+   "visual": "📅",
+   "pregunta": "¿Cuántos días tiene una semana?",
+   "correcta": "7"
+  },
+  {
+   "tipo": "numero",
+   "visual": "🗓️",
+   "pregunta": "¿Cuántos meses tiene un año?",
+   "correcta": "12"
+  },
+  {
+   "tipo": "numero",
+   "visual": "🐶",
+   "pregunta": "¿Cuántas patas tiene un perro?",
+   "correcta": "4"
+  },
+  {
+   "tipo": "numero",
+   "visual": "🐦",
+   "pregunta": "¿Cuántas patas tiene un pájaro?",
+   "correcta": "2"
+  },
+  {
+   "tipo": "numero",
+   "visual": "🚗",
+   "pregunta": "¿Cuántas ruedas tiene un auto?",
+   "correcta": "4"
+  },
+  {
+   "tipo": "numero",
+   "visual": "🚲",
+   "pregunta": "¿Cuántas ruedas tiene una bicicleta?",
+   "correcta": "2"
+  },
+  {
+   "tipo": "numero",
+   "visual": "🕷️",
+   "pregunta": "¿Cuántas patas tiene una araña?",
+   "correcta": "8"
+  },
+  {
+   "tipo": "numero",
+   "visual": "🌈",
+   "pregunta": "¿Cuántos colores tiene el arco iris?",
+   "correcta": "7"
+  },
+  {
+   "tipo": "numero",
+   "visual": "🎲",
+   "pregunta": "¿Cuántos puntitos tiene la cara más grande de un dado?",
+   "correcta": "6"
+  },
+  {
+   "tipo": "numero",
+   "visual": "🖐️🖐️",
+   "pregunta": "¿Cuántos dedos hay en dos manos?",
+   "correcta": "10"
+  },
+  {
+   "tipo": "numero",
+   "visual": "🔺",
+   "pregunta": "¿Cuántos lados tiene un triángulo?",
+   "correcta": "3"
+  },
+  {
+   "tipo": "numero",
+   "visual": "⬛",
+   "pregunta": "¿Cuántos lados tiene un cuadrado?",
+   "correcta": "4"
+  }
+ ]
+}
