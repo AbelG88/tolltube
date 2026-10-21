@@ -1,7 +1,7 @@
 # Política de privacidad — Peaje Cognitivo
 
 **Última actualización:** 21 de octubre de 2026
-**Responsable:** Abel García — contacto: [COMPLETAR: correo de contacto]
+**Responsable:** Abel García — contacto: newbiegnu@gmail.com
 
 Peaje Cognitivo es una aplicación de control parental para Android. Cuando un chico abre YouTube, la app le muestra ejercicios educativos antes de que pueda seguir mirando. Esta política explica qué información usa la app y qué hace con ella.
 
@@ -37,4 +37,4 @@ Los datos viven solo en el teléfono. Se pueden borrar desde la app (historial) 
 Si esta política cambia, se actualizará esta página y la fecha de arriba.
 
 ## Contacto
-Dudas o pedidos: [COMPLETAR: correo de contacto]
+Dudas o pedidos: newbiegnu@gmail.com

@@ -164,4 +164,4 @@ Resultado de probar la 1.1: no apareció el overlay, aun con los permisos dados.
 
 ## Release 15 — 3.0.1-MVP: privacidad
 - `android:allowBackup="false"`: el PIN y el progreso no se copian a la nube de Google (coherente con la política).
-- Nuevos docs: `docs/politica-de-privacidad.md` (borrador, falta el correo de contacto) y `docs/play-seguridad-de-datos.md` (respuestas sugeridas del formulario).
+- Nuevos docs: `docs/politica-de-privacidad.md` y `docs/play-seguridad-de-datos.md` (respuestas sugeridas del formulario).
