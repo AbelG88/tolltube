@@ -11,8 +11,8 @@ android {
         applicationId = "com.peajecognitivo.app"
         minSdk = 26
         targetSdk = 34
-        versionCode = 18
-        versionName = "2.3-MVP"
+        versionCode = 19
+        versionName = "3.0-MVP"
     }
 
     // Firma fija para debug: así cada build nuevo se instala ENCIMA del anterior
@@ -26,8 +26,33 @@ android {
         }
     }
 
+    buildFeatures {
+        buildConfig = true
+    }
+
+    // Firma de SUBIDA para Google Play (bundle .aab). Los datos vienen de variables de entorno
+    // (en GitHub Actions, de los "secrets"); la clave NUNCA se guarda en el repo.
+    val claveRelease = System.getenv("RELEASE_KEYSTORE_FILE")
+    if (!claveRelease.isNullOrEmpty()) {
+        signingConfigs {
+            create("release") {
+                storeFile = file(claveRelease)
+                storePassword = System.getenv("RELEASE_KEYSTORE_PASSWORD")
+                keyAlias = System.getenv("RELEASE_KEY_ALIAS")
+                keyPassword = System.getenv("RELEASE_KEY_PASSWORD")
+            }
+        }
+    }
+
     buildTypes {
+        debug {
+            // Registro de diagnóstico: encendido en las pruebas (APK).
+            buildConfigField("boolean", "LOG_DIAGNOSTICO", "true")
+        }
         release {
+            // Registro de diagnóstico: SIEMPRE apagado en lo que va a Google Play.
+            buildConfigField("boolean", "LOG_DIAGNOSTICO", "false")
+            if (!claveRelease.isNullOrEmpty()) signingConfig = signingConfigs.getByName("release")
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),

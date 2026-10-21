@@ -1,4 +1,3 @@
 <resources>
     <string name="app_name">Peaje Cognitivo</string>
-    <string name="accessibility_desc">Peaje Cognitivo detecta cuando se abre YouTube para aplicar pausas educativas.</string>
 </resources>

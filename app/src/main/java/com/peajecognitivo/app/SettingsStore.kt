@@ -58,13 +58,6 @@ object SettingsStore {
     }
 
     /** Cómo se detecta YouTube: "uso" (uso de apps, por defecto) o "acc" (accesibilidad, alternativo). */
-    fun getDeteccion(context: Context): String =
-        prefs(context).getString("deteccion", Deteccion.USO) ?: Deteccion.USO
-
-    fun setDeteccion(context: Context, modo: String) {
-        prefs(context).edit().putString("deteccion", modo).apply()
-    }
-
     /** Si está activo, el tiempo solo corre mientras YouTube está en pantalla Y hay audio sonando. */
     fun getSoloReproduciendo(context: Context): Boolean = prefs(context).getBoolean("solo_reproduciendo", true)
 

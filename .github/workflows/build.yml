@@ -29,6 +29,32 @@ jobs:
     - name: Build APK
       run: gradle assembleDebug --no-daemon
       
+    - name: Verificar que compila la variante release (sin registro de diagnóstico)
+      run: gradle assembleRelease --no-daemon
+
+    - name: Build bundle .aab para Google Play (solo si están cargadas las claves)
+      env:
+        KEYSTORE_B64: ${{ secrets.RELEASE_KEYSTORE_B64 }}
+        RELEASE_KEYSTORE_PASSWORD: ${{ secrets.RELEASE_KEYSTORE_PASSWORD }}
+        RELEASE_KEY_ALIAS: ${{ secrets.RELEASE_KEY_ALIAS }}
+        RELEASE_KEY_PASSWORD: ${{ secrets.RELEASE_KEY_PASSWORD }}
+      run: |
+        if [ -n "$KEYSTORE_B64" ]; then
+          echo "$KEYSTORE_B64" | base64 -d > "$RUNNER_TEMP/release.keystore"
+          export RELEASE_KEYSTORE_FILE="$RUNNER_TEMP/release.keystore"
+          gradle bundleRelease --no-daemon
+          cp app/build/outputs/bundle/release/app-release.aab peaje-cognitivo.aab
+        else
+          echo "Sin claves de firma cargadas: se omite el .aab"
+        fi
+
+    - name: Guardar .aab
+      if: hashFiles('peaje-cognitivo.aab') != ''
+      uses: actions/upload-artifact@v4
+      with:
+        name: peaje-cognitivo-aab
+        path: peaje-cognitivo.aab
+
     - name: Upload APK
       uses: actions/upload-artifact@v4
       with:

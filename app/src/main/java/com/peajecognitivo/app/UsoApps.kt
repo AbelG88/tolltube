@@ -73,7 +73,7 @@ object UsoApps {
     fun clasificar(context: Context): Pair<Pantalla, String?> {
         val paquete = actual ?: return Pair(Pantalla.INCIERTO, null)
         val pantalla = when {
-            paquete in PeajeAccessibilityService.YOUTUBE_PACKAGES -> Pantalla.YOUTUBE
+            paquete in Deteccion.YOUTUBE_PACKAGES -> Pantalla.YOUTUBE
             esRuido(context, paquete) -> Pantalla.INCIERTO
             else -> Pantalla.OTRA_APP
         }

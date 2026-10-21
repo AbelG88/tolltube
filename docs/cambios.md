@@ -155,3 +155,9 @@ Resultado de probar la 1.1: no apareció el overlay, aun con los permisos dados.
 - Los módulos importados aparecen en la pantalla principal junto a los tipos de ejercicio, con fondo celeste, casilla de activado y botón "Quitar". Los de fábrica (Sumas, Restas, Contar) no tienen "Quitar".
 - Al importar un módulo se vuelve a la pantalla principal. Se eliminó el interruptor "usar los de fábrica": ahora se destildan los de fábrica directamente (tiene que quedar al menos un tipo o módulo activo).
 - Módulos nuevos en `modulos/`: Dinosaurios, Frutas, Transportes, Clima, Cuerpo humano, Sonidos de animales, Números de todos los días, Números en letras, Días y meses.
+
+## Release 14 — 3.0-MVP: camino a Google Play
+- **Se eliminó el servicio de accesibilidad** (código, manifiesto, configuración y la sección "Avanzado"). La detección es solo por acceso a datos de uso.
+- **Registro de diagnóstico fácil de sacar:** se controla con `BuildConfig.LOG_DIAGNOSTICO` en `app/build.gradle.kts`: `true` en debug (APK de pruebas), `false` en release (lo que va a Play). En release no se escribe nada, se borra cualquier registro viejo y el botón "Ver registro" se oculta. Para quitarlo del todo antes de publicar alcanza con subir la versión release; si se quiere borrar el código, ver `PeajeLog.kt` y `LogActivity.kt`.
+- **Bundle .aab firmado con clave de subida propia:** el workflow arma `peaje-cognitivo.aab` (artefacto del run) si están cargados los secrets `RELEASE_KEYSTORE_B64`, `RELEASE_KEYSTORE_PASSWORD`, `RELEASE_KEY_ALIAS`, `RELEASE_KEY_PASSWORD`. Sin secrets se omite. El APK de pruebas sigue con la clave de debug (la versión de Play tendrá otra firma: no se instala encima de la de pruebas).
+- Cada build también verifica que compila la variante release.

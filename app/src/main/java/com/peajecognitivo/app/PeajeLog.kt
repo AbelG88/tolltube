@@ -34,6 +34,11 @@ object PeajeLog {
 
     /** Se llama una vez al arrancar el proceso (desde PeajeApp). */
     fun attach(context: Context) {
+        if (!BuildConfig.LOG_DIAGNOSTICO) {
+            // Versión para publicar: no se registra nada y se borra cualquier registro viejo
+            try { File(context.applicationContext.filesDir, ARCHIVO).delete() } catch (e: Exception) { }
+            return
+        }
         if (archivo == null) {
             archivo = File(context.applicationContext.filesDir, ARCHIVO)
             d("PROCESO iniciado (pid=${android.os.Process.myPid()})")
@@ -41,6 +46,7 @@ object PeajeLog {
     }
 
     fun d(msg: String) {
+        if (!BuildConfig.LOG_DIAGNOSTICO) return
         val t = SystemClock.elapsedRealtime() - t0
         Log.d(TAG, "[+${t}ms] $msg")
         val f = archivo ?: return

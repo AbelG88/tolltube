@@ -2,21 +2,33 @@ package com.peajecognitivo.app
 
 import android.content.Context
 
-/** Elige cómo se detecta YouTube: accesibilidad (anterior) o uso de apps (nuevo). */
+/** Qué hay realmente en pantalla en este momento. */
+enum class Pantalla {
+    /** La app en primer plano es YouTube. */
+    YOUTUBE,
+
+    /** La app en primer plano es otra (launcher, WhatsApp, etc.). */
+    OTRA_APP,
+
+    /** No se sabe: hay una ventana "de ruido" (teclado, barra del sistema, nuestro overlay) o no se pudo leer. */
+    INCIERTO
+}
+
+/** Detección de YouTube mediante el acceso a datos de uso (UsageStatsManager). */
 object Deteccion {
-    const val ACCESIBILIDAD = "acc"
-    const val USO = "uso"
 
-    fun modo(context: Context): String = SettingsStore.getDeteccion(context)
+    val YOUTUBE_PACKAGES = setOf(
+        "com.google.android.youtube",
+        "com.google.android.youtube.tv",
+        "com.google.android.apps.youtube.kids",
+        "com.google.android.apps.youtube.mango",
+        "app.revanced.android.youtube",
+        "com.vanced.android.youtube"
+    )
 
-    fun usaAccesibilidad(context: Context): Boolean = modo(context) == ACCESIBILIDAD
-
-    /** Qué hay en pantalla ahora, según el modo elegido. Se llama en cada ciclo del timer. */
-    fun clasificar(context: Context): Pair<Pantalla, String?> =
-        if (modo(context) == USO) {
-            UsoApps.actualizar(context)
-            UsoApps.clasificar(context)
-        } else {
-            PeajeAccessibilityService.clasificarPantalla()
-        }
+    /** Qué hay en pantalla ahora. Se llama en cada ciclo del timer. */
+    fun clasificar(context: Context): Pair<Pantalla, String?> {
+        UsoApps.actualizar(context)
+        return UsoApps.clasificar(context)
+    }
 }
