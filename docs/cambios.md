@@ -10,6 +10,15 @@ https://github.com/AbelG88/tolltube/releases
 - [x] Sumas y restas con imágenes (emojis) acompañando los números (release 2)
 - [x] Más tipos de ejercicio (animales, objetos) y elegirlos desde el menú (release 2)
 
+## Release 13 — Asistente de primera vez y pantalla principal simple
+
+- **Asistente de configuración** (`AsistenteActivity`): una pregunta por pantalla — nombre del niño (opcional, solo local), intereses, tipos de cuenta, nivel, cada cuánto aparece el ejercicio, cuántos por vez, apps vigiladas, permisos y PIN de padres. Nada se guarda hasta el último paso. Se abre sola la primera vez y se puede repetir desde "Repetir asistente" (pide el PIN).
+- **Módulos incluidos en el APK** (`CatalogoModulos`, Gradle `assets.srcDirs("../modulos")`): los intereses elegidos instalan sus módulos sin internet; la app sigue sin permiso INTERNET.
+- **Pantalla principal más simple**: interruptor, resumen de la configuración, estado, progreso y "Probar ahora". Los ajustes detallados quedan detrás de "Más ajustes".
+- El mensaje al terminar la serie usa el nombre del niño si está cargado. El nombre nunca se escribe en el registro.
+- Instalaciones que ya estaban configuradas no ven el asistente.
+- Versión 3.2.0-MVP (versionCode 22).
+
 ## Release 12: seguridad del PIN y del registro (versión 3.1.0-MVP)
 
 - **El PIN ya no se guarda en texto plano.** Se guarda un hash PBKDF2-SHA256 (120.000 vueltas) con sal aleatoria. Si ya tenías un PIN, se convierte solo la primera vez que se usa.

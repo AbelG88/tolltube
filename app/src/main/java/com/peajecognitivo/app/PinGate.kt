@@ -16,6 +16,12 @@ import androidx.appcompat.app.AlertDialog
 object PinGate {
     private const val VALIDEZ_MS = 60 * 1000L
     private var desbloqueadoHasta = 0L
+
+    /** Tras crear el PIN en el asistente, no se vuelve a pedir enseguida. */
+    fun desbloquearAhora() {
+        desbloqueadoHasta = SystemClock.elapsedRealtime() + VALIDEZ_MS
+    }
+
     private var dialogoAbierto = false
 
     private fun campo(activity: Activity, pista: String): EditText = EditText(activity).apply {

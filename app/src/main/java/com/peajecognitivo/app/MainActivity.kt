@@ -36,7 +36,24 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if (!SettingsStore.onboardingHecho(this)) {
+            // Primera vez: el asistente configura todo paso a paso
+            startActivity(Intent(this, AsistenteActivity::class.java))
+            finish()
+            return
+        }
         setContentView(R.layout.activity_main)
+
+        val llAvanzado = findViewById<LinearLayout>(R.id.llAvanzado)
+        val btnMas = findViewById<Button>(R.id.btnMasAjustes)
+        btnMas.setOnClickListener {
+            val abrir = llAvanzado.visibility != android.view.View.VISIBLE
+            llAvanzado.visibility = if (abrir) android.view.View.VISIBLE else android.view.View.GONE
+            btnMas.text = if (abrir) "Menos ajustes" else "Más ajustes"
+        }
+        findViewById<Button>(R.id.btnAsistente).setOnClickListener {
+            startActivity(Intent(this, AsistenteActivity::class.java))
+        }
 
         etMinutes = findViewById(R.id.etMinutes)
         etSeconds = findViewById(R.id.etSeconds)
@@ -123,12 +140,32 @@ class MainActivity : AppCompatActivity() {
         arrancarMonitorSiCorresponde()
         mostrarHistorial()
         refrescarModulos()
+        mostrarResumen()
         handler.post(refrescarEstado)
     }
 
     override fun onPause() {
         super.onPause()
         handler.removeCallbacks(refrescarEstado)
+    }
+
+    private fun mostrarResumen() {
+        val niveles = listOf("Fácil", "Medio", "Difícil")
+        val nombre = SettingsStore.getNombreNino(this)
+        val apps = AppVigilada.values().filter { SettingsStore.appVigilada(this, it) }.joinToString(", ") { it.nombre }
+        val tipos = SettingsStore.getTipos(this).map { it.etiqueta.substringAfter(' ').substringBefore(" (") }
+        val modulos = ModulosStore.listar(this).count { ModulosStore.activo(this, it.id) }
+        val temas = buildList {
+            addAll(tipos)
+            if (modulos > 0) add("$modulos módulos")
+        }.joinToString(", ").ifEmpty { "—" }
+        findViewById<TextView>(R.id.tvResumen).text = buildString {
+            if (nombre.isNotEmpty()) appendLine("Para $nombre")
+            appendLine("Cada ${SettingsStore.formatear(SettingsStore.getIntervalSeconds(this@MainActivity))} · ${SettingsStore.getSerie(this@MainActivity)} por vez")
+            appendLine("Nivel ${niveles[SettingsStore.getNivel(this@MainActivity).coerceIn(1, 3) - 1]}")
+            appendLine("Apps: ${apps.ifEmpty { "ninguna" }}")
+            append("Temas: $temas")
+        }
     }
 
     private fun versionName(): String = try {

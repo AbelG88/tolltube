@@ -144,4 +144,20 @@ object SettingsStore {
             else -> "$m min $s s"
         }
     }
+
+    fun getNombreNino(context: Context): String = prefs(context).getString("nombre_nino", "") ?: ""
+
+    fun setNombreNino(context: Context, nombre: String) {
+        prefs(context).edit().putString("nombre_nino", nombre.trim().take(30)).apply()
+    }
+
+    /** Instalaciones anteriores (ya configuradas) no vuelven a ver el asistente. */
+    fun onboardingHecho(context: Context): Boolean {
+        val p = prefs(context)
+        return p.getBoolean("onboarding_hecho", p.contains("interval_seconds") || p.contains("pin_hash") || p.contains("pin"))
+    }
+
+    fun setOnboardingHecho(context: Context, v: Boolean) {
+        prefs(context).edit().putBoolean("onboarding_hecho", v).apply()
+    }
 }

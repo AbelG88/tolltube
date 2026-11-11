@@ -105,7 +105,8 @@ object PeajeOverlayManager {
             } else {
                 AudioPausa.soltar(context)
                 PeajeLog.d("OVERLAY serie completa, overlay cerrado")
-                Toast.makeText(context, "¡Muy bien! 🎉 ⭐ $total hoy", Toast.LENGTH_SHORT).show()
+                val n = SettingsStore.getNombreNino(context).let { if (it.isEmpty()) "" else ", $it" }
+                Toast.makeText(context, "¡Muy bien$n! 🎉 ⭐ $total hoy", Toast.LENGTH_SHORT).show()
                 // El tiempo hasta el próximo ejercicio se cuenta desde que se resolvió la serie
                 ExerciseTimerManager.alCerrarEjercicio(context)
             }

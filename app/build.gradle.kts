@@ -11,8 +11,8 @@ android {
         applicationId = "com.peajecognitivo.app"
         minSdk = 26
         targetSdk = 34
-        versionCode = 21
-        versionName = "3.1.0-MVP"
+        versionCode = 22
+        versionName = "3.2.0-MVP"
     }
 
     // Firma fija para debug: así cada build nuevo se instala ENCIMA del anterior
@@ -23,6 +23,13 @@ android {
             storePassword = "android"
             keyAlias = "androiddebugkey"
             keyPassword = "android"
+        }
+    }
+
+    // Los módulos de /modulos viajan dentro del APK (el asistente los instala sin internet)
+    sourceSets {
+        getByName("main") {
+            assets.srcDirs("../modulos")
         }
     }
 
