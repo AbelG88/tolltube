@@ -48,7 +48,12 @@ class MainActivity : AppCompatActivity() {
         swActivo.setOnCheckedChangeListener { _, activo ->
             SettingsStore.setActivo(this, activo)
             swActivo.text = if (activo) "Peaje activado" else "Peaje APAGADO"
-            if (!activo) ExerciseTimerManager.detener()
+            if (!activo) {
+                ExerciseTimerManager.detener()
+                PeajeMonitorService.detener(this) // sin servicio no hay notificación
+            } else {
+                arrancarMonitorSiCorresponde()
+            }
             PeajeLog.d("AJUSTES interruptor: ${if (activo) "ACTIVADO" else "APAGADO"}")
         }
         tvIntervalCurrent = findViewById(R.id.tvIntervalCurrent)
@@ -75,6 +80,7 @@ class MainActivity : AppCompatActivity() {
 
         mostrarIntervaloActual()
         configurarTipos()
+        configurarApps()
 
         val cbVoz = findViewById<CompoundButton>(R.id.cbVoz)
         cbVoz.isChecked = SettingsStore.getVoz(this)
@@ -274,6 +280,30 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    // ---------- Apps vigiladas ----------
+
+    private fun configurarApps() {
+        val chips = mapOf(
+            AppVigilada.YOUTUBE to R.id.chAppYoutube,
+            AppVigilada.YOUTUBE_KIDS to R.id.chAppYoutubeKids,
+            AppVigilada.TIKTOK to R.id.chAppTiktok,
+            AppVigilada.INSTAGRAM to R.id.chAppInstagram
+        )
+        chips.forEach { (app, id) ->
+            val chip = findViewById<CompoundButton>(id)
+            chip.isChecked = SettingsStore.appVigilada(this, app)
+            chip.setOnCheckedChangeListener { _, v ->
+                if (!v && chips.values.none { findViewById<CompoundButton>(it).isChecked }) {
+                    chip.isChecked = true
+                    Toast.makeText(this, "Tiene que quedar al menos una app", Toast.LENGTH_SHORT).show()
+                } else {
+                    SettingsStore.setAppVigilada(this, app, v)
+                    PeajeLog.d("AJUSTES app vigilada ${app.nombre}: $v")
+                }
+            }
+        }
+    }
+
     // ---------- Modo de detección ----------
 
     private fun configurarDeteccion() {
@@ -283,7 +313,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun arrancarMonitorSiCorresponde() {
-        if (UsoApps.tienePermiso(this)) {
+        if (SettingsStore.getActivo(this) && UsoApps.tienePermiso(this)) {
             PeajeMonitorService.iniciar(this)
         }
     }

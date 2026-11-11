@@ -13,6 +13,8 @@ object PinGate {
     private const val VALIDEZ_MS = 60 * 1000L
     private var desbloqueadoHasta = 0L
     private var dialogoAbierto = false
+    private var fallos = 0
+    private var bloqueadoHasta = 0L
 
     private fun campo(activity: Activity, pista: String): EditText = EditText(activity).apply {
         inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_VARIATION_PASSWORD
@@ -51,6 +53,54 @@ object PinGate {
                 } else {
                     et.text.clear()
                     et.error = "PIN incorrecto"
+                }
+            }
+        }
+        dialogo.show()
+    }
+
+    /**
+     * Pide el PIN para una acción sensible que se dispara desde fuera de la app (p. ej. la notificación).
+     * Sin PIN configurado no se permite la acción. Tras 5 fallos se bloquea el ingreso un rato,
+     * cada vez más largo.
+     */
+    fun pedirParaAccion(activity: Activity, titulo: String, alConfirmar: () -> Unit, alCancelar: () -> Unit) {
+        val pin = SettingsStore.getPin(activity)
+        if (pin.isEmpty()) {
+            Toast.makeText(
+                activity, "Primero poné un PIN de padres en la app para poder apagar desde acá", Toast.LENGTH_LONG
+            ).show()
+            alCancelar()
+            return
+        }
+        val et = campo(activity, "PIN")
+        val dialogo = AlertDialog.Builder(activity)
+            .setTitle("🔒 $titulo")
+            .setView(et)
+            .setCancelable(false)
+            .setPositiveButton("Confirmar", null)
+            .setNegativeButton("Cancelar") { _, _ -> alCancelar() }
+            .create()
+        dialogo.setOnShowListener {
+            dialogo.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
+                val ahora = SystemClock.elapsedRealtime()
+                if (ahora < bloqueadoHasta) {
+                    et.error = "Demasiados intentos. Esperá ${(bloqueadoHasta - ahora) / 1000 + 1} s"
+                    return@setOnClickListener
+                }
+                if (et.text.toString() == pin) {
+                    fallos = 0
+                    dialogo.dismiss()
+                    alConfirmar()
+                } else {
+                    fallos++
+                    et.text.clear()
+                    if (fallos >= 5) {
+                        bloqueadoHasta = ahora + 30_000L * (fallos - 4)
+                        et.error = "Demasiados intentos. Esperá ${(bloqueadoHasta - ahora) / 1000} s"
+                    } else {
+                        et.error = "PIN incorrecto"
+                    }
                 }
             }
         }

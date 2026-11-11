@@ -65,6 +65,14 @@ object SettingsStore {
         prefs(context).edit().putBoolean("solo_reproduciendo", v).apply()
     }
 
+    /** Si una app (YouTube, TikTok, etc.) está marcada para vigilarse. */
+    fun appVigilada(context: Context, app: AppVigilada): Boolean =
+        prefs(context).getBoolean("vigilar_${app.clave}", app.porDefecto)
+
+    fun setAppVigilada(context: Context, app: AppVigilada, v: Boolean) {
+        prefs(context).edit().putBoolean("vigilar_${app.clave}", v).apply()
+    }
+
     /** Interruptor general. Apagado: el peaje no aparece nunca (solo el botón de prueba). */
     fun getActivo(context: Context): Boolean = prefs(context).getBoolean("activo", true)
 

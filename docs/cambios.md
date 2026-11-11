@@ -10,6 +10,16 @@ https://github.com/AbelG88/tolltube/releases
 - [x] Sumas y restas con imágenes (emojis) acompañando los números (release 2)
 - [x] Más tipos de ejercicio (animales, objetos) y elegirlos desde el menú (release 2)
 
+## Release 11
+
+- **Rediseño minimalista.** Tema Material 3 sobrio con un solo color de acento, tarjetas, botones redondeados y chips en lugar de tildes (tipos de ejercicio, dificultad, módulos importados y apps vigiladas). El overlay sobre la app usa vistas nativas redondeadas.
+- **Un error ya no muestra la respuesta.** Se eliminó la pantalla de reflexión, la pista tras 2 errores y la voz que decía la respuesta. Ahora solo dice "Esa no es. Probá de nuevo" y el ejercicio queda trabado hasta acertar. En los ejercicios de tocar una opción, tras cada error los botones se traban unos segundos (cada vez más: 2, 4, 6… hasta 10 s) y las opciones cambian de lugar.
+- **Apps vigiladas** (nueva sección con chips): YouTube, YouTube Kids, TikTok e Instagram. YouTube y YouTube Kids vienen activadas (como antes); TikTok e Instagram, apagadas. Tiene que quedar al menos una. Cubre las variantes Lite/Go y la versión regional de TikTok. El timer corre mientras haya una app vigilada en pantalla; con "contar solo mientras suena audio" solo cuenta si hay audio.
+  - Instagram y TikTok no siempre se pausan al aparecer el ejercicio (la pausa depende de que la app ceda el audio), y en Instagram el tiempo corre también si se usa para mensajes.
+- **Notificación fija útil.** Tocarla abre la app (que pide el PIN si hay uno). Tiene una acción "Apagar (PIN)" que apaga el peaje y detiene el servicio; sin PIN configurado no apaga nada (avisa que hay que poner uno). Tras 5 PIN incorrectos se bloquea unos segundos, cada vez más. Se vuelve a prender con el interruptor de la app.
+- Apagar el interruptor "Peaje activado" ahora también detiene el servicio (desaparece la notificación) y al reiniciar el celu el monitoreo no arranca si está apagado.
+- Internamente `Pantalla.YOUTUBE` pasa a `Pantalla.VIGILADA`.
+
 ## Release 10: versión 2.0-MVP
 
 - **Modo "Uso de apps" por defecto.** Los pasos de la pantalla principal son ahora solo dos: permiso de dibujar sobre otras apps y acceso a datos de uso.

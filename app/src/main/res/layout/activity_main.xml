@@ -109,6 +109,55 @@
                 android:textSize="14sp" />
         </com.google.android.material.card.MaterialCardView>
 
+        <!-- Apps vigiladas -->
+        <TextView
+            style="@style/Text.Section"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            android:text="Apps vigiladas" />
+
+        <com.google.android.material.chip.ChipGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chAppYoutube"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checkable="true"
+                android:text="YouTube" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chAppYoutubeKids"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checkable="true"
+                android:text="YouTube Kids" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chAppTiktok"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checkable="true"
+                android:text="TikTok" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chAppInstagram"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checkable="true"
+                android:text="Instagram" />
+        </com.google.android.material.chip.ChipGroup>
+
+        <TextView
+            style="@style/Text.Caption"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:text="El ejercicio aparece sobre las apps marcadas." />
+
         <!-- Tiempo -->
         <TextView
             style="@style/Text.Section"

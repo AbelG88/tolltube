@@ -14,7 +14,7 @@ import android.os.SystemClock
  *  - Cada vez que se cumple el tiempo, se pregunta al sistema qué app está realmente en pantalla:
  *      · YouTube  -> se muestra el ejercicio y el timer espera a que se resuelva;
  *                    al resolverse, se vuelve a contar el tiempo completo.
- *      · otra app -> el timer se detiene (se reactiva solo al volver a YouTube).
+ *      · otra app -> el timer se detiene (se reactiva solo al volver a una app vigilada).
  *      · incierto -> (teclado, barra, no se pudo leer) se saltea este ciclo y se sigue contando.
  */
 class ExerciseTimerManager {
@@ -40,7 +40,7 @@ class ExerciseTimerManager {
 
         private fun reproduciendo(ctx: Context): Boolean {
             val (pantalla, _) = Deteccion.clasificar(ctx)
-            if (pantalla != Pantalla.YOUTUBE) return false
+            if (pantalla != Pantalla.VIGILADA) return false
             val am = ctx.getSystemService(Context.AUDIO_SERVICE) as android.media.AudioManager
             return am.isMusicActive
         }
@@ -51,7 +51,7 @@ class ExerciseTimerManager {
             val cuenta = if (SettingsStore.getSoloReproduciendo(ctx)) reproduciendo(ctx) else true
             if (cuenta != contando) {
                 contando = cuenta
-                PeajeLog.d(if (cuenta) "TIMER cuenta reanudada" else "TIMER cuenta en pausa (no hay YouTube sonando)")
+                PeajeLog.d(if (cuenta) "TIMER cuenta reanudada" else "TIMER cuenta en pausa (no hay audio sonando)")
             }
             if (cuenta) restanteMs -= 1000
             proximaEsperada = SystemClock.elapsedRealtime() + restanteMs
@@ -75,7 +75,7 @@ class ExerciseTimerManager {
             )
 
             when (pantalla) {
-                Pantalla.YOUTUBE -> {
+                Pantalla.VIGILADA -> {
                     PeajeOverlayManager.show(ctx)
                     // No se programa otro ciclo: se espera a que se resuelva el ejercicio
                     esperandoCierre = true
@@ -83,7 +83,7 @@ class ExerciseTimerManager {
                 }
                 Pantalla.OTRA_APP -> {
                     running = false
-                    PeajeLog.d("TIMER detenido: el usuario está en $paquete. Se reactiva al volver a YouTube")
+                    PeajeLog.d("TIMER detenido: el usuario está en $paquete. Se reactiva al volver a una app vigilada")
                 }
                 Pantalla.INCIERTO -> {
                     PeajeLog.d("TIMER ciclo salteado: pantalla incierta, se sigue contando")
@@ -137,11 +137,11 @@ class ExerciseTimerManager {
 
         /** Para el panel de estado: "corriendo, próximo en 12 s", "esperando ejercicio" o "detenido". */
         fun descripcionEstado(): String = when {
-            !running -> "detenido (se activa al abrir YouTube)"
+            !running -> "detenido (se activa al abrir una app vigilada)"
             esperandoCierre -> "esperando que se resuelva el ejercicio"
             else -> {
                 val faltan = (restanteMs / 1000).coerceAtLeast(0)
-                val pausa = if (contando) "" else " (en pausa: no hay YouTube sonando)"
+                val pausa = if (contando) "" else " (en pausa: no hay audio sonando)"
                 "corriendo, próximo ejercicio en ${faltan}s$pausa"
             }
         }

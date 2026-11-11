@@ -3,10 +3,12 @@ package com.peajecognitivo.app
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.content.pm.ServiceInfo
+import android.graphics.drawable.Icon
 import android.os.Build
 import android.os.Handler
 import android.os.IBinder
@@ -15,7 +17,7 @@ import androidx.core.content.ContextCompat
 
 /**
  * Servicio en primer plano para el modo "Uso de apps": cada pocos segundos mira qué app está
- * en pantalla y arranca el timer cuando aparece YouTube. Muestra una notificación fija.
+ * en pantalla y arranca el timer cuando aparece una app vigilada. Muestra una notificación fija.
  */
 class PeajeMonitorService : Service() {
 
@@ -48,7 +50,7 @@ class PeajeMonitorService : Service() {
             if (!vivo) return
             UsoApps.actualizar(this@PeajeMonitorService)
             val (pantalla, _) = UsoApps.clasificar(this@PeajeMonitorService)
-            if (pantalla == Pantalla.YOUTUBE) {
+            if (pantalla == Pantalla.VIGILADA) {
                 ExerciseTimerManager.startTimer(this@PeajeMonitorService)
             }
             handler.postDelayed(this, CADA_MS)
@@ -62,11 +64,29 @@ class PeajeMonitorService : Service() {
         nm.createNotificationChannel(
             NotificationChannel(CANAL, "Peaje Cognitivo activo", NotificationManager.IMPORTANCE_LOW)
         )
+        // Tocar la notificación abre la app (que pide el PIN si hay uno)
+        val abrirApp = PendingIntent.getActivity(
+            this, 0,
+            Intent(this, MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK),
+            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+        )
+        // "Apagar" pide el PIN de padres; sin PIN configurado no apaga nada
+        val apagar = PendingIntent.getActivity(
+            this, 1,
+            Intent(this, ApagarActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK),
+            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+        )
         val notificacion = Notification.Builder(this, CANAL)
             .setContentTitle("Peaje Cognitivo")
             .setContentText("Cuidando el tiempo de pantalla")
             .setSmallIcon(android.R.drawable.ic_dialog_info)
             .setOngoing(true)
+            .setContentIntent(abrirApp)
+            .addAction(
+                Notification.Action.Builder(
+                    Icon.createWithResource(this, android.R.drawable.ic_lock_power_off), "Apagar (PIN)", apagar
+                ).build()
+            )
             .build()
         if (Build.VERSION.SDK_INT >= 34) {
             startForeground(ID_NOTIF, notificacion, ServiceInfo.FOREGROUND_SERVICE_TYPE_SPECIAL_USE)

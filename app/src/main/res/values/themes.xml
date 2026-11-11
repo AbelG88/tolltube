@@ -15,6 +15,14 @@
         <item name="chipStyle">@style/Widget.Peaje.Chip</item>
     </style>
 
+    <!-- Para actividades que son solo un diálogo (fondo transparente) -->
+    <style name="Theme.PeajeCognitivo.Translucent" parent="Theme.PeajeCognitivo">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:windowAnimationStyle">@null</item>
+    </style>
+
     <!-- Chips redondeados tipo "pastilla" -->
     <style name="Widget.Peaje.Chip" parent="Widget.Material3.Chip.Filter">
         <item name="shapeAppearanceOverlay">@style/ShapeAppearance.Peaje.Pill</item>

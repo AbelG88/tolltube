@@ -69,11 +69,11 @@ object UsoApps {
         }
     }
 
-    /** Misma clasificación que usaba la accesibilidad: YouTube / otra app / incierto. */
+    /** Clasificación de la app en pantalla: vigilada / otra app / incierto. */
     fun clasificar(context: Context): Pair<Pantalla, String?> {
         val paquete = actual ?: return Pair(Pantalla.INCIERTO, null)
         val pantalla = when {
-            paquete in Deteccion.YOUTUBE_PACKAGES -> Pantalla.YOUTUBE
+            paquete in Deteccion.paquetesVigilados(context) -> Pantalla.VIGILADA
             esRuido(context, paquete) -> Pantalla.INCIERTO
             else -> Pantalla.OTRA_APP
         }
