@@ -1,363 +1,389 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F5F5"
+    android:background="@color/background"
     android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
         android:orientation="vertical"
-        android:padding="24dp">
+        android:padding="20dp">
 
+        <!-- Encabezado -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="8dp"
-            android:text="🧠 Peaje Cognitivo"
-            android:textColor="#333"
-            android:textSize="32sp"
+            android:layout_marginTop="12dp"
+            android:text="Peaje Cognitivo"
+            android:textColor="@color/text_primary"
+            android:textSize="28sp"
             android:textStyle="bold" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
-            android:text="App para niños - Versión de prueba"
-            android:textColor="#666"
-            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/tvVersion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="32dp"
-            android:textColor="#999"
-            android:textSize="12sp" />
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="20dp"
+            android:textColor="@color/text_hint"
+            android:textSize="13sp" />
 
-        <Switch
-            android:id="@+id/swActivo"
+        <!-- Interruptor general -->
+        <com.google.android.material.card.MaterialCardView
+            style="?attr/materialCardViewOutlinedStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="12dp"
-            android:text="Peaje activado"
-            android:textColor="#333"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            app:cardBackgroundColor="@color/surface"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="0dp"
+            app:strokeColor="@color/outline"
+            app:strokeWidth="1dp">
 
-        <Button
+            <com.google.android.material.materialswitch.MaterialSwitch
+                android:id="@+id/swActivo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="16dp"
+                android:text="Peaje activado"
+                android:textColor="@color/text_primary"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Permisos -->
+        <TextView
+            style="@style/Text.Section"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            android:text="Permisos" />
+
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnEnableOverlay"
+            style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="16dp"
-            android:text="1️⃣ Permitir dibujar sobre otras apps"
-            android:textSize="16sp" />
+            android:layout_marginTop="10dp"
+            android:minHeight="52dp"
+            android:text="Dibujar sobre otras apps" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnUsoPermiso"
+            style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:padding="16dp"
-            android:text="2️⃣ Dar acceso a datos de uso"
-            android:textSize="16sp" />
-
-        <!-- Estado en vivo: sirve para ver por qué no aparece el overlay -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:text="🔎 Estado"
-            android:textColor="#333"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/tvEstado"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:lineSpacingMultiplier="1.2"
-            android:textColor="#444"
-            android:textSize="14sp" />
+            android:minHeight="52dp"
+            android:text="Acceso a datos de uso" />
 
+        <!-- Estado en vivo -->
         <TextView
+            style="@style/Text.Section"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:text="⏱️ Tiempo entre ejercicios"
-            android:textColor="#333"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:layout_marginTop="28dp"
+            android:text="Estado" />
+
+        <com.google.android.material.card.MaterialCardView
+            style="?attr/materialCardViewOutlinedStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            app:cardBackgroundColor="@color/surface"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="0dp"
+            app:strokeColor="@color/outline"
+            app:strokeWidth="1dp">
+
+            <TextView
+                android:id="@+id/tvEstado"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:lineSpacingMultiplier="1.25"
+                android:padding="16dp"
+                android:textColor="@color/text_secondary"
+                android:textSize="14sp" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Tiempo -->
+        <TextView
+            style="@style/Text.Section"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            android:text="Tiempo entre ejercicios" />
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:gravity="center_vertical"
+            android:layout_marginTop="10dp"
             android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/etMinutes"
-                android:layout_width="80dp"
+            <com.google.android.material.textfield.TextInputLayout
+                style="?attr/textInputOutlinedStyle"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:hint="0"
-                android:importantForAutofill="no"
-                android:inputType="number"
-                android:maxLength="3"
-                android:textSize="24sp" />
+                android:layout_weight="1"
+                android:hint="Min"
+                app:boxCornerRadiusBottomEnd="16dp"
+                app:boxCornerRadiusBottomStart="16dp"
+                app:boxCornerRadiusTopEnd="16dp"
+                app:boxCornerRadiusTopStart="16dp">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="24dp"
-                android:text="min"
-                android:textColor="#333"
-                android:textSize="18sp" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etMinutes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:importantForAutofill="no"
+                    android:inputType="number"
+                    android:maxLength="3" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <EditText
-                android:id="@+id/etSeconds"
-                android:layout_width="80dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:hint="0"
-                android:importantForAutofill="no"
-                android:inputType="number"
-                android:maxLength="2"
-                android:textSize="24sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
+            <com.google.android.material.textfield.TextInputLayout
+                style="?attr/textInputOutlinedStyle"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:text="seg"
-                android:textColor="#333"
-                android:textSize="18sp" />
+                android:layout_weight="1"
+                android:hint="Seg"
+                app:boxCornerRadiusBottomEnd="16dp"
+                app:boxCornerRadiusBottomStart="16dp"
+                app:boxCornerRadiusTopEnd="16dp"
+                app:boxCornerRadiusTopStart="16dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etSeconds"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:importantForAutofill="no"
+                    android:inputType="number"
+                    android:maxLength="2" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="?attr/textInputOutlinedStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1.4"
+                android:hint="Seguidos"
+                app:boxCornerRadiusBottomEnd="16dp"
+                app:boxCornerRadiusBottomStart="16dp"
+                app:boxCornerRadiusTopEnd="16dp"
+                app:boxCornerRadiusTopStart="16dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etSerie"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:importantForAutofill="no"
+                    android:inputType="number"
+                    android:maxLength="2" />
+            </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="12dp"
-                android:text="Ejercicios seguidos"
-                android:textColor="#333"
-                android:textSize="18sp" />
-
-            <EditText
-                android:id="@+id/etSerie"
-                android:layout_width="80dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:hint="1"
-                android:importantForAutofill="no"
-                android:inputType="number"
-                android:maxLength="2"
-                android:textSize="24sp" />
-        </LinearLayout>
-
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnSaveInterval"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:padding="16dp"
-            android:text="💾 Guardar tiempo y cantidad"
-            android:textSize="16sp" />
+            android:layout_marginTop="4dp"
+            android:minHeight="52dp"
+            android:text="Guardar" />
 
         <TextView
             android:id="@+id/tvIntervalCurrent"
+            style="@style/Text.Caption"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:textColor="#666"
-            android:textSize="14sp" />
+            android:layout_marginTop="8dp" />
 
-        <Switch
+        <com.google.android.material.materialswitch.MaterialSwitch
             android:id="@+id/swSoloReproduciendo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:text="Contar solo mientras se reproduce audio"
-            android:textColor="#333"
-            android:textSize="16sp" />
+            android:layout_marginTop="8dp"
+            android:text="Contar solo mientras suena audio"
+            android:textColor="@color/text_primary"
+            android:textSize="15sp" />
 
+        <!-- Tipos de ejercicio -->
         <TextView
+            style="@style/Text.Section"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:text="🎯 Tipos de ejercicio"
-            android:textColor="#333"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:layout_marginTop="28dp"
+            android:text="Tipos de ejercicio" />
 
-        <CheckBox
-            android:id="@+id/cbSuma"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:text="➕ Sumas (con dibujos)"
-            android:textSize="16sp" />
-
-        <CheckBox
-            android:id="@+id/cbResta"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="➖ Restas (con dibujos)"
-            android:textSize="16sp" />
-
-        <CheckBox
-            android:id="@+id/cbContar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="🔢 Contar"
-            android:textSize="16sp" />
-
-        <LinearLayout
-            android:id="@+id/llModulos"
+        <com.google.android.material.chip.ChipGroup
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" />
+            android:layout_marginTop="8dp">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/cbSuma"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checkable="true"
+                android:text="Sumas" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/cbResta"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checkable="true"
+                android:text="Restas" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/cbContar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checkable="true"
+                android:text="Contar" />
+        </com.google.android.material.chip.ChipGroup>
+
+        <!-- Módulos importados: un chip por módulo (con X para quitarlo) -->
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/cgModulos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
         <TextView
+            style="@style/Text.Caption"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:gravity="center"
-            android:text="Si marcás varios, salen mezclados."
-            android:textColor="#888"
-            android:textSize="12sp" />
+            android:text="Si elegís varios, salen mezclados." />
 
+        <!-- Dificultad -->
         <TextView
+            style="@style/Text.Section"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:text="📈 Dificultad"
-            android:textColor="#333"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:layout_marginTop="28dp"
+            android:text="Dificultad" />
 
-        <RadioGroup
-            android:id="@+id/rgNivel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:orientation="vertical">
-
-            <RadioButton
-                android:id="@+id/rbNivel1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Fácil"
-                android:textSize="16sp" />
-
-            <RadioButton
-                android:id="@+id/rbNivel2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Medio"
-                android:textSize="16sp" />
-
-            <RadioButton
-                android:id="@+id/rbNivel3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Difícil"
-                android:textSize="16sp" />
-        </RadioGroup>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:text="📊 Progreso por tipo"
-            android:textColor="#333"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/tvHistorial"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:lineSpacingMultiplier="1.2"
-            android:textColor="#444"
-            android:textSize="14sp" />
-
-        <Button
-            android:id="@+id/btnBorrarHistorial"
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/cgNivel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="Borrar progreso"
-            android:textSize="14sp" />
+            app:selectionRequired="true"
+            app:singleSelection="true">
 
-        <CheckBox
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chNivel1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checkable="true"
+                android:text="Fácil" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chNivel2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checkable="true"
+                android:text="Medio" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chNivel3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checkable="true"
+                android:text="Difícil" />
+        </com.google.android.material.chip.ChipGroup>
+
+        <!-- Voz -->
+        <com.google.android.material.chip.Chip
             android:id="@+id/cbVoz"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:text="🔊 Leer el ejercicio en voz alta"
-            android:textSize="16sp" />
+            android:layout_marginTop="12dp"
+            android:checkable="true"
+            android:text="Leer en voz alta" />
 
-        <Button
-            android:id="@+id/btnPin"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:padding="16dp"
-            android:text="🔒 PIN de padres"
-            android:textSize="16sp" />
-
-        <Button
-            android:id="@+id/btnModulos"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:padding="16dp"
-            android:text="📦 Módulos de ejercicios (importar)"
-            android:textSize="16sp" />
-
-        <Button
-            android:id="@+id/btnTestOverlay"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:backgroundTint="#4CAF50"
-            android:padding="16dp"
-            android:text="🧪 Probar overlay ahora"
-            android:textSize="16sp" />
-
-        <Button
-            android:id="@+id/btnVerRegistro"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:padding="16dp"
-            android:text="📋 Ver registro (diagnóstico)"
-            android:textSize="16sp" />
-
+        <!-- Progreso -->
         <TextView
+            style="@style/Text.Section"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="28dp"
+            android:text="Progreso" />
+
+        <com.google.android.material.card.MaterialCardView
+            style="?attr/materialCardViewOutlinedStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            app:cardBackgroundColor="@color/surface"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="0dp"
+            app:strokeColor="@color/outline"
+            app:strokeWidth="1dp">
+
+            <TextView
+                android:id="@+id/tvHistorial"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:lineSpacingMultiplier="1.25"
+                android:padding="16dp"
+                android:textColor="@color/text_secondary"
+                android:textSize="14sp" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnBorrarHistorial"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Borrar progreso" />
+
+        <!-- Acciones -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnPin"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:minHeight="52dp"
+            android:text="PIN de padres" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnModulos"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:minHeight="52dp"
+            android:text="Importar módulos" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnTestOverlay"
+            style="@style/Widget.Material3.Button.TonalButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:minHeight="52dp"
+            android:text="Probar ahora" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnVerRegistro"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ver registro (diagnóstico)" />
+
+        <TextView
+            style="@style/Text.Caption"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             android:layout_marginBottom="16dp"
-            android:gravity="center"
             android:lineSpacingMultiplier="1.3"
-            android:text="Instrucciones:\n1. Dar los dos permisos arriba\n2. Elegir tiempo y tipos de ejercicio\n3. Abrir YouTube\n4. Esperar el tiempo elegido\n5. Aparecerá el ejercicio"
-            android:textColor="#666"
-            android:textSize="14sp" />
+            android:text="1. Dar los dos permisos\n2. Elegir tiempo y tipos de ejercicio\n3. Abrir YouTube: el ejercicio aparece pasado el tiempo elegido" />
 
     </LinearLayout>
 </ScrollView>

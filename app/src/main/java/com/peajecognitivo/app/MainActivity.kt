@@ -9,6 +9,9 @@ import android.os.Looper
 import android.provider.Settings
 import android.widget.Button
 import android.widget.CheckBox
+import android.widget.CompoundButton
+import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipGroup
 import android.widget.LinearLayout
 import android.widget.EditText
 import android.widget.TextView
@@ -39,7 +42,7 @@ class MainActivity : AppCompatActivity() {
         etSeconds = findViewById(R.id.etSeconds)
         etSerie = findViewById(R.id.etSerie)
 
-        val swActivo = findViewById<android.widget.Switch>(R.id.swActivo)
+        val swActivo = findViewById<CompoundButton>(R.id.swActivo)
         swActivo.isChecked = SettingsStore.getActivo(this)
         swActivo.text = if (swActivo.isChecked) "Peaje activado" else "Peaje APAGADO"
         swActivo.setOnCheckedChangeListener { _, activo ->
@@ -73,7 +76,7 @@ class MainActivity : AppCompatActivity() {
         mostrarIntervaloActual()
         configurarTipos()
 
-        val cbVoz = findViewById<CheckBox>(R.id.cbVoz)
+        val cbVoz = findViewById<CompoundButton>(R.id.cbVoz)
         cbVoz.isChecked = SettingsStore.getVoz(this)
         cbVoz.setOnCheckedChangeListener { _, activa ->
             SettingsStore.setVoz(this, activa)
@@ -91,7 +94,7 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this, ModulosActivity::class.java))
         }
 
-        val swSolo = findViewById<android.widget.Switch>(R.id.swSoloReproduciendo)
+        val swSolo = findViewById<CompoundButton>(R.id.swSoloReproduciendo)
         swSolo.isChecked = SettingsStore.getSoloReproduciendo(this)
         swSolo.setOnCheckedChangeListener { _, v ->
             SettingsStore.setSoloReproduciendo(this, v)
@@ -137,13 +140,13 @@ class MainActivity : AppCompatActivity() {
             appendLine("${marca(UsoApps.tienePermiso(this@MainActivity))} Acceso a datos de uso")
             appendLine("${marca(PeajeMonitorService.vivo)} Servicio de monitoreo vivo")
             appendLine("Última app detectada: ${UsoApps.ultimoPaquete ?: "(ninguna todavía)"}")
-            appendLine("⭐ Ejercicios bien resueltos hoy: ${SettingsStore.aciertosHoy(this@MainActivity)}")
+            appendLine("★ Ejercicios bien resueltos hoy: ${SettingsStore.aciertosHoy(this@MainActivity)}")
             appendLine("Peaje: ${if (SettingsStore.getActivo(this@MainActivity)) "activado" else "APAGADO"}")
             append("Timer: ${ExerciseTimerManager.descripcionEstado()}")
         }
     }
 
-    private fun marca(ok: Boolean) = if (ok) "✅" else "❌"
+    private fun marca(ok: Boolean) = if (ok) "✓" else "✕"
 
     // ---------- Tiempo entre ejercicios ----------
 
@@ -154,7 +157,7 @@ class MainActivity : AppCompatActivity() {
         val serie = SettingsStore.getSerie(this)
         etSerie.setText(serie.toString())
         tvIntervalCurrent.text =
-            "Cada ${SettingsStore.formatear(total)}: $serie ejercicio${if (serie == 1) "" else "s"} seguido${if (serie == 1) "" else "s"}"
+            "Cada ${SettingsStore.formatear(total)} · $serie ejercicio${if (serie == 1) "" else "s"} seguido${if (serie == 1) "" else "s"}"
     }
 
     private fun guardarIntervalo() {
@@ -201,7 +204,7 @@ class MainActivity : AppCompatActivity() {
     // ---------- Tipos de ejercicio ----------
 
     private fun configurarTipos() {
-        val casillas: Map<ExerciseType, CheckBox> = mapOf(
+        val casillas: Map<ExerciseType, CompoundButton> = mapOf(
             ExerciseType.SUMA to findViewById(R.id.cbSuma),
             ExerciseType.RESTA to findViewById(R.id.cbResta),
             ExerciseType.CONTAR to findViewById(R.id.cbContar)
@@ -227,28 +230,18 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun fabricaTildados(): Int =
-        listOf(R.id.cbSuma, R.id.cbResta, R.id.cbContar).count { findViewById<CheckBox>(it).isChecked }
+        listOf(R.id.cbSuma, R.id.cbResta, R.id.cbContar).count { findViewById<CompoundButton>(it).isChecked }
 
-    /** Los módulos importados aparecen junto a los tipos de fábrica, con otro color y su botón "Quitar". */
+    /** Cada módulo importado es un chip (se activa/desactiva tocándolo) con una X para quitarlo. */
     private fun refrescarModulos() {
-        val cont = findViewById<LinearLayout>(R.id.llModulos)
-        cont.removeAllViews()
-        val d = resources.displayMetrics.density
+        val grupo = findViewById<ChipGroup>(R.id.cgModulos)
+        grupo.removeAllViews()
         ModulosStore.listar(this).forEach { m ->
-            val fila = LinearLayout(this).apply {
-                orientation = LinearLayout.HORIZONTAL
-                gravity = android.view.Gravity.CENTER_VERTICAL
-                setBackgroundColor(0xFFE8F0FE.toInt())
-                setPadding((8 * d).toInt(), 0, (8 * d).toInt(), 0)
-                layoutParams = LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT
-                ).apply { topMargin = (4 * d).toInt() }
-            }
-            val cb = CheckBox(this).apply {
-                text = "📦 ${m.nombre}" + (if (m.edad.isNotEmpty()) " (${m.edad})" else "")
-                textSize = 16f
+            val chip = Chip(this).apply {
+                text = m.nombre + (if (m.edad.isNotEmpty()) " · ${m.edad}" else "")
+                isCheckable = true
                 isChecked = ModulosStore.activo(this@MainActivity, m.id)
-                layoutParams = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
+                isCloseIconVisible = true
                 setOnCheckedChangeListener { _, v ->
                     val otrosActivos = ModulosStore.listar(this@MainActivity)
                         .any { it.id != m.id && ModulosStore.activo(this@MainActivity, it.id) }
@@ -260,10 +253,7 @@ class MainActivity : AppCompatActivity() {
                         PeajeLog.d("AJUSTES módulo '${m.nombre}': $v")
                     }
                 }
-            }
-            val quitar = Button(this).apply {
-                text = "Quitar"
-                setOnClickListener {
+                setOnCloseIconClickListener {
                     androidx.appcompat.app.AlertDialog.Builder(this@MainActivity)
                         .setTitle("¿Quitar el módulo?")
                         .setMessage(m.nombre)
@@ -272,7 +262,7 @@ class MainActivity : AppCompatActivity() {
                             if (fabricaTildados() == 0 && !ModulosStore.hayActivos(this@MainActivity)) {
                                 // No puede quedar sin ejercicios: se vuelven a activar los de fábrica
                                 listOf(R.id.cbSuma, R.id.cbResta, R.id.cbContar)
-                                    .forEach { findViewById<CheckBox>(it).isChecked = true }
+                                    .forEach { findViewById<CompoundButton>(it).isChecked = true }
                             }
                             refrescarModulos()
                         }
@@ -280,9 +270,7 @@ class MainActivity : AppCompatActivity() {
                         .show()
                 }
             }
-            fila.addView(cb)
-            fila.addView(quitar)
-            cont.addView(fila)
+            grupo.addView(chip)
         }
     }
 
@@ -303,11 +291,11 @@ class MainActivity : AppCompatActivity() {
     // ---------- Dificultad y progreso ----------
 
     private fun configurarNivel() {
-        val grupo = findViewById<android.widget.RadioGroup>(R.id.rgNivel)
-        val ids = listOf(R.id.rbNivel1, R.id.rbNivel2, R.id.rbNivel3)
+        val grupo = findViewById<ChipGroup>(R.id.cgNivel)
+        val ids = listOf(R.id.chNivel1, R.id.chNivel2, R.id.chNivel3)
         grupo.check(ids[SettingsStore.getNivel(this) - 1])
-        grupo.setOnCheckedChangeListener { _, id ->
-            val nivel = ids.indexOf(id) + 1
+        grupo.setOnCheckedStateChangeListener { _, checkedIds ->
+            val nivel = ids.indexOf(checkedIds.firstOrNull()) + 1
             if (nivel > 0) {
                 SettingsStore.setNivel(this, nivel)
                 PeajeLog.d("AJUSTES dificultad: $nivel")

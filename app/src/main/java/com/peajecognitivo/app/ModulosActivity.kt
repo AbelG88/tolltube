@@ -15,6 +15,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.button.MaterialButton
 
 /** Pantalla para importar, activar y quitar módulos de ejercicios (archivos JSON). */
 class ModulosActivity : AppCompatActivity() {
@@ -36,7 +37,7 @@ class ModulosActivity : AppCompatActivity() {
         }
 
         raiz.addView(TextView(this).apply {
-            text = "📦 Módulos de ejercicios"
+            text = "Módulos de ejercicios"
             textSize = 24f
             setTextColor(0xFF333333.toInt())
         })
@@ -46,8 +47,8 @@ class ModulosActivity : AppCompatActivity() {
             setPadding(0, dp(8), 0, dp(12))
         })
 
-        raiz.addView(Button(this).apply {
-            text = "📥 Importar módulo (.json)"
+        raiz.addView(MaterialButton(this).apply {
+            text = "Importar módulo (.json)"
             setOnClickListener { selector.launch(arrayOf("*/*")) }
         })
 
@@ -61,8 +62,8 @@ class ModulosActivity : AppCompatActivity() {
             text = "Tocá \"Copiar modelo\", pegalo donde lo vayas a editar (o pasáselo a una IA pidiéndole un módulo sobre el tema y la edad que quieras) y guardalo con extensión .json. Tipos: \"opciones\" (3 botones: la correcta y 2 incorrectas) y \"numero\" (se responde con el teclado)."
             textSize = 14f
         })
-        raiz.addView(Button(this).apply {
-            text = "📋 Copiar modelo"
+        raiz.addView(MaterialButton(this).apply {
+            text = "Copiar modelo"
             setOnClickListener {
                 val cm = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
                 cm.setPrimaryClip(ClipData.newPlainText("Modelo de módulo", ModulosStore.EJEMPLO))
@@ -71,7 +72,7 @@ class ModulosActivity : AppCompatActivity() {
         })
 
         setContentView(ScrollView(this).apply {
-            setBackgroundColor(0xFFF5F5F5.toInt())
+            setBackgroundColor(getColor(R.color.background))
             addView(raiz)
         })
     }

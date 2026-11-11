@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- ScrollView: en horizontal o con teclado el contenido ya no se corta -->
+<!-- ScrollView: en horizontal o con teclado el contenido ya no se corta.
+     Solo vistas nativas (sin Material): se infla desde un servicio, sin tema de la app. -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#E6000000"
+    android:background="@color/overlay_scrim"
     android:fillViewport="true">
 
     <LinearLayout
@@ -11,17 +12,28 @@
         android:layout_height="match_parent"
         android:gravity="top|center_horizontal"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="24dp">
 
         <TextView
             android:id="@+id/tvQuestion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="🛑 Peaje Cognitivo"
-            android:textColor="#FFFFFF"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            android:text="Peaje Cognitivo"
+            android:textColor="@color/overlay_text_soft"
+            android:textSize="14sp" />
+
+        <!-- Aviso de error: solo dice que está mal, nunca muestra la respuesta -->
+        <TextView
+            android:id="@+id/tvError"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:textColor="@color/overlay_error"
+            android:textSize="16sp"
+            android:visibility="invisible"
+            android:text=" " />
 
         <!-- Respuesta con número (sumas y restas) -->
         <LinearLayout
@@ -34,27 +46,30 @@
 
             <EditText
                 android:id="@+id/etAnswer"
-                android:layout_width="140dp"
-                android:layout_height="80dp"
+                android:layout_width="150dp"
+                android:layout_height="72dp"
                 android:background="@drawable/bg_answer"
                 android:hint="?"
                 android:imeOptions="actionDone"
                 android:inputType="number"
                 android:textAlignment="center"
-                android:textColor="#333"
-                android:textSize="36sp"
+                android:textColor="@color/text_primary"
+                android:textColorHint="@color/text_hint"
+                android:textSize="32sp"
                 android:textStyle="bold" />
 
             <Button
                 android:id="@+id/btnSubmit"
                 android:layout_width="wrap_content"
-                android:layout_height="80dp"
+                android:layout_height="72dp"
                 android:layout_marginStart="12dp"
-                android:backgroundTint="#4CAF50"
-                android:paddingStart="24dp"
-                android:paddingEnd="24dp"
-                android:text="✓ OK"
-                android:textSize="26sp" />
+                android:background="@drawable/bg_primary_pill"
+                android:minWidth="96dp"
+                android:stateListAnimator="@null"
+                android:text="OK"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="24sp" />
         </LinearLayout>
 
         <!-- Los dibujos (emojis grandes) -->
@@ -73,10 +88,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="24dp"
             android:gravity="center"
-            android:textColor="#FFFFFF"
-            android:textSize="34sp"
+            android:textColor="@color/white"
+            android:textSize="32sp"
             android:textStyle="bold" />
 
         <!-- Respuesta tocando una opción (animales y objetos) -->
@@ -91,30 +106,36 @@
                 android:id="@+id/btnOpt1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="#3F51B5"
-                android:padding="16dp"
-                android:textColor="#FFFFFF"
-                android:textSize="26sp" />
+                android:background="@drawable/bg_option"
+                android:minHeight="64dp"
+                android:stateListAnimator="@null"
+                android:textAllCaps="false"
+                android:textColor="@color/overlay_option_text"
+                android:textSize="24sp" />
 
             <Button
                 android:id="@+id/btnOpt2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                android:backgroundTint="#3F51B5"
-                android:padding="16dp"
-                android:textColor="#FFFFFF"
-                android:textSize="26sp" />
+                android:background="@drawable/bg_option"
+                android:minHeight="64dp"
+                android:stateListAnimator="@null"
+                android:textAllCaps="false"
+                android:textColor="@color/overlay_option_text"
+                android:textSize="24sp" />
 
             <Button
                 android:id="@+id/btnOpt3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                android:backgroundTint="#3F51B5"
-                android:padding="16dp"
-                android:textColor="#FFFFFF"
-                android:textSize="26sp" />
+                android:background="@drawable/bg_option"
+                android:minHeight="64dp"
+                android:stateListAnimator="@null"
+                android:textAllCaps="false"
+                android:textColor="@color/overlay_option_text"
+                android:textSize="24sp" />
         </LinearLayout>
 
         <TextView
@@ -122,8 +143,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:gravity="center"
-            android:text="Respondé correctamente para seguir viendo"
-            android:textColor="#AAAAAA"
+            android:text="Respondé bien para seguir viendo"
+            android:textColor="@color/overlay_text_soft"
             android:textSize="14sp" />
 
     </LinearLayout>

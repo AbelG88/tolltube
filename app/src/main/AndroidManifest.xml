@@ -24,7 +24,7 @@
         android:icon="@mipmap/ic_launcher"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:label="Peaje Cognitivo"
-        android:theme="@style/Theme.AppCompat.Light.DarkActionBar">
+        android:theme="@style/Theme.PeajeCognitivo">
 
         <activity
             android:name=".MainActivity"
