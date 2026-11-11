@@ -64,7 +64,7 @@ object PeajeOverlayManager {
         }
 
         val ejercicio = ExerciseGenerator.siguiente(context)
-        PeajeLog.d("OVERLAY ejercicio: ${ejercicio.resumen}")
+        PeajeLog.d("OVERLAY ejercicio de tipo ${ejercicio.tipo}")
 
         val vista = LayoutInflater.from(context).inflate(R.layout.overlay_exercise, null)
         overlayView = vista

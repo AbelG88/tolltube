@@ -57,7 +57,7 @@ object UsoApps {
             ultimaConsulta = ahora
             if (actual != anterior) {
                 if (actual != null) ultimoPaquete = actual
-                PeajeLog.d("USO app en primer plano: $actual")
+                PeajeLog.d("USO app en primer plano: ${Deteccion.etiqueta(context, actual)}")
             }
         } catch (ex: SecurityException) {
             if (!avisoPermisoLogueado) {

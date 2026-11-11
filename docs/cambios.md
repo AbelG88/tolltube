@@ -10,6 +10,15 @@ https://github.com/AbelG88/tolltube/releases
 - [x] Sumas y restas con imágenes (emojis) acompañando los números (release 2)
 - [x] Más tipos de ejercicio (animales, objetos) y elegirlos desde el menú (release 2)
 
+## Release 12: seguridad del PIN y del registro (versión 3.1.0-MVP)
+
+- **El PIN ya no se guarda en texto plano.** Se guarda un hash PBKDF2-SHA256 (120.000 vueltas) con sal aleatoria. Si ya tenías un PIN, se convierte solo la primera vez que se usa.
+- **Bloqueo por intentos.** Tras 5 PIN incorrectos seguidos se bloquea el ingreso 30 s, y se duplica con cada fallo (máximo 15 min). El conteo se guarda en disco: cerrar la app no lo borra. Vale para la pantalla de ajustes, el registro y el "Apagar" de la notificación.
+- **PIN obligatorio.** Si no hay PIN, la app pide crear uno al abrirse y no se puede saltear. Ya no se puede quitar: solo cambiar.
+- **Para cambiar el PIN hay que ingresar el actual** (y el nuevo se escribe dos veces).
+- **El PIN se vuelve a pedir al salir de la app** (3 s después de que toda la app sale de pantalla o se apaga la pantalla), en vez de quedar abierto 60 s. Girar el celu no lo vuelve a pedir.
+- **Registro de diagnóstico sin datos sensibles.** Ya no anota el nombre de la app en pantalla (solo "vigilada", "otra" o "ninguna") ni el ejercicio con su respuesta (solo el tipo). Al copiarlo se marca como contenido sensible (Android 13+).
+
 ## Release 11
 
 - **Rediseño minimalista.** Tema Material 3 sobrio con un solo color de acento, tarjetas, botones redondeados y chips en lugar de tildes (tipos de ejercicio, dificultad, módulos importados y apps vigiladas). El overlay sobre la app usa vistas nativas redondeadas.

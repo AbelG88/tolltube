@@ -50,12 +50,7 @@ object SettingsStore {
         prefs(context).edit().putBoolean("voz", activa).apply()
     }
 
-    /** PIN de padres. Vacío = sin PIN. */
-    fun getPin(context: Context): String = prefs(context).getString("pin", "") ?: ""
-
-    fun setPin(context: Context, pin: String) {
-        prefs(context).edit().putString("pin", pin).apply()
-    }
+    // El PIN de padres está en PinStore (hash + sal, con bloqueo por intentos).
 
     /** Cómo se detecta YouTube: "uso" (uso de apps, por defecto) o "acc" (accesibilidad, alternativo). */
     /** Si está activo, el tiempo solo corre mientras YouTube está en pantalla Y hay audio sonando. */

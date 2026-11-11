@@ -119,6 +119,7 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         PinGate.exigir(this)
+        PinGate.exigirCrear(this)
         arrancarMonitorSiCorresponde()
         mostrarHistorial()
         refrescarModulos()

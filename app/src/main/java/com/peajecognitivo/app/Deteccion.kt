@@ -44,6 +44,13 @@ object Deteccion {
             .flatMap { it.paquetes }
             .toSet()
 
+    /** Cómo anotar una app en el registro: solo si es vigilada o no; nunca el nombre del paquete. */
+    fun etiqueta(context: Context, paquete: String?): String = when {
+        paquete == null -> "ninguna"
+        paquete in paquetesVigilados(context) -> "vigilada"
+        else -> "otra"
+    }
+
     /** Qué hay en pantalla ahora. Se llama en cada ciclo del timer. */
     fun clasificar(context: Context): Pair<Pantalla, String?> {
         UsoApps.actualizar(context)

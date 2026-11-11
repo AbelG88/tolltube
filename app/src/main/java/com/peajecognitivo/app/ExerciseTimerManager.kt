@@ -71,7 +71,7 @@ class ExerciseTimerManager {
             val retraso = SystemClock.elapsedRealtime() - proximaEsperada
             val (pantalla, paquete) = Deteccion.clasificar(ctx)
             PeajeLog.d(
-                "TIMER sonó. en_pantalla=$paquete -> $pantalla retraso_vs_esperado=${retraso}ms"
+                "TIMER sonó. en_pantalla=${Deteccion.etiqueta(ctx, paquete)} -> $pantalla retraso_vs_esperado=${retraso}ms"
             )
 
             when (pantalla) {
@@ -83,7 +83,7 @@ class ExerciseTimerManager {
                 }
                 Pantalla.OTRA_APP -> {
                     running = false
-                    PeajeLog.d("TIMER detenido: el usuario está en $paquete. Se reactiva al volver a una app vigilada")
+                    PeajeLog.d("TIMER detenido: el usuario está en otra app (${Deteccion.etiqueta(ctx, paquete)}). Se reactiva al volver a una app vigilada")
                 }
                 Pantalla.INCIERTO -> {
                     PeajeLog.d("TIMER ciclo salteado: pantalla incierta, se sigue contando")

@@ -58,7 +58,13 @@ class LogActivity : AppCompatActivity() {
 
     private fun copiar() {
         val cm = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-        cm.setPrimaryClip(ClipData.newPlainText("Registro Peaje", textoLog()))
+        val clip = ClipData.newPlainText("Registro Peaje", textoLog())
+        if (android.os.Build.VERSION.SDK_INT >= 33) {
+            clip.description.extras = android.os.PersistableBundle().apply {
+                putBoolean("android.content.extra.IS_SENSITIVE", true)
+            }
+        }
+        cm.setPrimaryClip(clip)
         Toast.makeText(this, "Registro copiado ✓", Toast.LENGTH_SHORT).show()
     }
 
