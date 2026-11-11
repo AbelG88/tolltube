@@ -246,6 +246,19 @@ class AsistenteActivity : AppCompatActivity() {
                 btnUso = botonPermiso { startActivity(Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS)) }
                 c.addView(btnOverlay)
                 c.addView(btnUso)
+                c.addView(texto(
+                    "¿Android dice \"A la app se le negó el acceso\"? Pasa porque la app se instaló desde un archivo. " +
+                        "Hay que habilitarlo en otro lado: Ajustes → Aplicaciones → Peaje Cognitivo → ⋮ (arriba a la derecha) → " +
+                        "Permitir configuración restringida. Después volvé acá y tocá el permiso de nuevo.",
+                    14f, R.color.text_secondary, arriba = 4
+                ))
+                c.addView(MaterialButton(this, null, com.google.android.material.R.attr.materialButtonOutlinedStyle).apply {
+                    text = "Abrir ajustes de la app"
+                    layoutParams = LinearLayout.LayoutParams(MATCH, WRAP).apply { topMargin = dp(12) }
+                    setOnClickListener {
+                        startActivity(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:$packageName")))
+                    }
+                })
                 actualizarPermisos()
             }
         )
@@ -293,6 +306,13 @@ class AsistenteActivity : AppCompatActivity() {
         contenedor.removeAllViews()
         btnOverlay = null
         btnUso = null
+        if (actual == 0) {
+            contenedor.addView(android.widget.ImageView(this).apply {
+                setImageResource(R.drawable.ic_logo)
+                contentDescription = "Logo de Peaje Cognitivo"
+                layoutParams = LinearLayout.LayoutParams(dp(96), dp(96)).apply { bottomMargin = dp(24) }
+            })
+        }
         contenedor.addView(texto(p.titulo, 30f, R.color.text_primary, bold = true))
         contenedor.addView(texto(p.subtitulo, 16f, R.color.text_secondary, arriba = 10))
         val cuerpo = LinearLayout(this).apply {

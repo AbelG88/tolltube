@@ -1,43 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  Ícono original de Peaje Cognitivo: botón de play + barrera de peaje.
-  No usa el logo de YouTube (marca registrada).
-  Todo queda dentro del radio seguro de ~34 unidades desde el centro (54,54).
--->
+<!-- Barrera de peaje levantada + una chispa: "pensá y pasás" -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="108dp"
     android:height="108dp"
     android:viewportWidth="108"
     android:viewportHeight="108">
-
-    <!-- Triángulo de play (blanco) -->
+    <!-- base y poste -->
     <path
         android:fillColor="#FFFFFF"
-        android:pathData="M43,33 L43,63 L69,48 Z" />
-
-    <!-- Poste de la barrera -->
-    <path
-        android:fillColor="#212121"
-        android:pathData="M32,67 L38,67 L38,81 L32,81 Z" />
-
-    <!-- Brazo de la barrera (blanco) -->
+        android:pathData="M28,74 h34 a2,2 0 0 1 2,2 v2 a2,2 0 0 1 -2,2 h-34 a2,2 0 0 1 -2,-2 v-2 a2,2 0 0 1 2,-2 z" />
     <path
         android:fillColor="#FFFFFF"
-        android:pathData="M36,70 L76,70 L76,77 L36,77 Z" />
-
-    <!-- Rayas del brazo -->
+        android:pathData="M31,48 h8 a2,2 0 0 1 2,2 v24 h-12 v-24 a2,2 0 0 1 2,-2 z" />
+    <!-- brazo levantado -->
     <path
-        android:fillColor="#7F0000"
-        android:pathData="M44,70 L50,70 L47,77 L41,77 Z" />
+        android:fillColor="#FFFFFF"
+        android:pathData="M38,52 L78,40 L80,46 L40,58 z" />
+    <!-- franjas del brazo -->
     <path
-        android:fillColor="#7F0000"
-        android:pathData="M56,70 L62,70 L59,77 L53,77 Z" />
+        android:fillColor="#4F5BD5"
+        android:pathData="M46,49.6 L52,47.8 L54,53.8 L48,55.6 z" />
     <path
-        android:fillColor="#7F0000"
-        android:pathData="M68,70 L74,70 L71,77 L65,77 Z" />
-
-    <!-- Pivote del poste -->
+        android:fillColor="#4F5BD5"
+        android:pathData="M58,46 L64,44.2 L66,50.2 L60,52 z" />
     <path
-        android:fillColor="#FFC107"
-        android:pathData="M35,73.5 m-2.5,0 a2.5,2.5 0 1,1 5,0 a2.5,2.5 0 1,1 -5,0" />
+        android:fillColor="#4F5BD5"
+        android:pathData="M70,42.4 L76,40.6 L78,46.6 L72,48.4 z" />
+    <!-- chispa -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M72,20 L74.2,25.8 L80,28 L74.2,30.2 L72,36 L69.8,30.2 L64,28 L69.8,25.8 z" />
 </vector>

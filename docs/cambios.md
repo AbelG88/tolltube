@@ -10,6 +10,12 @@ https://github.com/AbelG88/tolltube/releases
 - [x] Sumas y restas con imágenes (emojis) acompañando los números (release 2)
 - [x] Más tipos de ejercicio (animales, objetos) y elegirlos desde el menú (release 2)
 
+## Release 15 — Logo nuevo y aviso de "configuración restringida"
+
+- **Logo nuevo** (original): una barrera de peaje levantada con una chispa, en el azul de la app. Reemplaza el ícono anterior (ícono adaptable, `ic_launcher_*`) y se usa también en la bienvenida del asistente y en el encabezado de la pantalla principal (`ic_logo`).
+- **Aviso de permisos bloqueados:** Android 13+ muestra "A la app se le negó el acceso" en las apps instaladas desde un archivo. El asistente (paso de permisos) y la sección Permisos explican dónde habilitarlo (Ajustes → Aplicaciones → Peaje Cognitivo → ⋮ → Permitir configuración restringida). El asistente suma un botón "Abrir ajustes de la app".
+- Versión 3.3.1-MVP (versionCode 24).
+
 ## Release 14 — Varios niños, un panel por niño
 
 - **Niños** (`Ninos.kt`): se pueden cargar hasta 6. Cada uno tiene sus propios ajustes (nivel, intervalo, ejercicios por vez, apps vigiladas, tipos, módulos activos) y su progreso.

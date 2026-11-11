@@ -13,6 +13,13 @@
         android:padding="20dp">
 
         <!-- Encabezado -->
+        <ImageView
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_marginTop="8dp"
+            android:contentDescription="Logo de Peaje Cognitivo"
+            android:src="@drawable/ic_logo" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -219,6 +226,14 @@
             android:layout_marginTop="10dp"
             android:minHeight="52dp"
             android:text="Dibujar sobre otras apps" />
+
+        <TextView
+            style="@style/Text.Caption"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:lineSpacingMultiplier="1.25"
+            android:text="Si Android dice &quot;A la app se le negó el acceso&quot;: como se instaló desde un archivo, el permiso se habilita en otro lado. Ajustes → Aplicaciones → Peaje Cognitivo → ⋮ (arriba a la derecha) → Permitir configuración restringida. Después volvé a tocar el permiso." />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnUsoPermiso"
