@@ -54,6 +54,22 @@
                 android:textStyle="bold" />
         </com.google.android.material.card.MaterialCardView>
 
+        <!-- Niños: un panel por niño; el padre elige cuál está activo -->
+        <TextView
+            style="@style/Text.Section"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            android:text="Quién usa el celular" />
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/cgNinos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:selectionRequired="true"
+            app:singleSelection="true" />
+
         <!-- Resumen de lo configurado -->
         <TextView
             style="@style/Text.Section"
@@ -457,6 +473,14 @@
             android:layout_marginTop="12dp"
             android:checkable="true"
             android:text="Leer en voz alta" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnQuitarNino"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Quitar este niño" />
 
         <!-- Acciones -->
         <com.google.android.material.button.MaterialButton

@@ -46,6 +46,9 @@ class AsistenteActivity : AppCompatActivity() {
     private var pin = ""
     private var pinRepetido = ""
 
+    /** true = el asistente agrega un niño nuevo (sin permisos ni PIN). */
+    private var nuevo = false
+
     private lateinit var pasos: List<Paso>
     private var actual = 0
     private lateinit var contenedor: LinearLayout
@@ -63,12 +66,17 @@ class AsistenteActivity : AppCompatActivity() {
         btnSiguiente = findViewById(R.id.btnSiguiente)
         btnAtras = findViewById(R.id.btnAtras)
 
-        nombre = SettingsStore.getNombreNino(this)
-        nivel = SettingsStore.getNivel(this)
-        serie = SettingsStore.getSerie(this)
-        tipos += SettingsStore.getTipos(this)
-        AppVigilada.values().filter { SettingsStore.appVigilada(this, it) }.forEach { apps += it }
-        if (SettingsStore.onboardingHecho(this)) intervaloSeg = SettingsStore.getIntervalSeconds(this)
+        nuevo = intent.getBooleanExtra(EXTRA_NUEVO, false)
+        if (nuevo) {
+            AppVigilada.values().filter { it.porDefecto }.forEach { apps += it }
+        } else {
+            nombre = SettingsStore.getNombreNino(this)
+            nivel = SettingsStore.getNivel(this)
+            serie = SettingsStore.getSerie(this)
+            tipos += SettingsStore.getTipos(this)
+            AppVigilada.values().filter { SettingsStore.appVigilada(this, it) }.forEach { apps += it }
+            if (SettingsStore.onboardingHecho(this)) intervaloSeg = SettingsStore.getIntervalSeconds(this)
+        }
 
         pasos = armarPasos()
 
@@ -115,8 +123,9 @@ class AsistenteActivity : AppCompatActivity() {
         val lista = mutableListOf<Paso>()
 
         lista += Paso(
-            "Armemos el peaje",
-            "Unas preguntas rápidas y queda listo. Después podés cambiar todo desde la app."
+            if (nuevo) "Nuevo niño" else "Armemos el peaje",
+            if (nuevo) "Unas preguntas y queda su panel propio, con sus ajustes y su progreso."
+            else "Unas preguntas rápidas y queda listo. Después podés cambiar todo desde la app."
         )
 
         lista += Paso(
@@ -227,7 +236,7 @@ class AsistenteActivity : AppCompatActivity() {
             validar = { if (apps.isEmpty()) "Elegí al menos una app" else null }
         )
 
-        lista += Paso(
+        if (!nuevo) lista += Paso(
             "Dos permisos",
             "Sirven para mostrar el ejercicio sobre otras apps y saber cuál está abierta. No se envía nada a ningún lado.",
             construir = { c ->
@@ -241,7 +250,7 @@ class AsistenteActivity : AppCompatActivity() {
             }
         )
 
-        if (!PinStore.tienePin(this)) {
+        if (!nuevo && !PinStore.tienePin(this)) {
             lista += Paso(
                 "Poné un PIN de padres",
                 "Protege los ajustes y el botón de apagar. De 4 a 6 números.",
@@ -304,13 +313,14 @@ class AsistenteActivity : AppCompatActivity() {
     }
 
     private fun terminar() {
+        if (nuevo) Ninos.setActivo(this, Ninos.crear(this)) // lo que sigue se guarda en el niño nuevo
         SettingsStore.setNombreNino(this, nombre)
         SettingsStore.setNivel(this, nivel)
         SettingsStore.setIntervalSeconds(this, intervaloSeg)
         SettingsStore.setSerie(this, serie)
         SettingsStore.setTipos(this, tipos.toSet())
         AppVigilada.values().forEach { SettingsStore.setAppVigilada(this, it, it in apps) }
-        val instalados = CatalogoModulos.instalar(this, intereses)
+        val instalados = CatalogoModulos.aplicar(this, intereses)
         if (!PinStore.tienePin(this)) {
             PinStore.guardar(this, pin)
             PinGate.desbloquearAhora()
@@ -385,8 +395,9 @@ class AsistenteActivity : AppCompatActivity() {
 
     private fun dp(v: Int) = (v * resources.displayMetrics.density).toInt()
 
-    private companion object {
-        const val MATCH = LinearLayout.LayoutParams.MATCH_PARENT
-        const val WRAP = LinearLayout.LayoutParams.WRAP_CONTENT
+    companion object {
+        const val EXTRA_NUEVO = "nuevo"
+        private const val MATCH = LinearLayout.LayoutParams.MATCH_PARENT
+        private const val WRAP = LinearLayout.LayoutParams.WRAP_CONTENT
     }
 }

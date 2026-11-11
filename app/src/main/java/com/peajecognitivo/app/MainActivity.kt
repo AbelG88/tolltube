@@ -20,6 +20,7 @@ import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
 
+    private var ninoCargado = ""
     private lateinit var etMinutes: EditText
     private lateinit var etSeconds: EditText
     private lateinit var etSerie: EditText
@@ -43,6 +44,8 @@ class MainActivity : AppCompatActivity() {
             return
         }
         setContentView(R.layout.activity_main)
+        ninoCargado = Ninos.activo(this)
+        armarNinos()
 
         val llAvanzado = findViewById<LinearLayout>(R.id.llAvanzado)
         val btnMas = findViewById<Button>(R.id.btnMasAjustes)
@@ -135,6 +138,10 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+        if (Ninos.activo(this) != ninoCargado) { // el asistente agregó o cambió de niño
+            recreate()
+            return
+        }
         PinGate.exigir(this)
         PinGate.exigirCrear(this)
         arrancarMonitorSiCorresponde()
@@ -147,6 +154,55 @@ class MainActivity : AppCompatActivity() {
     override fun onPause() {
         super.onPause()
         handler.removeCallbacks(refrescarEstado)
+    }
+
+    /** Una ficha por niño (elige el activo) y "+ Agregar" al final. */
+    private fun armarNinos() {
+        val grupo = findViewById<ChipGroup>(R.id.cgNinos)
+        grupo.removeAllViews()
+        val activo = Ninos.activo(this)
+        Ninos.ids(this).forEach { id ->
+            val chip = Chip(this).apply {
+                this.id = android.view.View.generateViewId()
+                text = Ninos.nombreDe(this@MainActivity, id)
+                isCheckable = true
+                isChecked = id == activo
+                setOnClickListener {
+                    if (id != Ninos.activo(this@MainActivity)) {
+                        Ninos.setActivo(this@MainActivity, id)
+                        ExerciseTimerManager.reprogramar(this@MainActivity)
+                        PeajeLog.d("NINOS cambio de niño activo")
+                        recreate()
+                    }
+                }
+            }
+            grupo.addView(chip)
+        }
+        if (Ninos.ids(this).size < Ninos.MAX) {
+            grupo.addView(Chip(this).apply {
+                text = "+ Agregar"
+                isCheckable = false
+                setOnClickListener {
+                    startActivity(Intent(this@MainActivity, AsistenteActivity::class.java)
+                        .putExtra(AsistenteActivity.EXTRA_NUEVO, true))
+                }
+            })
+        }
+        val btnQuitar = findViewById<Button>(R.id.btnQuitarNino)
+        btnQuitar.visibility = if (Ninos.ids(this).size > 1) android.view.View.VISIBLE else android.view.View.GONE
+        btnQuitar.setOnClickListener {
+            val nombre = Ninos.nombreDe(this, Ninos.activo(this))
+            androidx.appcompat.app.AlertDialog.Builder(this)
+                .setTitle("¿Quitar a $nombre?")
+                .setMessage("Se borran sus ajustes y su progreso. No se puede deshacer.")
+                .setNegativeButton("Cancelar", null)
+                .setPositiveButton("Quitar") { _, _ ->
+                    Ninos.quitar(this, Ninos.activo(this))
+                    ExerciseTimerManager.reprogramar(this)
+                    recreate()
+                }
+                .show()
+        }
     }
 
     private fun mostrarResumen() {

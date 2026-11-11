@@ -19,28 +19,31 @@ object SettingsStore {
     private fun prefs(context: Context) =
         context.applicationContext.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
 
+    /** Clave de un ajuste del niño activo. */
+    private fun k(context: Context, key: String) = Ninos.clave(context, key)
+
     fun getIntervalSeconds(context: Context): Int =
-        prefs(context).getInt(KEY_INTERVAL_SECONDS, DEFAULT_SECONDS)
+        prefs(context).getInt(k(context, KEY_INTERVAL_SECONDS), DEFAULT_SECONDS)
             .coerceIn(MIN_SECONDS, MAX_SECONDS)
 
     fun getIntervalMs(context: Context): Long = getIntervalSeconds(context) * 1000L
 
     fun setIntervalSeconds(context: Context, seconds: Int) {
         prefs(context).edit()
-            .putInt(KEY_INTERVAL_SECONDS, seconds.coerceIn(MIN_SECONDS, MAX_SECONDS))
+            .putInt(k(context, KEY_INTERVAL_SECONDS), seconds.coerceIn(MIN_SECONDS, MAX_SECONDS))
             .apply()
     }
 
     /** Tipos de fábrica habilitados. Sin nada guardado están todos; puede quedar vacío si hay módulos activos. */
     fun getTipos(context: Context): Set<ExerciseType> {
         val fabrica = ExerciseType.values().filter { it != ExerciseType.MODULOS }.toSet()
-        val guardados = prefs(context).getStringSet(KEY_TIPOS, null) ?: return fabrica
+        val guardados = prefs(context).getStringSet(k(context, KEY_TIPOS), null) ?: return fabrica
         return guardados.mapNotNull { ExerciseType.desdeClave(it) }.filter { it in fabrica }.toSet()
     }
 
     fun setTipos(context: Context, tipos: Set<ExerciseType>) {
         prefs(context).edit()
-            .putStringSet(KEY_TIPOS, tipos.map { it.clave }.toSet())
+            .putStringSet(k(context, KEY_TIPOS), tipos.map { it.clave }.toSet())
             .apply()
     }
 
@@ -62,10 +65,10 @@ object SettingsStore {
 
     /** Si una app (YouTube, TikTok, etc.) está marcada para vigilarse. */
     fun appVigilada(context: Context, app: AppVigilada): Boolean =
-        prefs(context).getBoolean("vigilar_${app.clave}", app.porDefecto)
+        prefs(context).getBoolean(k(context, "vigilar_${app.clave}"), app.porDefecto)
 
     fun setAppVigilada(context: Context, app: AppVigilada, v: Boolean) {
-        prefs(context).edit().putBoolean("vigilar_${app.clave}", v).apply()
+        prefs(context).edit().putBoolean(k(context, "vigilar_${app.clave}"), v).apply()
     }
 
     /** Interruptor general. Apagado: el peaje no aparece nunca (solo el botón de prueba). */
@@ -78,42 +81,42 @@ object SettingsStore {
     /** Cuántos ejercicios seguidos hay que resolver cada vez que suena el timer. */
     const val MAX_SERIE = 20
 
-    fun getSerie(context: Context): Int = prefs(context).getInt("serie", 1).coerceIn(1, MAX_SERIE)
+    fun getSerie(context: Context): Int = prefs(context).getInt(k(context, "serie"), 1).coerceIn(1, MAX_SERIE)
 
     fun setSerie(context: Context, n: Int) {
-        prefs(context).edit().putInt("serie", n.coerceIn(1, MAX_SERIE)).apply()
+        prefs(context).edit().putInt(k(context, "serie"), n.coerceIn(1, MAX_SERIE)).apply()
     }
 
     /** Nivel de dificultad: 1 fácil, 2 medio (por defecto), 3 difícil. */
-    fun getNivel(context: Context): Int = prefs(context).getInt("nivel", 2).coerceIn(1, 3)
+    fun getNivel(context: Context): Int = prefs(context).getInt(k(context, "nivel"), 2).coerceIn(1, 3)
 
     fun setNivel(context: Context, nivel: Int) {
-        prefs(context).edit().putInt("nivel", nivel.coerceIn(1, 3)).apply()
+        prefs(context).edit().putInt(k(context, "nivel"), nivel.coerceIn(1, 3)).apply()
     }
 
     /** Historial acumulado por tipo: ejercicios resueltos y errores cometidos. */
     fun registrarResultado(context: Context, tipo: ExerciseType, errores: Int) {
         val p = prefs(context)
-        p.edit()
-            .putInt("hist_${tipo.clave}_ok", p.getInt("hist_${tipo.clave}_ok", 0) + 1)
-            .putInt("hist_${tipo.clave}_err", p.getInt("hist_${tipo.clave}_err", 0) + errores)
-            .apply()
+        val ok = k(context, "hist_${tipo.clave}_ok")
+        val err = k(context, "hist_${tipo.clave}_err")
+        p.edit().putInt(ok, p.getInt(ok, 0) + 1).putInt(err, p.getInt(err, 0) + errores).apply()
     }
 
     fun registrarError(context: Context, tipo: ExerciseType) {
         val p = prefs(context)
-        p.edit().putInt("hist_${tipo.clave}_err", p.getInt("hist_${tipo.clave}_err", 0) + 1).apply()
+        val err = k(context, "hist_${tipo.clave}_err")
+        p.edit().putInt(err, p.getInt(err, 0) + 1).apply()
     }
 
     fun historial(context: Context, tipo: ExerciseType): Pair<Int, Int> {
         val p = prefs(context)
-        return Pair(p.getInt("hist_${tipo.clave}_ok", 0), p.getInt("hist_${tipo.clave}_err", 0))
+        return Pair(p.getInt(k(context, "hist_${tipo.clave}_ok"), 0), p.getInt(k(context, "hist_${tipo.clave}_err"), 0))
     }
 
     fun borrarHistorial(context: Context) {
         val e = prefs(context).edit()
         ExerciseType.values().forEach {
-            e.remove("hist_${it.clave}_ok").remove("hist_${it.clave}_err")
+            e.remove(k(context, "hist_${it.clave}_ok")).remove(k(context, "hist_${it.clave}_err"))
         }
         e.apply()
     }
@@ -121,13 +124,13 @@ object SettingsStore {
     /** Aciertos de hoy (se reinicia solo cada día). */
     fun aciertosHoy(context: Context): Int {
         val p = prefs(context)
-        return if (p.getString("aciertos_dia", "") == hoy()) p.getInt("aciertos_n", 0) else 0
+        return if (p.getString(k(context, "aciertos_dia"), "") == hoy()) p.getInt(k(context, "aciertos_n"), 0) else 0
     }
 
     /** Suma un acierto a hoy y devuelve el total del día. */
     fun registrarAcierto(context: Context): Int {
         val n = aciertosHoy(context) + 1
-        prefs(context).edit().putString("aciertos_dia", hoy()).putInt("aciertos_n", n).apply()
+        prefs(context).edit().putString(k(context, "aciertos_dia"), hoy()).putInt(k(context, "aciertos_n"), n).apply()
         return n
     }
 
@@ -145,10 +148,10 @@ object SettingsStore {
         }
     }
 
-    fun getNombreNino(context: Context): String = prefs(context).getString("nombre_nino", "") ?: ""
+    fun getNombreNino(context: Context): String = prefs(context).getString(k(context, "nombre_nino"), "") ?: ""
 
     fun setNombreNino(context: Context, nombre: String) {
-        prefs(context).edit().putString("nombre_nino", nombre.trim().take(30)).apply()
+        prefs(context).edit().putString(k(context, "nombre_nino"), nombre.trim().take(30)).apply()
     }
 
     /** Instalaciones anteriores (ya configuradas) no vuelven a ver el asistente. */

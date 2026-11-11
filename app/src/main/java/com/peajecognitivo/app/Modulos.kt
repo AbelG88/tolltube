@@ -124,7 +124,7 @@ object ModulosStore {
         val m = parsear(texto)
         File(carpeta(context), "${m.id}.json").writeText(texto, Charsets.UTF_8)
         cache = null
-        if (!prefs(context).contains("modulo_on_${m.id}")) setActivo(context, m.id, true)
+        if (!prefs(context).contains(Ninos.clave(context, "modulo_on_${m.id}"))) setActivo(context, m.id, true)
         PeajeLog.d("MODULOS importado '${m.nombre}' (${m.items.size} ejercicios)")
         return m
     }
@@ -145,15 +145,17 @@ object ModulosStore {
         return lista
     }
 
-    fun activo(context: Context, id: String): Boolean = prefs(context).getBoolean("modulo_on_$id", true)
+    fun activo(context: Context, id: String): Boolean = prefs(context).getBoolean(Ninos.clave(context, "modulo_on_$id"), true)
 
     fun setActivo(context: Context, id: String, v: Boolean) {
-        prefs(context).edit().putBoolean("modulo_on_$id", v).apply()
+        prefs(context).edit().putBoolean(Ninos.clave(context, "modulo_on_$id"), v).apply()
     }
 
     fun borrar(context: Context, id: String) {
         File(carpeta(context), "$id.json").delete()
-        prefs(context).edit().remove("modulo_on_$id").apply()
+        val e = prefs(context).edit()
+        Ninos.ids(context).forEach { e.remove(Ninos.clave(it, "modulo_on_$id")) }
+        e.apply()
         cache = null
         PeajeLog.d("MODULOS quitado '$id'")
     }

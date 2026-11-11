@@ -21,18 +21,30 @@ enum class Interes(val etiqueta: String, val archivos: List<String>) {
  */
 object CatalogoModulos {
 
-    /** Instala los módulos de los temas elegidos. Devuelve cuántos quedaron instalados. */
-    fun instalar(context: Context, intereses: Set<Interes>): Int {
-        var instalados = 0
-        intereses.flatMap { it.archivos }.distinct().forEach { archivo ->
+    /**
+     * Para el niño activo: instala los módulos de los temas elegidos y deja activos solo esos
+     * (de los que vienen con la app; los importados a mano no se tocan).
+     * Devuelve cuántos módulos quedaron activos.
+     */
+    fun aplicar(context: Context, intereses: Set<Interes>): Int {
+        val elegidos = intereses.flatMap { it.archivos }.toSet()
+        val instalados = ModulosStore.listar(context).map { it.id }.toSet()
+        var activos = 0
+        Interes.values().flatMap { it.archivos }.distinct().forEach { archivo ->
             try {
                 val texto = context.assets.open(archivo).bufferedReader(Charsets.UTF_8).use { it.readText() }
-                ModulosStore.importar(context, texto)
-                instalados++
+                val id = ModulosStore.parsear(texto).id
+                if (archivo in elegidos) {
+                    if (id !in instalados) ModulosStore.importar(context, texto)
+                    ModulosStore.setActivo(context, id, true)
+                    activos++
+                } else if (id in instalados) {
+                    ModulosStore.setActivo(context, id, false)
+                }
             } catch (e: Exception) {
-                PeajeLog.d("CATALOGO no se pudo instalar '$archivo': ${e.javaClass.simpleName}")
+                PeajeLog.d("CATALOGO no se pudo procesar '$archivo': ${e.javaClass.simpleName}")
             }
         }
-        return instalados
+        return activos
     }
 }

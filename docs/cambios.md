@@ -10,6 +10,14 @@ https://github.com/AbelG88/tolltube/releases
 - [x] Sumas y restas con imágenes (emojis) acompañando los números (release 2)
 - [x] Más tipos de ejercicio (animales, objetos) y elegirlos desde el menú (release 2)
 
+## Release 14 — Varios niños, un panel por niño
+
+- **Niños** (`Ninos.kt`): se pueden cargar hasta 6. Cada uno tiene sus propios ajustes (nivel, intervalo, ejercicios por vez, apps vigiladas, tipos, módulos activos) y su progreso.
+- **El padre elige quién usa el celular** con las fichas de "Quién usa el celular" en la pantalla principal; el timer y las apps vigiladas siguen al niño activo. "+ Agregar" abre el asistente en modo niño nuevo (sin permisos ni PIN). "Quitar este niño" borra sus ajustes y progreso, con confirmación.
+- **Sin migración:** el primer niño conserva las claves de siempre, así lo ya configurado y el progreso previo siguen intactos. El PIN y el interruptor general son únicos para toda la app.
+- Los módulos incluidos en el APK se activan por niño según sus intereses.
+- Versión 3.3.0-MVP (versionCode 23).
+
 ## Release 13 — Asistente de primera vez y pantalla principal simple
 
 - **Asistente de configuración** (`AsistenteActivity`): una pregunta por pantalla — nombre del niño (opcional, solo local), intereses, tipos de cuenta, nivel, cada cuánto aparece el ejercicio, cuántos por vez, apps vigiladas, permisos y PIN de padres. Nada se guarda hasta el último paso. Se abre sola la primera vez y se puede repetir desde "Repetir asistente" (pide el PIN).
