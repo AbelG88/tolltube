@@ -10,6 +10,13 @@ https://github.com/AbelG88/tolltube/releases
 - [x] Sumas y restas con imágenes (emojis) acompañando los números (release 2)
 - [x] Más tipos de ejercicio (animales, objetos) y elegirlos desde el menú (release 2)
 
+## Release 16 — Interfaz más amigable y permisos guiados
+
+- **Estilo más cálido:** fondo lila suave, tarjetas llenas y muy redondeadas sin bordes, con tintes pastel (menta, lila, manteca), botones en pastilla y fichas (chips) que se pintan al elegirlas. Los estilos están en el tema (`Widget.Peaje.Button`, `Widget.Peaje.Card`, `Widget.Peaje.Chip`), así toda la app los toma.
+- **Asistente:** cada paso tiene su emoji en un círculo de color y textos más cercanos.
+- **Permisos guiados:** dos tarjetas (mostrar sobre otras apps, datos de uso) con botón "Activar" que pasa a "✓ Listo", y una tarjeta de ayuda con los 4 pasos para "configuración restringida" y botón a los ajustes de la app.
+- Versión 3.4.0-MVP (versionCode 25).
+
 ## Release 15 — Logo nuevo y aviso de "configuración restringida"
 
 - **Logo nuevo** (original): una barrera de peaje levantada con una chispa, en el azul de la app. Reemplaza el ícono anterior (ícono adaptable, `ic_launcher_*`) y se usa también en la bienvenida del asistente y en el encabezado de la pantalla principal (`ic_logo`).

@@ -40,14 +40,14 @@
 
         <!-- Interruptor general -->
         <com.google.android.material.card.MaterialCardView
-            style="?attr/materialCardViewOutlinedStyle"
+            style="@style/Widget.Peaje.Card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardBackgroundColor="@color/surface"
-            app:cardCornerRadius="20dp"
+            app:cardBackgroundColor="@color/pastel_mint"
+            app:cardCornerRadius="28dp"
             app:cardElevation="0dp"
             app:strokeColor="@color/outline"
-            app:strokeWidth="1dp">
+            app:strokeWidth="0dp">
 
             <com.google.android.material.materialswitch.MaterialSwitch
                 android:id="@+id/swActivo"
@@ -67,7 +67,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="28dp"
-            android:text="Quién usa el celular" />
+            android:text="👧 ¿Quién usa el celular?" />
 
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/cgNinos"
@@ -83,18 +83,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="28dp"
-            android:text="Configuración" />
+            android:text="⚙️ Lo que configuraste" />
 
         <com.google.android.material.card.MaterialCardView
-            style="?attr/materialCardViewOutlinedStyle"
+            style="@style/Widget.Peaje.Card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            app:cardBackgroundColor="@color/surface"
-            app:cardCornerRadius="20dp"
+            app:cardBackgroundColor="@color/pastel_lilac"
+            app:cardCornerRadius="28dp"
             app:cardElevation="0dp"
             app:strokeColor="@color/outline"
-            app:strokeWidth="1dp">
+            app:strokeWidth="0dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -127,18 +127,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="28dp"
-            android:text="Estado" />
+            android:text="🔎 Cómo va todo" />
 
         <com.google.android.material.card.MaterialCardView
-            style="?attr/materialCardViewOutlinedStyle"
+            style="@style/Widget.Peaje.Card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             app:cardBackgroundColor="@color/surface"
-            app:cardCornerRadius="20dp"
+            app:cardCornerRadius="28dp"
             app:cardElevation="0dp"
             app:strokeColor="@color/outline"
-            app:strokeWidth="1dp">
+            app:strokeWidth="0dp">
 
             <TextView
                 android:id="@+id/tvEstado"
@@ -156,18 +156,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="28dp"
-            android:text="Progreso" />
+            android:text="⭐ Progreso" />
 
         <com.google.android.material.card.MaterialCardView
-            style="?attr/materialCardViewOutlinedStyle"
+            style="@style/Widget.Peaje.Card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            app:cardBackgroundColor="@color/surface"
-            app:cardCornerRadius="20dp"
+            app:cardBackgroundColor="@color/pastel_butter"
+            app:cardCornerRadius="28dp"
             app:cardElevation="0dp"
             app:strokeColor="@color/outline"
-            app:strokeWidth="1dp">
+            app:strokeWidth="0dp">
 
             <TextView
                 android:id="@+id/tvHistorial"
@@ -188,12 +188,12 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnTestOverlay"
-            style="@style/Widget.Material3.Button.TonalButton"
+            style="@style/Widget.Peaje.Button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:minHeight="52dp"
-            android:text="Probar ahora" />
+            android:text="Probar ahora 🚀" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnMasAjustes"
@@ -220,7 +220,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnEnableOverlay"
-            style="@style/Widget.Material3.Button.OutlinedButton"
+            style="@style/Widget.Peaje.Button.Soft"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -237,7 +237,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnUsoPermiso"
-            style="@style/Widget.Material3.Button.OutlinedButton"
+            style="@style/Widget.Peaje.Button.Soft"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -500,7 +500,7 @@
         <!-- Acciones -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnPin"
-            style="@style/Widget.Material3.Button.OutlinedButton"
+            style="@style/Widget.Peaje.Button.Soft"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
@@ -509,7 +509,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnModulos"
-            style="@style/Widget.Material3.Button.OutlinedButton"
+            style="@style/Widget.Peaje.Button.Soft"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"

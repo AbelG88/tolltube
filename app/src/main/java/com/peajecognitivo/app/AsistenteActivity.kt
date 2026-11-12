@@ -31,6 +31,7 @@ class AsistenteActivity : AppCompatActivity() {
     private class Paso(
         val titulo: String,
         val subtitulo: String,
+        val emoji: String = "✨",
         val construir: (LinearLayout) -> Unit = {},
         val validar: () -> String? = { null }
     )
@@ -130,7 +131,8 @@ class AsistenteActivity : AppCompatActivity() {
 
         lista += Paso(
             "¿Cómo se llama?",
-            "Solo se guarda en este celular. Alcanza con un apodo.",
+            "Se guarda solo en este celular. Con un apodo alcanza.",
+            emoji = "👋",
             construir = { c ->
                 val capa = TextInputLayout(this, null, com.google.android.material.R.attr.textInputOutlinedStyle).apply {
                     hint = "Nombre del niño"
@@ -151,7 +153,8 @@ class AsistenteActivity : AppCompatActivity() {
 
         lista += Paso(
             "¿Qué le gusta?",
-            "Con eso elegimos los módulos de ejercicios. Podés marcar varios.",
+            "Con eso elegimos los ejercicios. Podés marcar varios.",
+            emoji = "🦖",
             construir = { c ->
                 val g = grupo(multiple = true)
                 Interes.values().forEach { i ->
@@ -166,6 +169,7 @@ class AsistenteActivity : AppCompatActivity() {
         lista += Paso(
             "¿Practicamos cuentas?",
             "Sumas, restas y contar, con dibujos.",
+            emoji = "🔢",
             construir = { c ->
                 val g = grupo(multiple = true)
                 listOf(
@@ -187,7 +191,8 @@ class AsistenteActivity : AppCompatActivity() {
 
         lista += Paso(
             "¿Qué nivel?",
-            "Se puede cambiar cuando quieras.",
+            "Lo podés cambiar cuando quieras.",
+            emoji = "📈",
             construir = { c ->
                 val g = grupo(multiple = false)
                 listOf(1 to "Fácil", 2 to "Medio", 3 to "Difícil").forEach { (n, etiqueta) ->
@@ -200,6 +205,7 @@ class AsistenteActivity : AppCompatActivity() {
         lista += Paso(
             "¿Cada cuánto aparece un ejercicio?",
             "Es el tiempo mirando la app, entre un ejercicio y el siguiente.",
+            emoji = "⏱️",
             construir = { c ->
                 val g = grupo(multiple = false)
                 (listOf(300, 600, 900, 1200, 1800) + intervaloSeg).distinct().sorted().forEach { seg ->
@@ -210,8 +216,9 @@ class AsistenteActivity : AppCompatActivity() {
         )
 
         lista += Paso(
-            "¿Cuántos ejercicios por vez?",
-            "Cuántos tiene que resolver seguidos cada vez que aparece.",
+            "¿Cuántos por vez?",
+            "Cuántos resuelve seguidos cada vez que aparece el peaje.",
+            emoji = "🎯",
             construir = { c ->
                 val g = grupo(multiple = false)
                 (listOf(1, 2, 3, 4, 5) + serie).distinct().sorted().forEach { n ->
@@ -222,8 +229,9 @@ class AsistenteActivity : AppCompatActivity() {
         )
 
         lista += Paso(
-            "¿Qué apps vigilamos?",
+            "¿Qué apps cuidamos?",
             "El ejercicio aparece sobre las que marques.",
+            emoji = "📱",
             construir = { c ->
                 val g = grupo(multiple = true)
                 AppVigilada.values().forEach { a ->
@@ -237,27 +245,41 @@ class AsistenteActivity : AppCompatActivity() {
         )
 
         if (!nuevo) lista += Paso(
-            "Dos permisos",
-            "Sirven para mostrar el ejercicio sobre otras apps y saber cuál está abierta. No se envía nada a ningún lado.",
+            "Dos permisos y listo",
+            "Sin estos dos, el ejercicio no puede aparecer. No sale nada de este celular.",
+            emoji = "🔑",
             construir = { c ->
                 btnOverlay = botonPermiso {
                     startActivity(Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:$packageName")))
                 }
                 btnUso = botonPermiso { startActivity(Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS)) }
-                c.addView(btnOverlay)
-                c.addView(btnUso)
-                c.addView(texto(
-                    "¿Android dice \"A la app se le negó el acceso\"? Pasa porque la app se instaló desde un archivo. " +
-                        "Hay que habilitarlo en otro lado: Ajustes → Aplicaciones → Peaje Cognitivo → ⋮ (arriba a la derecha) → " +
-                        "Permitir configuración restringida. Después volvé acá y tocá el permiso de nuevo.",
-                    14f, R.color.text_secondary, arriba = 4
-                ))
-                c.addView(MaterialButton(this, null, com.google.android.material.R.attr.materialButtonOutlinedStyle).apply {
-                    text = "Abrir ajustes de la app"
-                    layoutParams = LinearLayout.LayoutParams(MATCH, WRAP).apply { topMargin = dp(12) }
-                    setOnClickListener {
-                        startActivity(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:$packageName")))
-                    }
+                c.addView(tarjeta(R.color.pastel_sky).apply {
+                    addView(texto("🪟 Mostrar sobre otras apps", 18f, R.color.text_primary, bold = true))
+                    addView(texto("Para poner el ejercicio encima del video.", 14f, R.color.text_secondary, arriba = 4))
+                    addView(btnOverlay)
+                })
+                c.addView(tarjeta(R.color.pastel_mint).apply {
+                    addView(texto("📊 Datos de uso", 18f, R.color.text_primary, bold = true))
+                    addView(texto("Para saber qué app está abierta y cuánto tiempo.", 14f, R.color.text_secondary, arriba = 4))
+                    addView(btnUso)
+                })
+                c.addView(tarjeta(R.color.pastel_butter).apply {
+                    addView(texto("¿Android dice \"A la app se le negó el acceso\"?", 16f, R.color.text_primary, bold = true))
+                    addView(texto(
+                        "Pasa con las apps instaladas desde un archivo. Se arregla una sola vez:\n" +
+                            "1. Tocá el botón de abajo.\n" +
+                            "2. Arriba a la derecha, tocá ⋮.\n" +
+                            "3. Elegí \"Permitir configuración restringida\".\n" +
+                            "4. Volvé acá y tocá de nuevo el permiso.",
+                        14f, R.color.text_secondary, arriba = 6
+                    ).apply { setLineSpacing(0f, 1.25f) })
+                    addView(MaterialButton(this@AsistenteActivity, null, com.google.android.material.R.attr.materialButtonOutlinedStyle).apply {
+                        text = "Abrir ajustes de la app"
+                        layoutParams = LinearLayout.LayoutParams(MATCH, WRAP).apply { topMargin = dp(12) }
+                        setOnClickListener {
+                            startActivity(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:$packageName")))
+                        }
+                    })
                 })
                 actualizarPermisos()
             }
@@ -265,8 +287,9 @@ class AsistenteActivity : AppCompatActivity() {
 
         if (!nuevo && !PinStore.tienePin(this)) {
             lista += Paso(
-                "Poné un PIN de padres",
+                "Tu PIN de padres",
                 "Protege los ajustes y el botón de apagar. De 4 a 6 números.",
+                emoji = "🔒",
                 construir = { c ->
                     c.addView(campoPin("PIN") { pin = it })
                     c.addView(campoPin("Repetir el PIN") { pinRepetido = it }, LinearLayout.LayoutParams(MATCH, WRAP).apply {
@@ -284,8 +307,9 @@ class AsistenteActivity : AppCompatActivity() {
         }
 
         lista += Paso(
-            "Todo listo",
+            "¡Todo listo!",
             "Esto es lo que va a quedar. Lo podés cambiar desde la app cuando quieras.",
+            emoji = "🎉",
             construir = { c ->
                 val niveles = listOf("Fácil", "Medio", "Difícil")
                 val lineas = buildList {
@@ -311,6 +335,18 @@ class AsistenteActivity : AppCompatActivity() {
                 setImageResource(R.drawable.ic_logo)
                 contentDescription = "Logo de Peaje Cognitivo"
                 layoutParams = LinearLayout.LayoutParams(dp(96), dp(96)).apply { bottomMargin = dp(24) }
+            })
+        } else {
+            val colores = listOf(R.color.pastel_peach, R.color.pastel_mint, R.color.pastel_butter, R.color.pastel_sky, R.color.pastel_lilac)
+            contenedor.addView(TextView(this).apply {
+                text = p.emoji
+                textSize = 36f
+                gravity = android.view.Gravity.CENTER
+                background = android.graphics.drawable.GradientDrawable().apply {
+                    shape = android.graphics.drawable.GradientDrawable.OVAL
+                    setColor(getColor(colores[actual % colores.size]))
+                }
+                layoutParams = LinearLayout.LayoutParams(dp(84), dp(84)).apply { bottomMargin = dp(24) }
             })
         }
         contenedor.addView(texto(p.titulo, 30f, R.color.text_primary, bold = true))
@@ -355,18 +391,32 @@ class AsistenteActivity : AppCompatActivity() {
     // ---------- Piezas de pantalla ----------
 
     private fun actualizarPermisos() {
-        btnOverlay?.text =
-            if (Settings.canDrawOverlays(this)) "✓ Dibujar sobre otras apps" else "Permitir: dibujar sobre otras apps"
-        btnUso?.text =
-            if (UsoApps.tienePermiso(this)) "✓ Acceso a datos de uso" else "Permitir: acceso a datos de uso"
+        estadoBoton(btnOverlay, Settings.canDrawOverlays(this))
+        estadoBoton(btnUso, UsoApps.tienePermiso(this))
+    }
+
+    private fun estadoBoton(b: MaterialButton?, ok: Boolean) {
+        b ?: return
+        b.text = if (ok) "✓ Listo" else "Activar"
+        b.alpha = if (ok) 0.65f else 1f
     }
 
     private fun botonPermiso(alTocar: () -> Unit) =
-        MaterialButton(this, null, com.google.android.material.R.attr.materialButtonOutlinedStyle).apply {
-            minHeight = dp(56)
-            layoutParams = LinearLayout.LayoutParams(MATCH, WRAP).apply { bottomMargin = dp(12) }
+        MaterialButton(this).apply {
+            layoutParams = LinearLayout.LayoutParams(MATCH, WRAP).apply { topMargin = dp(12) }
             setOnClickListener { alTocar() }
         }
+
+    /** Tarjeta pastel redondeada para agrupar contenido. */
+    private fun tarjeta(color: Int) = LinearLayout(this).apply {
+        orientation = LinearLayout.VERTICAL
+        setPadding(dp(20), dp(18), dp(20), dp(18))
+        background = android.graphics.drawable.GradientDrawable().apply {
+            setColor(getColor(color))
+            cornerRadius = dp(28).toFloat()
+        }
+        layoutParams = LinearLayout.LayoutParams(MATCH, WRAP).apply { bottomMargin = dp(14) }
+    }
 
     private fun campoPin(pista: String, alCambiar: (String) -> Unit): TextInputLayout {
         val capa = TextInputLayout(this, null, com.google.android.material.R.attr.textInputOutlinedStyle).apply {

@@ -11,8 +11,8 @@ android {
         applicationId = "com.peajecognitivo.app"
         minSdk = 26
         targetSdk = 34
-        versionCode = 24
-        versionName = "3.3.1-MVP"
+        versionCode = 25
+        versionName = "3.4.0-MVP"
     }
 
     // Firma fija para debug: así cada build nuevo se instala ENCIMA del anterior

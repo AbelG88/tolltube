@@ -5,11 +5,17 @@
 
     <!-- Paleta sobria: un solo acento y grises cálidos -->
     <color name="accent">#FF4F5BD5</color>
-    <color name="accent_container">#FFE6E8FA</color>
+    <color name="accent_container">#FFE3E5FB</color>
     <color name="accent_on_container">#FF2A2F73</color>
-    <color name="background">#FFFAFAF9</color>
+    <color name="background">#FFF5F3FF</color>
     <color name="surface">#FFFFFFFF</color>
-    <color name="outline">#FFE4E4E7</color>
+    <color name="outline">#FFE6E3F5</color>
+    <!-- Pasteles para tarjetas y fichas -->
+    <color name="pastel_peach">#FFFFE4D6</color>
+    <color name="pastel_mint">#FFD7F3E7</color>
+    <color name="pastel_butter">#FFFFF1C2</color>
+    <color name="pastel_sky">#FFDCEBFF</color>
+    <color name="pastel_lilac">#FFE8DEFF</color>
     <color name="text_primary">#FF1C1B1F</color>
     <color name="text_secondary">#FF6B6B76</color>
     <color name="text_hint">#FF9A9AA5</color>
