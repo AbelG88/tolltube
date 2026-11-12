@@ -730,17 +730,17 @@
 
         <TextView
             android:id="@+id/navInicio"
-            style="@style/Widget.Peaje.Nav"
+            style="@style/NavPeaje"
             android:text="Inicio" />
 
         <TextView
             android:id="@+id/navProgreso"
-            style="@style/Widget.Peaje.Nav"
+            style="@style/NavPeaje"
             android:text="Progreso" />
 
         <TextView
             android:id="@+id/navAjustes"
-            style="@style/Widget.Peaje.Nav"
+            style="@style/NavPeaje"
             android:text="Ajustes" />
     </LinearLayout>
 </LinearLayout>
