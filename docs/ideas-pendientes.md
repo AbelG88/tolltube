@@ -34,10 +34,10 @@ Preguntas abiertas antes de construirlo:
 
 ## Pendientes abiertos
 
-- Confirmar en el celu la 1.3 (arreglo de H1): sumas con teclado repetidas, YouTube abierto antes de activar accesibilidad, salir a WhatsApp y volver, horizontal.
+- Confirmar en el celu la 1.3 (arreglo de H1): sumas con teclado repetidas, YouTube abierto antes de activar el permiso de uso, salir a WhatsApp y volver, horizontal.
 - Aclarar qué hay que corregir en el documento original del proyecto.
 - H3, H5 y H7 del [diagnóstico](diagnostico-intermitencia.md) no se observaron ni se arreglaron.
-- Arquitectura a futuro: el servicio de accesibilidad sirve para uso personal, pero para publicar en Play Store habría que migrar a UsageStatsManager / DevicePolicyManager.
+- Decisión: la accesibilidad quedó desterrada (eliminada en el release 14). La detección es solo por `UsageStatsManager`; no se vuelve a agregar.
 - Política Play Familias: público declarado adultos; sin anuncios, cuentas ni analíticas.
 
 ## Forma de trabajo

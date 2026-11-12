@@ -9,7 +9,7 @@ import android.os.SystemClock
  * Temporizador interno del peaje.
  *
  * Cómo funciona (desde la 1.3):
- *  - Se ARRANCA cuando el servicio de accesibilidad ve aparecer YouTube.
+ *  - Se ARRANCA cuando el monitor de uso de apps ve aparecer YouTube.
  *  - Los eventos de otras ventanas (teclado, barra del sistema, nuestro overlay) ya NO lo apagan.
  *  - Cada vez que se cumple el tiempo, se pregunta al sistema qué app está realmente en pantalla:
  *      · YouTube  -> se muestra el ejercicio y el timer espera a que se resuelva;

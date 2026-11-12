@@ -1,80 +1,123 @@
-# 🧠 Peaje Cognitivo - MVP
+# 🧠 Peaje Cognitivo
 
-## Cómo obtener el APK sin instalar nada en tu computadora
+App Android de control parental con un giro educativo: cuando el niño usa una app de las que cuidamos (YouTube, TikTok, juegos…), cada cierto tiempo aparece un **ejercicio** que tiene que resolver para seguir. No bloquea: convierte el tiempo de pantalla en práctica.
 
-### Opción A: GitHub Actions (recomendada, 100% gratis)
+Versión actual: **3.6.0-MVP** (versionCode 28) · Paquete: `com.peajecognitivo.app` · Licencia: ver [LICENSE](LICENSE).
 
-El repo es `AbelG88/tolltube`. Cada push a `main` compila solo y deja el APK en **Releases** (https://github.com/AbelG88/tolltube/releases/latest). Desde el celu, bajá `peaje-cognitivo.apk` de ahí: es la forma más fácil. Lo de abajo (Artifacts) es el camino alternativo.
+## Qué hace
 
-1. **Ir a la pestaña "Actions"** del repo en GitHub
-2. Si no arrancó solo, tocar **"Build APK"** y luego "Run workflow"
-3. **Esperar ~3 minutos**
-4. **Clickear el workflow más reciente → bajar a "Artifacts" → descargar `peaje-cognitivo-apk`**
-5. El archivo `app-debug.apk` ya se puede instalar en el celular Android
+- **Ejercicios en pantalla** sobre la app que usa el niño: sumas, restas, animales, objetos, emociones, letras, colores, formas, secuencias, etc.
+- **Varios niños:** un panel por niño; el padre elige el activo. El nivel sale de la edad.
+- **Asistente de 4 pasos:** nombre y edad → qué le gusta → qué apps cuidamos → permisos y PIN.
+- **Qué apps cuidamos:** las de siempre (YouTube, YouTube Kids, TikTok, Instagram, Netflix), las que elijas de la lista de instaladas, o todo menos lo que permitas.
+- **Modos:** Suave (cada 20 min), Normal (cada 10 min) e Intenso (2 ejercicios cada 5 min). Tiempo ajustable desde 10 segundos hasta 3 horas.
+- **Módulos de ejercicios en JSON** (`/modulos`), incluidos en el APK y con posibilidad de importar propios.
+- **Refuerzos:** voz que lee el ejercicio, ayuda tras errores, estrellas y contador diario, progreso por tipo.
+- **Seguridad:** PIN de padres guardado con hash, bloqueo por intentos fallidos, registro sin datos sensibles.
+- **Apoyo voluntario:** pedido solo en el panel de padres, cada 100 aciertos (nunca sobre las apps del niño).
 
-### Opción B: Android Studio (si querés modificar algo)
+## Stack
 
-1. Descargar Android Studio: https://developer.android.com/studio
-2. Abrir este proyecto
-3. Conectar el celular por USB (activar "Depuración USB" en Opciones de desarrollador)
-4. Tocar el botón verde de "Play" ▶️
+- Kotlin + Android (AGP 8.2.0, Kotlin 1.9.20, compileSdk/targetSdk 34, minSdk 26), vistas XML con Material. Sin Compose.
+- Dependencias mínimas: `core-ktx`, `appcompat`, `material`, `constraintlayout`.
+- Detección de la app en primer plano solo con `UsageStatsManager` (datos de uso); **no usa servicio de accesibilidad**. Overlay con `SYSTEM_ALERT_WINDOW`.
+- Tipografía Quicksand (licencia OFL en [licencias/](licencias/)).
 
----
+Estructura:
 
-## Cómo instalar el APK en el celular del niño
+```
+app/src/main/java/com/peajecognitivo/app/   código (MainActivity, AsistenteActivity, PeajeOverlayManager, SettingsStore…)
+modulos/                                    módulos de ejercicios (JSON), empaquetados como assets
+docs/                                       documento del proyecto, cambios, Play Store, diagnóstico, privacidad
+.github/workflows/build.yml                 compilación automática
+```
 
-1. Enviar el archivo `app-debug.apk` por WhatsApp, Telegram, Drive, o cable USB
-2. En el celular, tocar el archivo
-3. Si pide permiso: **Configuración → Permitir instalar de esta fuente**
-4. Instalar
+## Cómo obtener el APK
 
-## Cómo usar la app
+### Opción A: GitHub Actions (sin instalar nada)
 
-1. Abrir "Peaje Cognitivo"
-2. Tocar "Permitir dibujar sobre otras apps" → activar el permiso
-3. Tocar "Activar servicio de accesibilidad" → buscar "Peaje Cognitivo" → activar
-4. Tocar "Probar overlay ahora" para ver si funciona
-5. Elegir el tiempo entre ejercicios (por defecto 1 minuto) y tocar "Guardar tiempo"
-6. Abrir YouTube y esperar ese tiempo
+Cada push a `main` compila solo y publica el APK en **Releases**: https://github.com/AbelG88/tolltube/releases/latest. Desde el celu bajá `peaje-cognitivo.apk`.
 
----
+También se puede disparar a mano: pestaña **Actions → Build APK → Run workflow** (~3 min) y bajar `peaje-cognitivo-apk` de *Artifacts*.
+
+El workflow además verifica que compile la variante `release` (sin registro de diagnóstico) y, si están cargados los secrets de firma, arma el `.aab` para Google Play.
+
+### Opción B: compilar en tu máquina
+
+Requisitos: JDK 17 y el Android SDK (el wrapper `./gradlew` baja Gradle 8.2 solo).
+
+```
+./gradlew testDebugUnitTest   # tests unitarios
+./gradlew assembleDebug       # APK en app/build/outputs/apk/debug/
+./gradlew assembleRelease     # verificación de la variante release
+```
+
+O abrí el proyecto en Android Studio, conectá el celu con "Depuración USB" y tocá ▶️.
+
+## Instalación y primer uso
+
+1. Pasá el APK al celu del niño (WhatsApp, Drive, cable) y abrilo. Si lo pide: *Permitir instalar de esta fuente*.
+2. Abrí **Peaje Cognitivo** y seguí el asistente.
+3. Otorgá los permisos que pide la app:
+   - **Mostrar sobre otras apps** (overlay).
+   - **Acceso a datos de uso** (así se detecta qué app está abierta).
+   - En Android 13+: *Info de la app → ⋮ → Permitir ajustes restringidos* (la app tiene una guía paso a paso).
+4. Definí el **PIN** de padres.
+5. Tocá **Probar ahora** y abrí una de las apps cuidadas.
+
+**Actualizar:** desde el Build #16 todos los APK van firmados con la misma clave (`app/debug.keystore`), así que se instalan encima del anterior. Si venías del #15 o anterior, desinstalá una vez.
+
+## Personalizar
+
+- **Tipos de ejercicio y tiempo:** desde la app (Ajustes → Avanzado) o editando `ExerciseGenerator.kt` (pares `"emoji" to "Nombre"`).
+- **Módulos de contenido:** agregá un `.json` en `modulos/` o importalo desde la app. Formato mínimo:
+
+  ```json
+  {
+    "formato": 1,
+    "nombre": "Animales",
+    "descripcion": "Reconocer animales",
+    "edad": "3 a 7 años",
+    "ejercicios": [
+      { "tipo": "opciones", "visual": "🐶", "pregunta": "¿Qué animal es?",
+        "correcta": "Perro", "incorrectas": ["Conejo", "Cerdo", "Tortuga"] }
+    ]
+  }
+  ```
+
+  Ejemplo completo en [docs/modulos-ejemplo/dinosaurios.json](docs/modulos-ejemplo/dinosaurios.json).
 
 ## Si el overlay a veces aparece y a veces no
 
-**Desde el celu (sin PC):** en la pantalla principal mirá el panel **🔎 Estado** y tocá **📋 Ver registro** → Copiar o Compartir. El estado dice si el permiso, la accesibilidad y el servicio están bien, y cuál fue la última app detectada.
+- **Desde el celu:** panel **🔎 Estado** → **📋 Ver registro** → Copiar o Compartir. Muestra permisos, estado del servicio y la última app detectada.
+- **Con PC:** logs con el tag `Peaje`:
 
-**Con PC:** la app también escribe logs con el tag `Peaje`. Con el celu conectado:
+  ```
+  adb logcat -c
+  adb logcat -s Peaje:D > peaje-prueba-1.log
+  ```
 
-```
-adb logcat -c
-adb logcat -s Peaje:D > peaje-prueba-1.log
-```
+- Algunos fabricantes (Samsung, Xiaomi, Motorola…) matan procesos en segundo plano: excluí la app de la optimización de batería.
+- Hipótesis y protocolo de prueba: [docs/diagnostico-intermitencia.md](docs/diagnostico-intermitencia.md).
 
-Después de reinstalar el APK hay que **apagar y volver a prender** el servicio de accesibilidad. En Android 13+ también hay que activar "Permitir ajustes restringidos" en Info de la app.
+## Estado y hoja de ruta
 
-Hipótesis, protocolo de prueba y registro de resultados: [docs/diagnostico-intermitencia.md](docs/diagnostico-intermitencia.md).
-Documento del proyecto: [docs/app-peaje-cognitivo.md](docs/app-peaje-cognitivo.md).
+El proyecto es un **MVP en pruebas reales**; las compilaciones se verifican por CI y la prueba en el celu es manual. Hay tests unitarios del parser de módulos (incluida la validación de todos los `modulos/*.json`) que corren en CI; falta cubrir PIN y generador de ejercicios.
 
----
+Pendientes principales (detalle en [docs/ideas-pendientes.md](docs/ideas-pendientes.md) y [docs/camino-a-play-store.md](docs/camino-a-play-store.md)):
 
-## Para elegir el tipo de ejercicio
+- Resolver la intermitencia del overlay (H3, H5 y H7 sin observar).
+- Clave de firma propia, política de privacidad pública y formulario de seguridad de datos.
+- Campo obligatorio de compatibilidad en los módulos importables.
 
-Desde la app: pantalla principal → **🎯 Tipos de ejercicio** → tildar sumas, restas, animales y/o objetos. Si hay varios tildados salen mezclados. Se guarda al tocar, y siempre queda al menos uno.
+## Documentación
 
-Los ejercicios están en `app/src/main/java/com/peajecognitivo/app/ExerciseGenerator.kt`. Para agregar animales u objetos, sumar un par `"emoji" to "Nombre"` a la lista.
-
-## Para cambiar el tiempo entre ejercicios
-
-Desde la app: pantalla principal → **⏱️ Tiempo entre ejercicios** → minutos y segundos → **Guardar tiempo**. Mínimo 10 segundos, máximo 3 horas. Por defecto es 1 minuto. Si ya está corriendo un timer, se reprograma al guardar.
-
-## Instalar una versión nueva encima de otra
-
-Desde el Build #16 en adelante todos los APK van firmados con la misma clave (`app/debug.keystore`), así que se instalan **encima** del anterior sin desinstalar. La primera vez, si tenías instalado el Build #15 o anterior, hay que **desinstalarlo** (esa versión se firmó con otra clave). Después de actualizar, apagá y prendé el servicio de accesibilidad.
-
-El historial de versiones está en [docs/cambios.md](docs/cambios.md). Ideas y pendientes: [docs/ideas-pendientes.md](docs/ideas-pendientes.md).
-
-## Para cambiar el ejercicio
-
-Editar `app/src/main/java/com/peajecognitivo/app/PeajeOverlayManager.kt`:
-- Cambiar la pregunta en `tvQuestion.text`
-- Cambiar la respuesta correcta en `if (answer == "5")`
+| Documento | Contenido |
+|---|---|
+| [docs/app-peaje-cognitivo.md](docs/app-peaje-cognitivo.md) | Idea, objetivos y fases del proyecto |
+| [docs/cambios.md](docs/cambios.md) | Historial de versiones |
+| [docs/ideas-pendientes.md](docs/ideas-pendientes.md) | Ideas y pendientes |
+| [docs/camino-a-play-store.md](docs/camino-a-play-store.md) | Requisitos para publicar en Google Play |
+| [docs/diagnostico-intermitencia.md](docs/diagnostico-intermitencia.md) | Diagnóstico del overlay intermitente |
+| [docs/politica-de-privacidad.md](docs/politica-de-privacidad.md) | Política de privacidad |
+| [docs/play-seguridad-de-datos.md](docs/play-seguridad-de-datos.md) | Declaración de seguridad de datos |

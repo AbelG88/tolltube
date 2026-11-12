@@ -7,7 +7,7 @@ import android.os.Handler
 import android.os.Looper
 
 /**
- * Corre al arrancar el proceso (también cuando Android relanza el servicio de accesibilidad).
+ * Corre al arrancar el proceso (también cuando Android relanza el servicio de monitoreo).
  * Prepara el registro y deja anotado cualquier crash antes de que el proceso muera.
  */
 class PeajeApp : Application() {

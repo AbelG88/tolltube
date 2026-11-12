@@ -55,7 +55,6 @@ object SettingsStore {
 
     // El PIN de padres está en PinStore (hash + sal, con bloqueo por intentos).
 
-    /** Cómo se detecta YouTube: "uso" (uso de apps, por defecto) o "acc" (accesibilidad, alternativo). */
     /** Si está activo, el tiempo solo corre mientras YouTube está en pantalla Y hay audio sonando. */
     fun getSoloReproduciendo(context: Context): Boolean = prefs(context).getBoolean("solo_reproduciendo", true)
 
