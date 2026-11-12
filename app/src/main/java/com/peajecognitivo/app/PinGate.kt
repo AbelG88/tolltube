@@ -74,7 +74,7 @@ object PinGate {
     }
 
     /** true si no hay PIN o el panel ya está desbloqueado (no hay un pedido de PIN en pantalla). */
-    fun libre(context: Context): Boolean =
+    fun libre(context: android.content.Context): Boolean =
         !PinStore.tienePin(context) || SystemClock.elapsedRealtime() < desbloqueadoHasta
 
     /** Si hay PIN y no se desbloqueó hace poco, lo pide. Si se cancela, cierra la pantalla. */
