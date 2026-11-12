@@ -21,7 +21,7 @@ Desde el 30/9/2026 solo se instalan apps de desarrolladores registrados en Brasi
 ## Pendientes técnicos antes de publicar
 - [x] Detectar YouTube sin accesibilidad (release 9, modo "Uso de apps").
 - [ ] Probar el modo nuevo en uso real y, si anda bien, dejarlo por defecto.
-- [ ] Sacar el servicio de accesibilidad del manifest y del código.
+- [x] Sacar el servicio de accesibilidad del manifest y del código (release 14; desterrada de forma definitiva).
 - [ ] Clave de firma propia y paquete AAB (hoy se firma con la clave de debug).
 - [ ] Quitar o limitar el registro de diagnóstico (anota cada app que se abre).
 - [ ] Política de privacidad con URL pública, formulario de seguridad de datos y cuestionario de clasificación de contenido.

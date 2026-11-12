@@ -20,7 +20,7 @@ Versión actual: **3.6.0-MVP** (versionCode 28) · Paquete: `com.peajecognitivo.
 
 - Kotlin + Android (AGP 8.2.0, Kotlin 1.9.20, compileSdk/targetSdk 34, minSdk 26), vistas XML con Material. Sin Compose.
 - Dependencias mínimas: `core-ktx`, `appcompat`, `material`, `constraintlayout`.
-- Detección de la app en primer plano: servicio de accesibilidad y/o `UsageStatsManager` ("Uso de apps"); overlay con `SYSTEM_ALERT_WINDOW`.
+- Detección de la app en primer plano solo con `UsageStatsManager` (datos de uso); **no usa servicio de accesibilidad**. Overlay con `SYSTEM_ALERT_WINDOW`.
 - Tipografía Quicksand (licencia OFL en [licencias/](licencias/)).
 
 Estructura:
@@ -44,11 +44,12 @@ El workflow además verifica que compile la variante `release` (sin registro de 
 
 ### Opción B: compilar en tu máquina
 
-Requisitos: JDK 17 y Gradle 8.2 (el `gradlew` del repo es un stub, usá el `gradle` instalado).
+Requisitos: JDK 17 y el Android SDK (el wrapper `./gradlew` baja Gradle 8.2 solo).
 
 ```
-gradle assembleDebug      # APK en app/build/outputs/apk/debug/
-gradle assembleRelease    # verificación de la variante release
+./gradlew testDebugUnitTest   # tests unitarios
+./gradlew assembleDebug       # APK en app/build/outputs/apk/debug/
+./gradlew assembleRelease     # verificación de la variante release
 ```
 
 O abrí el proyecto en Android Studio, conectá el celu con "Depuración USB" y tocá ▶️.
@@ -59,12 +60,12 @@ O abrí el proyecto en Android Studio, conectá el celu con "Depuración USB" y 
 2. Abrí **Peaje Cognitivo** y seguí el asistente.
 3. Otorgá los permisos que pide la app:
    - **Mostrar sobre otras apps** (overlay).
-   - **Datos de uso** (modo "Uso de apps") y/o **servicio de accesibilidad**.
+   - **Acceso a datos de uso** (así se detecta qué app está abierta).
    - En Android 13+: *Info de la app → ⋮ → Permitir ajustes restringidos* (la app tiene una guía paso a paso).
 4. Definí el **PIN** de padres.
 5. Tocá **Probar ahora** y abrí una de las apps cuidadas.
 
-**Actualizar:** desde el Build #16 todos los APK van firmados con la misma clave (`app/debug.keystore`), así que se instalan encima del anterior. Si venías del #15 o anterior, desinstalá una vez. Después de actualizar, apagá y prendé el servicio de accesibilidad.
+**Actualizar:** desde el Build #16 todos los APK van firmados con la misma clave (`app/debug.keystore`), así que se instalan encima del anterior. Si venías del #15 o anterior, desinstalá una vez.
 
 ## Personalizar
 
@@ -88,7 +89,7 @@ O abrí el proyecto en Android Studio, conectá el celu con "Depuración USB" y 
 
 ## Si el overlay a veces aparece y a veces no
 
-- **Desde el celu:** panel **🔎 Estado** → **📋 Ver registro** → Copiar o Compartir. Muestra permisos, accesibilidad, servicio y la última app detectada.
+- **Desde el celu:** panel **🔎 Estado** → **📋 Ver registro** → Copiar o Compartir. Muestra permisos, estado del servicio y la última app detectada.
 - **Con PC:** logs con el tag `Peaje`:
 
   ```
@@ -96,17 +97,16 @@ O abrí el proyecto en Android Studio, conectá el celu con "Depuración USB" y 
   adb logcat -s Peaje:D > peaje-prueba-1.log
   ```
 
-- Después de reinstalar hay que **apagar y volver a prender** el servicio de accesibilidad.
+- Algunos fabricantes (Samsung, Xiaomi, Motorola…) matan procesos en segundo plano: excluí la app de la optimización de batería.
 - Hipótesis y protocolo de prueba: [docs/diagnostico-intermitencia.md](docs/diagnostico-intermitencia.md).
 
 ## Estado y hoja de ruta
 
-El proyecto es un **MVP en pruebas reales**; las compilaciones se verifican por CI y la prueba en el celu es manual. No hay tests automatizados todavía.
+El proyecto es un **MVP en pruebas reales**; las compilaciones se verifican por CI y la prueba en el celu es manual. Hay tests unitarios del parser de módulos (incluida la validación de todos los `modulos/*.json`) que corren en CI; falta cubrir PIN y generador de ejercicios.
 
 Pendientes principales (detalle en [docs/ideas-pendientes.md](docs/ideas-pendientes.md) y [docs/camino-a-play-store.md](docs/camino-a-play-store.md)):
 
 - Resolver la intermitencia del overlay (H3, H5 y H7 sin observar).
-- Migrar de accesibilidad a `UsageStatsManager` para poder publicar en Google Play.
 - Clave de firma propia, política de privacidad pública y formulario de seguridad de datos.
 - Campo obligatorio de compatibilidad en los módulos importables.
 
