@@ -10,6 +10,13 @@ https://github.com/AbelG88/tolltube/releases
 - [x] Sumas y restas con imágenes (emojis) acompañando los números (release 2)
 - [x] Más tipos de ejercicio (animales, objetos) y elegirlos desde el menú (release 2)
 
+## Release 18 — Rediseño simple (v3.6.0)
+
+- Asistente de 4 pasos: nombre y edad (el nivel sale de la edad), qué le gusta, qué apps cuidamos, permisos y PIN.
+- Qué apps cuidamos, 3 modos: las de siempre (YouTube, YouTube Kids, TikTok, Instagram, Netflix), las que elijo de la lista de apps instaladas (juegos incluidos), o todo menos lo que permito. La lista usa `<queries>` (sin `QUERY_ALL_PACKAGES`).
+- Inicio con un solo aviso de estado (verde "Todo funcionando" o ámbar con "Arreglar ahora"), tarjeta del niño, "Qué cuidamos" y "Probar ahora".
+- Barra inferior Inicio / Progreso / Ajustes. Ajustes con modos Suave (20 min), Normal (10 min) e Intenso (2 ejercicios cada 5 min). Lo técnico quedó en "Avanzado".
+
 ## Release 17 — Estilo Nappy y apoyo voluntario (donaciones)
 
 - **Estilo tomado de la app Nappy:** tipografía Quicksand (incluida en la app, licencia OFL en `licencias/`), azul `#3B82F6` sobre fondo celeste, tarjeta principal con degradé azul–índigo con el niño activo, dos fichas con "Aciertos hoy" y cada cuánto sale el ejercicio. El logo y el ícono pasaron al mismo azul.

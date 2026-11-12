@@ -29,23 +29,21 @@ import com.google.android.material.textfield.TextInputLayout
 class AsistenteActivity : AppCompatActivity() {
 
     private class Paso(
+        val construir: (LinearLayout) -> Unit,
         val titulo: String,
         val subtitulo: String,
-        val emoji: String = "✨",
-        val construir: (LinearLayout) -> Unit = {},
         val validar: () -> String? = { null }
     )
 
     // Respuestas (arrancan con lo que ya está configurado)
     private var nombre = ""
+    private var edad = ""
     private val intereses = mutableSetOf<Interes>()
-    private val tipos = mutableSetOf<ExerciseType>()
-    private var nivel = 2
-    private var intervaloSeg = 600
-    private var serie = 1
-    private val apps = mutableSetOf<AppVigilada>()
+    private var sumasYRestas = true
+    private var modoApps = ModoApps.SIEMPRE
+    private var elegidas = setOf<String>()
+    private var libres = setOf<String>()
     private var pin = ""
-    private var pinRepetido = ""
 
     /** true = el asistente agrega un niño nuevo (sin permisos ni PIN). */
     private var nuevo = false
@@ -68,15 +66,16 @@ class AsistenteActivity : AppCompatActivity() {
         btnAtras = findViewById(R.id.btnAtras)
 
         nuevo = intent.getBooleanExtra(EXTRA_NUEVO, false)
-        if (nuevo) {
-            AppVigilada.values().filter { it.porDefecto }.forEach { apps += it }
-        } else {
+        if (!nuevo) {
             nombre = SettingsStore.getNombreNino(this)
-            nivel = SettingsStore.getNivel(this)
-            serie = SettingsStore.getSerie(this)
-            tipos += SettingsStore.getTipos(this)
-            AppVigilada.values().filter { SettingsStore.appVigilada(this, it) }.forEach { apps += it }
-            if (SettingsStore.onboardingHecho(this)) intervaloSeg = SettingsStore.getIntervalSeconds(this)
+            SettingsStore.getEdad(this).takeIf { it > 0 }?.let { edad = it.toString() }
+            val tipos = SettingsStore.getTipos(this)
+            sumasYRestas = ExerciseType.SUMA in tipos || ExerciseType.RESTA in tipos
+            modoApps = SettingsStore.getModoApps(this)
+            elegidas = SettingsStore.getAppsElegidas(this)
+            libres = SettingsStore.getAppsLibres(this)
+        } else {
+            libres = Deteccion.LIBRES_POR_DEFECTO
         }
 
         pasos = armarPasos()
@@ -123,206 +122,165 @@ class AsistenteActivity : AppCompatActivity() {
     private fun armarPasos(): List<Paso> {
         val lista = mutableListOf<Paso>()
 
+        // 1. Nombre y edad
         lista += Paso(
-            if (nuevo) "Nuevo niño" else "Armemos el peaje",
-            if (nuevo) "Unas preguntas y queda su panel propio, con sus ajustes y su progreso."
-            else "Unas preguntas rápidas y queda listo. Después podés cambiar todo desde la app."
-        )
-
-        lista += Paso(
-            "¿Cómo se llama?",
-            "Se guarda solo en este celular. Con un apodo alcanza.",
-            emoji = "👋",
+            titulo = if (nuevo) "¿Cómo se llama el nuevo peque?" else "¿Cómo se llama el peque?",
+            subtitulo = "Con su edad elegimos el nivel de los ejercicios. Todo se guarda solo en este celular.",
             construir = { c ->
-                val capa = TextInputLayout(this, null, com.google.android.material.R.attr.textInputOutlinedStyle).apply {
-                    hint = "Nombre del niño"
-                    setBoxCornerRadii(dp(16).toFloat(), dp(16).toFloat(), dp(16).toFloat(), dp(16).toFloat())
+                c.addView(campo("Nombre o apodo", nombre, InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_CAP_WORDS, 30) { nombre = it.trim() })
+                c.addView(campo("Edad", edad, InputType.TYPE_CLASS_NUMBER, 2) { edad = it.trim() }, LinearLayout.LayoutParams(MATCH, WRAP).apply {
+                    topMargin = dp(16)
+                })
+            },
+            validar = {
+                val e = edad.toIntOrNull()
+                when {
+                    nombre.isEmpty() -> "Poné un nombre o un apodo"
+                    e == null || e !in 1..17 -> "Poné la edad (de 1 a 17)"
+                    else -> null
                 }
-                val campo = TextInputEditText(capa.context).apply {
-                    inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_CAP_WORDS
-                    isSingleLine = true
-                    filters = arrayOf(InputFilter.LengthFilter(30))
-                    importantForAutofill = View.IMPORTANT_FOR_AUTOFILL_NO
-                    setText(nombre)
-                    doAfterTextChanged { nombre = it?.toString()?.trim() ?: "" }
-                }
-                capa.addView(campo, LinearLayout.LayoutParams(MATCH, WRAP))
-                c.addView(capa, LinearLayout.LayoutParams(MATCH, WRAP))
             }
         )
 
+        // 2. Qué le gusta
         lista += Paso(
-            "¿Qué le gusta?",
-            "Con eso elegimos los ejercicios. Podés marcar varios.",
-            emoji = "🦖",
+            titulo = "¿Qué le gusta?",
+            subtitulo = "Con esto armamos los ejercicios. Podés marcar varios.",
             construir = { c ->
                 val g = grupo(multiple = true)
                 Interes.values().forEach { i ->
-                    g.addView(chip(i.etiqueta, i in intereses) { v ->
-                        if (v) { intereses += i } else { intereses -= i }
-                    })
+                    g.addView(chip(i.etiqueta, i in intereses) { v -> if (v) intereses += i else intereses -= i })
                 }
-                c.addView(g)
-            }
-        )
-
-        lista += Paso(
-            "¿Practicamos cuentas?",
-            "Sumas, restas y contar, con dibujos.",
-            emoji = "🔢",
-            construir = { c ->
-                val g = grupo(multiple = true)
-                listOf(
-                    ExerciseType.SUMA to "Sumas",
-                    ExerciseType.RESTA to "Restas",
-                    ExerciseType.CONTAR to "Contar"
-                ).forEach { (t, etiqueta) ->
-                    g.addView(chip(etiqueta, t in tipos) { v ->
-                        if (v) { tipos += t } else { tipos -= t }
-                    })
-                }
+                g.addView(chip("Sumas y restas", sumasYRestas) { v -> sumasYRestas = v })
                 c.addView(g)
             },
             validar = {
-                if (tipos.isEmpty() && intereses.isEmpty() && !ModulosStore.hayActivos(this))
-                    "Elegí al menos un tema o un tipo de cuenta" else null
+                if (!sumasYRestas && intereses.isEmpty() && !ModulosStore.hayActivos(this))
+                    "Elegí al menos una cosa" else null
             }
         )
 
+        // 3. Qué apps cuidamos
         lista += Paso(
-            "¿Qué nivel?",
-            "Lo podés cambiar cuando quieras.",
-            emoji = "📈",
-            construir = { c ->
-                val g = grupo(multiple = false)
-                listOf(1 to "Fácil", 2 to "Medio", 3 to "Difícil").forEach { (n, etiqueta) ->
-                    g.addView(chip(etiqueta, n == nivel) { v -> if (v) nivel = n })
-                }
-                c.addView(g)
+            titulo = "¿Qué apps cuidamos?",
+            subtitulo = "Antes de abrirlas, el peque resuelve un ejercicio.",
+            construir = { c -> construirApps(c) },
+            validar = {
+                if (modoApps == ModoApps.ELEGIR && elegidas.isEmpty()) "Elegí al menos una app" else null
             }
         )
 
-        lista += Paso(
-            "¿Cada cuánto aparece un ejercicio?",
-            "Es el tiempo mirando la app, entre un ejercicio y el siguiente.",
-            emoji = "⏱️",
-            construir = { c ->
-                val g = grupo(multiple = false)
-                (listOf(300, 600, 900, 1200, 1800) + intervaloSeg).distinct().sorted().forEach { seg ->
-                    g.addView(chip(SettingsStore.formatear(seg), seg == intervaloSeg) { v -> if (v) intervaloSeg = seg })
-                }
-                c.addView(g)
-            }
-        )
-
-        lista += Paso(
-            "¿Cuántos por vez?",
-            "Cuántos resuelve seguidos cada vez que aparece el peaje.",
-            emoji = "🎯",
-            construir = { c ->
-                val g = grupo(multiple = false)
-                (listOf(1, 2, 3, 4, 5) + serie).distinct().sorted().forEach { n ->
-                    g.addView(chip(n.toString(), n == serie) { v -> if (v) serie = n })
-                }
-                c.addView(g)
-            }
-        )
-
-        lista += Paso(
-            "¿Qué apps cuidamos?",
-            "El ejercicio aparece sobre las que marques.",
-            emoji = "📱",
-            construir = { c ->
-                val g = grupo(multiple = true)
-                AppVigilada.values().forEach { a ->
-                    g.addView(chip(a.nombre, a in apps) { v ->
-                        if (v) { apps += a } else { apps -= a }
-                    })
-                }
-                c.addView(g)
-            },
-            validar = { if (apps.isEmpty()) "Elegí al menos una app" else null }
-        )
-
+        // 4. Permisos y PIN
         if (!nuevo) lista += Paso(
-            "Dos permisos y listo",
-            "Sin estos dos, el ejercicio no puede aparecer. No sale nada de este celular.",
-            emoji = "🔑",
-            construir = { c ->
-                btnOverlay = botonPermiso {
-                    startActivity(Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:$packageName")))
-                }
-                btnUso = botonPermiso { startActivity(Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS)) }
-                c.addView(tarjeta(R.color.pastel_sky).apply {
-                    addView(texto("🪟 Mostrar sobre otras apps", 18f, R.color.text_primary, bold = true))
-                    addView(texto("Para poner el ejercicio encima del video.", 14f, R.color.text_secondary, arriba = 4))
-                    addView(btnOverlay)
-                })
-                c.addView(tarjeta(R.color.pastel_mint).apply {
-                    addView(texto("📊 Datos de uso", 18f, R.color.text_primary, bold = true))
-                    addView(texto("Para saber qué app está abierta y cuánto tiempo.", 14f, R.color.text_secondary, arriba = 4))
-                    addView(btnUso)
-                })
-                c.addView(tarjeta(R.color.pastel_butter).apply {
-                    addView(texto("¿Android dice \"A la app se le negó el acceso\"?", 16f, R.color.text_primary, bold = true))
-                    addView(texto(
-                        "Pasa con las apps instaladas desde un archivo. Se arregla una sola vez:\n" +
-                            "1. Tocá el botón de abajo.\n" +
-                            "2. Arriba a la derecha, tocá ⋮.\n" +
-                            "3. Elegí \"Permitir configuración restringida\".\n" +
-                            "4. Volvé acá y tocá de nuevo el permiso.",
-                        14f, R.color.text_secondary, arriba = 6
-                    ).apply { setLineSpacing(0f, 1.25f) })
-                    addView(MaterialButton(this@AsistenteActivity, null, com.google.android.material.R.attr.materialButtonOutlinedStyle).apply {
-                        text = "Abrir ajustes de la app"
-                        layoutParams = LinearLayout.LayoutParams(MATCH, WRAP).apply { topMargin = dp(12) }
-                        setOnClickListener {
-                            startActivity(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:$packageName")))
-                        }
-                    })
-                })
-                actualizarPermisos()
-            }
-        )
-
-        if (!nuevo && !PinStore.tienePin(this)) {
-            lista += Paso(
-                "Tu PIN de padres",
-                "Protege los ajustes y el botón de apagar. De 4 a 6 números.",
-                emoji = "🔒",
-                construir = { c ->
-                    c.addView(campoPin("PIN") { pin = it })
-                    c.addView(campoPin("Repetir el PIN") { pinRepetido = it }, LinearLayout.LayoutParams(MATCH, WRAP).apply {
-                        topMargin = dp(12)
-                    })
-                },
-                validar = {
-                    when {
-                        pin.length !in 4..6 -> "El PIN tiene que tener de 4 a 6 números"
-                        pin != pinRepetido -> "Los PIN no coinciden"
-                        else -> null
-                    }
-                }
-            )
-        }
-
-        lista += Paso(
-            "¡Todo listo!",
-            "Esto es lo que va a quedar. Lo podés cambiar desde la app cuando quieras.",
-            emoji = "🎉",
-            construir = { c ->
-                val niveles = listOf("Fácil", "Medio", "Difícil")
-                val lineas = buildList {
-                    if (nombre.isNotEmpty()) add("Para $nombre")
-                    add("Un ejercicio cada ${SettingsStore.formatear(intervaloSeg)} · $serie por vez")
-                    add("Nivel: ${niveles[nivel - 1]}")
-                    add("Apps: " + apps.joinToString(", ") { it.nombre })
-                    if (intereses.isNotEmpty()) add("Temas: " + intereses.joinToString(", ") { it.etiqueta })
-                }
-                lineas.forEach { c.addView(texto(it, 18f, R.color.text_primary, arriba = 10)) }
+            titulo = if (PinStore.tienePin(this)) "Dos permisos" else "Dos permisos y un PIN",
+            subtitulo = "Sin esto Android no nos deja cuidar. Son dos toques cada uno.",
+            construir = { c -> construirPermisos(c) },
+            validar = {
+                if (!PinStore.tienePin(this) && pin.length !in 4..6) "El PIN tiene que tener de 4 a 6 números" else null
             }
         )
         return lista
+    }
+
+    private fun construirApps(c: LinearLayout) {
+        val opciones = listOf(
+            Triple(ModoApps.SIEMPRE, "Las de siempre", "YouTube, TikTok, Instagram y Netflix. Lo más simple."),
+            Triple(ModoApps.ELEGIR, "Elijo yo cuáles", "Marcás de la lista de apps instaladas, juegos incluidos."),
+            Triple(ModoApps.TODO, "Todo menos lo que permito", "Todo pide ejercicio, salvo lo que vos dejes libre.")
+        )
+        opciones.forEach { (modo, titulo, detalle) ->
+            val marcado = modo == modoApps
+            val tarjeta = LinearLayout(this).apply {
+                orientation = LinearLayout.VERTICAL
+                setPadding(dp(18), dp(14), dp(18), dp(14))
+                background = android.graphics.drawable.GradientDrawable().apply {
+                    setColor(getColor(if (marcado) R.color.surface else R.color.background))
+                    cornerRadius = dp(22).toFloat()
+                    setStroke(dp(2), getColor(if (marcado) R.color.accent else R.color.outline))
+                }
+                layoutParams = LinearLayout.LayoutParams(MATCH, WRAP).apply { bottomMargin = dp(10) }
+                isClickable = true
+                setOnClickListener {
+                    modoApps = modo
+                    if (modo == ModoApps.ELEGIR && elegidas.isEmpty()) elegidas = AppsInstaladas.deSiempreInstaladas(this@AsistenteActivity)
+                    mostrarPaso()
+                }
+            }
+            tarjeta.addView(texto((if (marcado) "● " else "○ ") + titulo, 17f, R.color.text_primary, bold = true))
+            tarjeta.addView(texto(detalle, 13f, R.color.text_secondary, arriba = 2))
+            c.addView(tarjeta)
+        }
+        when (modoApps) {
+            ModoApps.SIEMPRE -> c.addView(texto(
+                "Vamos a cuidar: " + AppVigilada.values().joinToString(", ") { it.nombre } + ".",
+                14f, R.color.text_secondary, arriba = 6
+            ))
+            ModoApps.ELEGIR -> {
+                c.addView(texto(AppsInstaladas.resumen(this, elegidas, "Todavía no elegiste ninguna"), 15f, R.color.text_primary, bold = true, arriba = 6))
+                c.addView(botonSecundario("Elegir apps") {
+                    AppsInstaladas.elegir(this, "Apps que cuidamos", elegidas) { elegidas = it; mostrarPaso() }
+                })
+            }
+            ModoApps.TODO -> {
+                c.addView(texto("Libres: " + AppsInstaladas.resumen(this, libres, "ninguna"), 15f, R.color.text_primary, bold = true, arriba = 6))
+                c.addView(botonSecundario("Elegir cuáles quedan libres") {
+                    AppsInstaladas.elegir(this, "Apps libres (sin ejercicio)", libres) { libres = it; mostrarPaso() }
+                })
+            }
+        }
+    }
+
+    private fun construirPermisos(c: LinearLayout) {
+        btnOverlay = botonPermiso {
+            startActivity(Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:$packageName")))
+        }
+        btnUso = botonPermiso { startActivity(Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS)) }
+        c.addView(tarjeta(R.color.pastel_sky).apply {
+            addView(texto("Mostrar el ejercicio encima", 17f, R.color.text_primary, bold = true))
+            addView(texto("Para que aparezca sobre la app.", 13f, R.color.text_secondary, arriba = 2))
+            addView(btnOverlay)
+        })
+        c.addView(tarjeta(R.color.pastel_mint).apply {
+            addView(texto("Ver qué app está abierta", 17f, R.color.text_primary, bold = true))
+            addView(texto("Para saber cuándo abre YouTube u otra app cuidada.", 13f, R.color.text_secondary, arriba = 2))
+            addView(btnUso)
+        })
+
+        val ayuda = tarjeta(R.color.pastel_butter)
+        val detalle = texto(
+            "Pasa cuando la app no viene de Play Store. Se arregla una sola vez:\n" +
+                "1. Tocá \"Abrir ajustes de la app\".\n" +
+                "2. Arriba a la derecha, tocá ⋮.\n" +
+                "3. Elegí \"Permitir configuración restringida\".\n" +
+                "4. Volvé acá y tocá de nuevo el permiso.",
+            14f, R.color.text_secondary, arriba = 8
+        ).apply { setLineSpacing(0f, 1.25f) }
+        val abrir = botonSecundario("Abrir ajustes de la app") {
+            startActivity(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:$packageName")))
+        }
+        detalle.visibility = View.GONE
+        abrir.visibility = View.GONE
+        val titulo = texto("¿Sale \"configuración restringida\"?  ▾", 15f, R.color.text_primary, bold = true).apply {
+            isClickable = true
+            setOnClickListener {
+                val abrirAhora = detalle.visibility != View.VISIBLE
+                detalle.visibility = if (abrirAhora) View.VISIBLE else View.GONE
+                abrir.visibility = if (abrirAhora) View.VISIBLE else View.GONE
+            }
+        }
+        ayuda.addView(titulo)
+        ayuda.addView(detalle)
+        ayuda.addView(abrir)
+        c.addView(ayuda)
+
+        if (!PinStore.tienePin(this)) {
+            c.addView(texto("PIN para entrar a los ajustes", 17f, R.color.text_primary, bold = true, arriba = 8))
+            c.addView(texto("De 4 a 6 números que el peque no sepa. Se ve mientras lo escribís, para no equivocarte.", 13f, R.color.text_secondary, arriba = 2))
+            c.addView(campo("PIN", pin, InputType.TYPE_CLASS_NUMBER, 6) { pin = it }, LinearLayout.LayoutParams(MATCH, WRAP).apply {
+                topMargin = dp(10)
+            })
+        }
+        actualizarPermisos()
     }
 
     private fun mostrarPaso() {
@@ -330,52 +288,43 @@ class AsistenteActivity : AppCompatActivity() {
         contenedor.removeAllViews()
         btnOverlay = null
         btnUso = null
-        if (actual == 0) {
-            contenedor.addView(android.widget.ImageView(this).apply {
-                setImageResource(R.drawable.ic_logo)
-                contentDescription = "Logo de Peaje Cognitivo"
-                layoutParams = LinearLayout.LayoutParams(dp(96), dp(96)).apply { bottomMargin = dp(24) }
-            })
-        } else {
-            val colores = listOf(R.color.pastel_peach, R.color.pastel_mint, R.color.pastel_butter, R.color.pastel_sky, R.color.pastel_lilac)
-            contenedor.addView(TextView(this).apply {
-                text = p.emoji
-                textSize = 36f
-                gravity = android.view.Gravity.CENTER
-                background = android.graphics.drawable.GradientDrawable().apply {
-                    shape = android.graphics.drawable.GradientDrawable.OVAL
-                    setColor(getColor(colores[actual % colores.size]))
-                }
-                layoutParams = LinearLayout.LayoutParams(dp(84), dp(84)).apply { bottomMargin = dp(24) }
-            })
-        }
-        contenedor.addView(texto(p.titulo, 30f, R.color.text_primary, bold = true))
+        contenedor.addView(texto("Paso ${actual + 1} de ${pasos.size}", 14f, R.color.text_secondary))
+        contenedor.addView(texto(p.titulo, 30f, R.color.text_primary, bold = true, arriba = 16))
         contenedor.addView(texto(p.subtitulo, 16f, R.color.text_secondary, arriba = 10))
         val cuerpo = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
-            layoutParams = LinearLayout.LayoutParams(MATCH, WRAP).apply { topMargin = dp(32) }
+            layoutParams = LinearLayout.LayoutParams(MATCH, WRAP).apply { topMargin = dp(24) }
         }
         p.construir(cuerpo)
         contenedor.addView(cuerpo)
 
-        progreso.max = pasos.size - 1
-        progreso.setProgressCompat(actual, true)
+        progreso.max = pasos.size
+        progreso.setProgressCompat(actual + 1, true)
         btnAtras.visibility = if (actual == 0) View.INVISIBLE else View.VISIBLE
-        btnSiguiente.text = when (actual) {
-            0 -> "Comenzar"
-            pasos.lastIndex -> "Empezar"
-            else -> "Siguiente"
-        }
+        btnSiguiente.text = if (actual == pasos.lastIndex) (if (nuevo) "Agregar" else "Empezar") else "Siguiente"
     }
 
     private fun terminar() {
+        val primeraVez = !SettingsStore.onboardingHecho(this)
         if (nuevo) Ninos.setActivo(this, Ninos.crear(this)) // lo que sigue se guarda en el niño nuevo
+        val edadNum = edad.toIntOrNull() ?: 0
         SettingsStore.setNombreNino(this, nombre)
-        SettingsStore.setNivel(this, nivel)
-        SettingsStore.setIntervalSeconds(this, intervaloSeg)
-        SettingsStore.setSerie(this, serie)
-        SettingsStore.setTipos(this, tipos.toSet())
-        AppVigilada.values().forEach { SettingsStore.setAppVigilada(this, it, it in apps) }
+        SettingsStore.setEdad(this, edadNum)
+        SettingsStore.setNivel(this, SettingsStore.nivelParaEdad(edadNum))
+        if (nuevo || primeraVez) SettingsStore.setModoCuidado(this, ModoCuidado.NORMAL)
+        val tipos = buildSet {
+            if (sumasYRestas) {
+                add(ExerciseType.SUMA); add(ExerciseType.RESTA)
+                if (edadNum <= 7) add(ExerciseType.CONTAR)
+            }
+        }
+        SettingsStore.setTipos(this, tipos)
+        SettingsStore.setModoApps(this, modoApps)
+        when (modoApps) {
+            ModoApps.SIEMPRE -> AppVigilada.values().forEach { SettingsStore.setAppVigilada(this, it, true) }
+            ModoApps.ELEGIR -> SettingsStore.setAppsElegidas(this, elegidas)
+            ModoApps.TODO -> SettingsStore.setAppsLibres(this, libres)
+        }
         val instalados = CatalogoModulos.aplicar(this, intereses)
         if (!PinStore.tienePin(this)) {
             PinStore.guardar(this, pin)
@@ -383,7 +332,7 @@ class AsistenteActivity : AppCompatActivity() {
         }
         SettingsStore.setOnboardingHecho(this, true)
         ExerciseTimerManager.reprogramar(this)
-        PeajeLog.d("ASISTENTE terminado: ${apps.size} apps, $instalados módulos instalados, nivel $nivel, cada ${intervaloSeg}s, serie $serie")
+        PeajeLog.d("ASISTENTE terminado: modo apps ${modoApps.clave}, $instalados módulos, nivel ${SettingsStore.getNivel(this)}")
         startActivity(Intent(this, MainActivity::class.java))
         finish()
     }
@@ -418,20 +367,29 @@ class AsistenteActivity : AppCompatActivity() {
         layoutParams = LinearLayout.LayoutParams(MATCH, WRAP).apply { bottomMargin = dp(14) }
     }
 
-    private fun campoPin(pista: String, alCambiar: (String) -> Unit): TextInputLayout {
+    private fun campo(pista: String, valor: String, tipo: Int, max: Int, alCambiar: (String) -> Unit): TextInputLayout {
         val capa = TextInputLayout(this, null, com.google.android.material.R.attr.textInputOutlinedStyle).apply {
             hint = pista
-            setBoxCornerRadii(dp(16).toFloat(), dp(16).toFloat(), dp(16).toFloat(), dp(16).toFloat())
+            setBoxCornerRadii(dp(20).toFloat(), dp(20).toFloat(), dp(20).toFloat(), dp(20).toFloat())
         }
         val campo = TextInputEditText(capa.context).apply {
-            inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_VARIATION_PASSWORD
-            filters = arrayOf(InputFilter.LengthFilter(6))
+            inputType = tipo
+            isSingleLine = true
+            filters = arrayOf(InputFilter.LengthFilter(max))
             importantForAutofill = View.IMPORTANT_FOR_AUTOFILL_NO
+            setText(valor)
             doAfterTextChanged { alCambiar(it?.toString() ?: "") }
         }
         capa.addView(campo, LinearLayout.LayoutParams(MATCH, WRAP))
         return capa
     }
+
+    private fun botonSecundario(t: String, alTocar: () -> Unit) =
+        MaterialButton(this, null, com.google.android.material.R.attr.materialButtonOutlinedStyle).apply {
+            text = t
+            layoutParams = LinearLayout.LayoutParams(MATCH, WRAP).apply { topMargin = dp(10) }
+            setOnClickListener { alTocar() }
+        }
 
     private fun grupo(multiple: Boolean) = ChipGroup(this).apply {
         isSingleSelection = !multiple

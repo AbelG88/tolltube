@@ -73,14 +73,14 @@ object UsoApps {
     fun clasificar(context: Context): Pair<Pantalla, String?> {
         val paquete = actual ?: return Pair(Pantalla.INCIERTO, null)
         val pantalla = when {
-            paquete in Deteccion.paquetesVigilados(context) -> Pantalla.VIGILADA
             esRuido(context, paquete) -> Pantalla.INCIERTO
+            Deteccion.esVigilada(context, paquete) -> Pantalla.VIGILADA
             else -> Pantalla.OTRA_APP
         }
         return Pair(pantalla, paquete)
     }
 
-    private fun esRuido(context: Context, paquete: String): Boolean {
+    fun esRuido(context: Context, paquete: String): Boolean {
         if (paquete == "com.android.systemui") return true
         if (paquete.contains("inputmethod")) return true
         if (paquete == context.packageName) return true

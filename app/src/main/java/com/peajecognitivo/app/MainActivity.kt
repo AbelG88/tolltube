@@ -53,11 +53,15 @@ class MainActivity : AppCompatActivity() {
         btnMas.setOnClickListener {
             val abrir = llAvanzado.visibility != android.view.View.VISIBLE
             llAvanzado.visibility = if (abrir) android.view.View.VISIBLE else android.view.View.GONE
-            btnMas.text = if (abrir) "Menos ajustes" else "Más ajustes"
+            btnMas.text = if (abrir) "Ocultar avanzado" else "Avanzado"
         }
         findViewById<Button>(R.id.btnAsistente).setOnClickListener {
             startActivity(Intent(this, AsistenteActivity::class.java))
         }
+        configurarNavegacion()
+        configurarModoCuidado()
+        findViewById<Button>(R.id.btnApps).setOnClickListener { elegirApps() }
+        findViewById<Button>(R.id.btnCambiarApps).setOnClickListener { elegirApps() }
 
         etMinutes = findViewById(R.id.etMinutes)
         etSeconds = findViewById(R.id.etSeconds)
@@ -101,7 +105,6 @@ class MainActivity : AppCompatActivity() {
 
         mostrarIntervaloActual()
         configurarTipos()
-        configurarApps()
 
         val cbVoz = findViewById<CompoundButton>(R.id.cbVoz)
         cbVoz.isChecked = SettingsStore.getVoz(this)
@@ -217,17 +220,137 @@ class MainActivity : AppCompatActivity() {
         findViewById<TextView>(R.id.tvCada).text =
             if (seg % 60 == 0) "${seg / 60} min" else SettingsStore.formatear(seg)
         findViewById<TextView>(R.id.tvCadaEtiqueta).text = "${SettingsStore.getSerie(this)} por vez"
-        val apps = AppVigilada.values().filter { SettingsStore.appVigilada(this, it) }.joinToString(", ") { it.nombre }
-        val tipos = SettingsStore.getTipos(this).map { it.etiqueta.substringAfter(' ').substringBefore(" (") }
-        val modulos = ModulosStore.listar(this).count { ModulosStore.activo(this, it.id) }
-        val temas = buildList {
-            addAll(tipos)
-            if (modulos > 0) add("$modulos módulos")
-        }.joinToString(", ").ifEmpty { "—" }
-        findViewById<TextView>(R.id.tvResumen).text = buildString {
-            appendLine("Nivel ${niveles[SettingsStore.getNivel(this@MainActivity).coerceIn(1, 3) - 1]}")
-            appendLine("Apps: ${apps.ifEmpty { "ninguna" }}")
-            append("Temas: $temas")
+        val edad = SettingsStore.getEdad(this)
+        val modo = SettingsStore.getModoCuidado(this)
+        findViewById<TextView>(R.id.tvResumen).text =
+            "Modo ${modo.etiqueta}" + if (edad > 0) " · $edad años" else ""
+        findViewById<TextView>(R.id.tvCuidamos).text = resumenApps()
+        findViewById<Button>(R.id.btnApps).text = "Apps que cuidamos: " + resumenApps()
+    }
+
+    /** Qué apps piden ejercicio, en una frase corta. */
+    private fun resumenApps(): String = when (SettingsStore.getModoApps(this)) {
+        ModoApps.SIEMPRE -> AppVigilada.values().filter { SettingsStore.appVigilada(this, it) }
+            .joinToString(", ") { it.nombre }.ifEmpty { "ninguna" }
+        ModoApps.ELEGIR -> AppsInstaladas.resumen(this, SettingsStore.getAppsElegidas(this), "ninguna")
+        ModoApps.TODO -> "Todo, menos " + AppsInstaladas.resumen(this, SettingsStore.getAppsLibres(this), "nada")
+    }
+
+    /** Elegir apps desde el panel: primero el modo, después (si hace falta) la lista. */
+    private fun elegirApps() {
+        val modos = arrayOf("Las de siempre", "Elijo yo cuáles", "Todo menos lo que permito")
+        androidx.appcompat.app.AlertDialog.Builder(this)
+            .setTitle("¿Qué apps cuidamos?")
+            .setItems(modos) { _, i ->
+                val modo = ModoApps.values()[i]
+                if (modo == ModoApps.SIEMPRE) {
+                    SettingsStore.setModoApps(this, modo)
+                    AppVigilada.values().forEach { SettingsStore.setAppVigilada(this, it, true) }
+                    mostrarResumen()
+                } else {
+                    cambiarModoApps(modo)
+                }
+            }
+            .show()
+    }
+
+    private fun cambiarModoApps(modo: ModoApps) {
+        if (modo == ModoApps.ELEGIR) {
+            val previas = SettingsStore.getAppsElegidas(this).ifEmpty { AppsInstaladas.deSiempreInstaladas(this) }
+            AppsInstaladas.elegir(this, "Apps que cuidamos", previas) { elegidas ->
+                if (elegidas.isEmpty()) {
+                    Toast.makeText(this, "Tiene que quedar al menos una app", Toast.LENGTH_SHORT).show()
+                } else {
+                    SettingsStore.setModoApps(this, ModoApps.ELEGIR)
+                    SettingsStore.setAppsElegidas(this, elegidas)
+                    PeajeLog.d("AJUSTES apps: modo elegir, ${elegidas.size} apps")
+                    mostrarResumen()
+                }
+            }
+        } else {
+            AppsInstaladas.elegir(this, "Apps libres (sin ejercicio)", SettingsStore.getAppsLibres(this)) { libres ->
+                SettingsStore.setModoApps(this, ModoApps.TODO)
+                SettingsStore.setAppsLibres(this, libres)
+                PeajeLog.d("AJUSTES apps: modo todo, ${libres.size} libres")
+                mostrarResumen()
+            }
+        }
+    }
+
+    // ---------- Navegación (Inicio / Progreso / Ajustes) ----------
+
+    private fun configurarNavegacion() {
+        val navs = listOf(
+            R.id.navInicio to R.id.secInicio,
+            R.id.navProgreso to R.id.secProgreso,
+            R.id.navAjustes to R.id.secAjustes
+        )
+        fun ir(seleccion: Int) {
+            navs.forEach { (nav, sec) ->
+                val activa = nav == seleccion
+                findViewById<android.view.View>(sec).visibility = if (activa) android.view.View.VISIBLE else android.view.View.GONE
+                findViewById<TextView>(nav).setTextColor(getColor(if (activa) R.color.accent else R.color.text_secondary))
+            }
+        }
+        navs.forEach { (nav, _) -> findViewById<android.view.View>(nav).setOnClickListener { ir(nav) } }
+        ir(R.id.navInicio)
+    }
+
+    private fun configurarModoCuidado() {
+        val ids = mapOf(
+            ModoCuidado.SUAVE to R.id.chSuave,
+            ModoCuidado.NORMAL to R.id.chNormal,
+            ModoCuidado.INTENSO to R.id.chIntenso
+        )
+        val grupo = findViewById<ChipGroup>(R.id.cgModoCuidado)
+        val detalle = findViewById<TextView>(R.id.tvModoDetalle)
+        val actual = SettingsStore.getModoCuidado(this)
+        grupo.check(ids.getValue(actual))
+        detalle.text = actual.detalle
+        grupo.setOnCheckedStateChangeListener { _, checked ->
+            val modo = ids.entries.firstOrNull { it.value == checked.firstOrNull() }?.key ?: return@setOnCheckedStateChangeListener
+            SettingsStore.setModoCuidado(this, modo)
+            ExerciseTimerManager.reprogramar(this)
+            detalle.text = modo.detalle
+            mostrarIntervaloActual()
+            mostrarResumen()
+            PeajeLog.d("AJUSTES modo de cuidado: ${modo.clave}")
+        }
+    }
+
+    /** Un solo aviso: o todo funciona, o falta algo y hay un botón para arreglarlo. */
+    private fun actualizarBanner() {
+        val overlayOk = Build.VERSION.SDK_INT < Build.VERSION_CODES.M || Settings.canDrawOverlays(this)
+        val usoOk = UsoApps.tienePermiso(this)
+        val nombre = SettingsStore.getNombreNino(this).ifEmpty { "el peque" }
+        val titulo = findViewById<TextView>(R.id.tvBannerTitulo)
+        val detalle = findViewById<TextView>(R.id.tvBannerDetalle)
+        val boton = findViewById<Button>(R.id.btnArreglar)
+        val fondo = findViewById<android.view.View>(R.id.cardBanner).background.mutate() as android.graphics.drawable.GradientDrawable?
+        fun pintar(color: Int) { fondo?.setColor(getColor(color)) }
+        when {
+            !SettingsStore.getActivo(this) -> {
+                pintar(R.color.pastel_butter)
+                titulo.text = "Peaje apagado"
+                detalle.text = "Por ahora no se está cuidando nada. Se prende en Ajustes."
+                boton.visibility = android.view.View.GONE
+            }
+            !usoOk || !overlayOk -> {
+                pintar(R.color.pastel_butter)
+                titulo.text = "Falta un permiso"
+                detalle.text = "Por ahora no se está cuidando nada."
+                boton.visibility = android.view.View.VISIBLE
+                boton.setOnClickListener {
+                    if (!usoOk) startActivity(Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS))
+                    else startActivity(Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:$packageName")))
+                }
+            }
+            else -> {
+                pintar(R.color.pastel_mint)
+                titulo.text = "Todo funcionando"
+                detalle.text = "$nombre puede usar el celu tranquilo."
+                boton.visibility = android.view.View.GONE
+            }
         }
     }
 
@@ -240,6 +363,7 @@ class MainActivity : AppCompatActivity() {
     // ---------- Estado en vivo ----------
 
     private fun actualizarEstado() {
+        actualizarBanner()
         val overlayOk = Build.VERSION.SDK_INT < Build.VERSION_CODES.M || Settings.canDrawOverlays(this)
 
         tvEstado.text = buildString {
@@ -378,30 +502,6 @@ class MainActivity : AppCompatActivity() {
                 }
             }
             grupo.addView(chip)
-        }
-    }
-
-    // ---------- Apps vigiladas ----------
-
-    private fun configurarApps() {
-        val chips = mapOf(
-            AppVigilada.YOUTUBE to R.id.chAppYoutube,
-            AppVigilada.YOUTUBE_KIDS to R.id.chAppYoutubeKids,
-            AppVigilada.TIKTOK to R.id.chAppTiktok,
-            AppVigilada.INSTAGRAM to R.id.chAppInstagram
-        )
-        chips.forEach { (app, id) ->
-            val chip = findViewById<CompoundButton>(id)
-            chip.isChecked = SettingsStore.appVigilada(this, app)
-            chip.setOnCheckedChangeListener { _, v ->
-                if (!v && chips.values.none { findViewById<CompoundButton>(it).isChecked }) {
-                    chip.isChecked = true
-                    Toast.makeText(this, "Tiene que quedar al menos una app", Toast.LENGTH_SHORT).show()
-                } else {
-                    SettingsStore.setAppVigilada(this, app, v)
-                    PeajeLog.d("AJUSTES app vigilada ${app.nombre}: $v")
-                }
-            }
         }
     }
 

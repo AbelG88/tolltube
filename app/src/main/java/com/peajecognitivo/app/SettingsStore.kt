@@ -176,4 +176,64 @@ object SettingsStore {
     fun setOnboardingHecho(context: Context, v: Boolean) {
         prefs(context).edit().putBoolean("onboarding_hecho", v).apply()
     }
+    // ---------- Qué apps cuidamos (por niño) ----------
+
+    fun getModoApps(context: Context): ModoApps =
+        ModoApps.desdeClave(prefs(context).getString(k(context, "modo_apps"), null))
+
+    fun setModoApps(context: Context, modo: ModoApps) {
+        prefs(context).edit().putString(k(context, "modo_apps"), modo.clave).apply()
+    }
+
+    /** Paquetes elegidos a mano (modo "elegir"). */
+    fun getAppsElegidas(context: Context): Set<String> =
+        prefs(context).getStringSet(k(context, "apps_elegidas"), null) ?: emptySet()
+
+    fun setAppsElegidas(context: Context, paquetes: Set<String>) {
+        prefs(context).edit().putStringSet(k(context, "apps_elegidas"), paquetes.toSet()).apply()
+    }
+
+    /** Paquetes que quedan libres (modo "todo menos lo que permito"). */
+    fun getAppsLibres(context: Context): Set<String> =
+        prefs(context).getStringSet(k(context, "apps_libres"), null) ?: Deteccion.LIBRES_POR_DEFECTO
+
+    fun setAppsLibres(context: Context, paquetes: Set<String>) {
+        prefs(context).edit().putStringSet(k(context, "apps_libres"), paquetes.toSet()).apply()
+    }
+
+    // ---------- Edad y modo de cuidado (por niño) ----------
+
+    /** 0 = sin dato. */
+    fun getEdad(context: Context): Int = prefs(context).getInt(k(context, "edad"), 0)
+
+    fun setEdad(context: Context, edad: Int) {
+        prefs(context).edit().putInt(k(context, "edad"), edad.coerceIn(0, 18)).apply()
+    }
+
+    /** Nivel de ejercicios que corresponde a una edad. */
+    fun nivelParaEdad(edad: Int): Int = when {
+        edad <= 5 -> 1
+        edad <= 8 -> 2
+        else -> 3
+    }
+
+    /** "suave" / "normal" (por defecto) / "intenso": cada cuánto aparece el ejercicio y cuántos por vez. */
+    fun getModoCuidado(context: Context): ModoCuidado =
+        ModoCuidado.desdeClave(prefs(context).getString(k(context, "modo_cuidado"), null))
+
+    fun setModoCuidado(context: Context, modo: ModoCuidado) {
+        prefs(context).edit().putString(k(context, "modo_cuidado"), modo.clave).apply()
+        setIntervalSeconds(context, modo.segundos)
+        setSerie(context, modo.serie)
+    }
+}
+
+enum class ModoCuidado(val clave: String, val etiqueta: String, val segundos: Int, val serie: Int, val detalle: String) {
+    SUAVE("suave", "Suave", 1200, 1, "Un ejercicio cada 20 minutos."),
+    NORMAL("normal", "Normal", 600, 1, "Un ejercicio cada 10 minutos."),
+    INTENSO("intenso", "Intenso", 300, 2, "Dos ejercicios cada 5 minutos.");
+
+    companion object {
+        fun desdeClave(c: String?) = values().firstOrNull { it.clave == c } ?: NORMAL
+    }
 }
