@@ -18,13 +18,13 @@
         android:pathData="M38,52 L78,40 L80,46 L40,58 z" />
     <!-- franjas del brazo -->
     <path
-        android:fillColor="#4F5BD5"
+        android:fillColor="#3B82F6"
         android:pathData="M46,49.6 L52,47.8 L54,53.8 L48,55.6 z" />
     <path
-        android:fillColor="#4F5BD5"
+        android:fillColor="#3B82F6"
         android:pathData="M58,46 L64,44.2 L66,50.2 L60,52 z" />
     <path
-        android:fillColor="#4F5BD5"
+        android:fillColor="#3B82F6"
         android:pathData="M70,42.4 L76,40.6 L78,46.6 L72,48.4 z" />
     <!-- chispa -->
     <path

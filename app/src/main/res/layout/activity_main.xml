@@ -77,49 +77,126 @@
             app:selectionRequired="true"
             app:singleSelection="true" />
 
-        <!-- Resumen de lo configurado -->
-        <TextView
-            style="@style/Text.Section"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="28dp"
-            android:text="⚙️ Lo que configuraste" />
-
-        <com.google.android.material.card.MaterialCardView
-            style="@style/Widget.Peaje.Card"
+        <!-- Tarjeta del niño activo (estilo Nappy) -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            app:cardBackgroundColor="@color/pastel_lilac"
-            app:cardCornerRadius="28dp"
-            app:cardElevation="0dp"
-            app:strokeColor="@color/outline"
-            app:strokeWidth="0dp">
+            android:layout_marginTop="20dp"
+            android:background="@drawable/bg_hero"
+            android:orientation="vertical"
+            android:padding="20dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp">
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/tvResumen"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:lineSpacingMultiplier="1.3"
-                    android:textColor="@color/text_primary"
-                    android:textSize="15sp" />
+                    android:layout_width="72dp"
+                    android:layout_height="72dp"
+                    android:background="@drawable/bg_avatar"
+                    android:gravity="center"
+                    android:text="🧒"
+                    android:textSize="38sp" />
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnAsistente"
-                    style="@style/Widget.Material3.Button.TextButton"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="-12dp"
-                    android:layout_marginTop="4dp"
-                    android:text="Repetir asistente" />
+                    android:layout_marginStart="16dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvNombre"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:textSize="26sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvResumen"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:lineSpacingMultiplier="1.2"
+                        android:textColor="#E6FFFFFF"
+                        android:textSize="14sp" />
+                </LinearLayout>
             </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="6dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_tile"
+                    android:orientation="vertical"
+                    android:padding="14dp">
+
+                    <TextView
+                        android:id="@+id/tvHoy"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:textColor="@color/white"
+                        android:textSize="30sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="Aciertos hoy"
+                        android:textColor="#E6FFFFFF"
+                        android:textSize="13sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_tile"
+                    android:orientation="vertical"
+                    android:padding="14dp">
+
+                    <TextView
+                        android:id="@+id/tvCada"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:textColor="@color/white"
+                        android:textSize="30sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvCadaEtiqueta"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:textColor="#E6FFFFFF"
+                        android:textSize="13sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnAsistente"
+                style="@style/Widget.Material3.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="-12dp"
+                android:layout_marginTop="6dp"
+                android:text="Repetir asistente"
+                android:textColor="@color/white" />
+        </LinearLayout>
 
         <!-- Estado en vivo -->
         <TextView
@@ -496,6 +573,27 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="Quitar este niño" />
+
+        <!-- Apoyo voluntario -->
+        <TextView
+            style="@style/Text.Section"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            android:text="❤️ Apoyá Peaje Cognitivo" />
+
+        <TextView
+            style="@style/Text.Caption"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="Es gratis y sin publicidad. Si te ayuda, un aporte (opcional) mantiene el proyecto vivo." />
+
+        <LinearLayout
+            android:id="@+id/llApoyo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
 
         <!-- Acciones -->
         <com.google.android.material.button.MaterialButton

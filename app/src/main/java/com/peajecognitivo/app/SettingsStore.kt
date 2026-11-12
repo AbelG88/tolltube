@@ -130,8 +130,21 @@ object SettingsStore {
     /** Suma un acierto a hoy y devuelve el total del día. */
     fun registrarAcierto(context: Context): Int {
         val n = aciertosHoy(context) + 1
-        prefs(context).edit().putString(k(context, "aciertos_dia"), hoy()).putInt(k(context, "aciertos_n"), n).apply()
+        prefs(context).edit().putString(k(context, "aciertos_dia"), hoy()).putInt(k(context, "aciertos_n"), n)
+            .putInt("aciertos_total", aciertosTotal(context) + 1).apply()
         return n
+    }
+
+    /**
+     * Aciertos de todos los niños desde siempre (sirve para decidir cuándo pedir apoyo).
+     * En instalaciones anteriores arranca con lo que ya había en el progreso.
+     */
+    fun aciertosTotal(context: Context): Int {
+        val p = prefs(context)
+        if (p.contains("aciertos_total")) return p.getInt("aciertos_total", 0)
+        val previo = p.all.filter { (k, v) -> v is Int && Regex("(n\\d+_)?hist_.*_ok").matches(k) }.values.sumOf { it as Int }
+        p.edit().putInt("aciertos_total", previo).apply()
+        return previo
     }
 
     private fun hoy(): String =

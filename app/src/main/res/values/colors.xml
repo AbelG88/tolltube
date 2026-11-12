@@ -4,21 +4,21 @@
     <color name="white">#FFFFFFFF</color>
 
     <!-- Paleta sobria: un solo acento y grises cálidos -->
-    <color name="accent">#FF4F5BD5</color>
-    <color name="accent_container">#FFE3E5FB</color>
-    <color name="accent_on_container">#FF2A2F73</color>
-    <color name="background">#FFF5F3FF</color>
+    <color name="accent">#FF3B82F6</color>
+    <color name="accent_container">#FFDBEAFE</color>
+    <color name="accent_on_container">#FF1E40AF</color>
+    <color name="background">#FFEFF6FF</color>
     <color name="surface">#FFFFFFFF</color>
-    <color name="outline">#FFE6E3F5</color>
+    <color name="outline">#FFE2E8F0</color>
     <!-- Pasteles para tarjetas y fichas -->
-    <color name="pastel_peach">#FFFFE4D6</color>
-    <color name="pastel_mint">#FFD7F3E7</color>
-    <color name="pastel_butter">#FFFFF1C2</color>
-    <color name="pastel_sky">#FFDCEBFF</color>
-    <color name="pastel_lilac">#FFE8DEFF</color>
-    <color name="text_primary">#FF1C1B1F</color>
-    <color name="text_secondary">#FF6B6B76</color>
-    <color name="text_hint">#FF9A9AA5</color>
+    <color name="pastel_peach">#FFFFEDD5</color>
+    <color name="pastel_mint">#FFD1FAE5</color>
+    <color name="pastel_butter">#FFFEF3C7</color>
+    <color name="pastel_sky">#FFDBEAFE</color>
+    <color name="pastel_lilac">#FFE0E7FF</color>
+    <color name="text_primary">#FF1E293B</color>
+    <color name="text_secondary">#FF64748B</color>
+    <color name="text_hint">#FF94A3B8</color>
 
     <!-- Overlay (sobre YouTube) -->
     <color name="overlay_scrim">#F2111118</color>

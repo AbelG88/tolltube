@@ -73,6 +73,10 @@ object PinGate {
         dialogo.show()
     }
 
+    /** true si no hay PIN o el panel ya está desbloqueado (no hay un pedido de PIN en pantalla). */
+    fun libre(context: Context): Boolean =
+        !PinStore.tienePin(context) || SystemClock.elapsedRealtime() < desbloqueadoHasta
+
     /** Si hay PIN y no se desbloqueó hace poco, lo pide. Si se cancela, cierra la pantalla. */
     fun exigir(activity: Activity) {
         if (!PinStore.tienePin(activity) || SystemClock.elapsedRealtime() < desbloqueadoHasta) return

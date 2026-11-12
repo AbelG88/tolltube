@@ -12,6 +12,8 @@
         <item name="android:statusBarColor">@color/background</item>
         <item name="android:navigationBarColor">@color/background</item>
         <item name="android:windowLightStatusBar">true</item>
+        <item name="android:fontFamily">@font/quicksand</item>
+        <item name="fontFamily">@font/quicksand</item>
         <item name="chipStyle">@style/Widget.Peaje.Chip</item>
         <item name="materialButtonStyle">@style/Widget.Peaje.Button</item>
     </style>

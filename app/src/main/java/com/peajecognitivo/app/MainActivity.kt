@@ -47,6 +47,7 @@ class MainActivity : AppCompatActivity() {
         ninoCargado = Ninos.activo(this)
         armarNinos()
 
+        findViewById<LinearLayout>(R.id.llApoyo).addView(Donaciones.botones(this))
         val llAvanzado = findViewById<LinearLayout>(R.id.llAvanzado)
         val btnMas = findViewById<Button>(R.id.btnMasAjustes)
         btnMas.setOnClickListener {
@@ -148,11 +149,14 @@ class MainActivity : AppCompatActivity() {
         mostrarHistorial()
         refrescarModulos()
         mostrarResumen()
+        Donaciones.contarIngreso(this)
+        Donaciones.mostrarSiToca(this)
         handler.post(refrescarEstado)
     }
 
     override fun onPause() {
         super.onPause()
+        Donaciones.cancelarPendiente()
         handler.removeCallbacks(refrescarEstado)
     }
 
@@ -208,6 +212,12 @@ class MainActivity : AppCompatActivity() {
     private fun mostrarResumen() {
         val niveles = listOf("Fácil", "Medio", "Difícil")
         val nombre = SettingsStore.getNombreNino(this)
+        findViewById<TextView>(R.id.tvNombre).text = nombre.ifEmpty { Ninos.nombreDe(this, Ninos.activo(this)) }
+        findViewById<TextView>(R.id.tvHoy).text = SettingsStore.aciertosHoy(this).toString()
+        val seg = SettingsStore.getIntervalSeconds(this)
+        findViewById<TextView>(R.id.tvCada).text =
+            if (seg % 60 == 0) "${seg / 60} min" else SettingsStore.formatear(seg)
+        findViewById<TextView>(R.id.tvCadaEtiqueta).text = "${SettingsStore.getSerie(this)} por vez"
         val apps = AppVigilada.values().filter { SettingsStore.appVigilada(this, it) }.joinToString(", ") { it.nombre }
         val tipos = SettingsStore.getTipos(this).map { it.etiqueta.substringAfter(' ').substringBefore(" (") }
         val modulos = ModulosStore.listar(this).count { ModulosStore.activo(this, it.id) }
@@ -216,8 +226,6 @@ class MainActivity : AppCompatActivity() {
             if (modulos > 0) add("$modulos módulos")
         }.joinToString(", ").ifEmpty { "—" }
         findViewById<TextView>(R.id.tvResumen).text = buildString {
-            if (nombre.isNotEmpty()) appendLine("Para $nombre")
-            appendLine("Cada ${SettingsStore.formatear(SettingsStore.getIntervalSeconds(this@MainActivity))} · ${SettingsStore.getSerie(this@MainActivity)} por vez")
             appendLine("Nivel ${niveles[SettingsStore.getNivel(this@MainActivity).coerceIn(1, 3) - 1]}")
             appendLine("Apps: ${apps.ifEmpty { "ninguna" }}")
             append("Temas: $temas")
