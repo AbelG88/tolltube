@@ -21,7 +21,7 @@ class LogActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_log)
-        title = "Registro de Peaje Cognitivo"
+        title = "Registro de Tranquera"
 
         tvLog = findViewById(R.id.tvLog)
         scrollLog = findViewById(R.id.scrollLog)
@@ -71,7 +71,7 @@ class LogActivity : AppCompatActivity() {
     private fun compartir() {
         val intent = Intent(Intent.ACTION_SEND).apply {
             type = "text/plain"
-            putExtra(Intent.EXTRA_SUBJECT, "Registro Peaje Cognitivo")
+            putExtra(Intent.EXTRA_SUBJECT, "Registro Tranquera")
             putExtra(Intent.EXTRA_TEXT, textoLog())
         }
         startActivity(Intent.createChooser(intent, "Compartir registro"))

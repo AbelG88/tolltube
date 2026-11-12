@@ -62,7 +62,7 @@ class PeajeMonitorService : Service() {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         val nm = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         nm.createNotificationChannel(
-            NotificationChannel(CANAL, "Peaje Cognitivo activo", NotificationManager.IMPORTANCE_LOW)
+            NotificationChannel(CANAL, "Tranquera activo", NotificationManager.IMPORTANCE_LOW)
         )
         // Tocar la notificación abre la app (que pide el PIN si hay uno)
         val abrirApp = PendingIntent.getActivity(
@@ -77,7 +77,7 @@ class PeajeMonitorService : Service() {
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )
         val notificacion = Notification.Builder(this, CANAL)
-            .setContentTitle("Peaje Cognitivo")
+            .setContentTitle("Tranquera")
             .setContentText("Cuidando el tiempo de pantalla")
             .setSmallIcon(android.R.drawable.ic_dialog_info)
             .setOngoing(true)

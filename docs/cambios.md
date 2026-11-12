@@ -10,6 +10,11 @@ https://github.com/AbelG88/tolltube/releases
 - [x] Sumas y restas con imágenes (emojis) acompañando los números (release 2)
 - [x] Más tipos de ejercicio (animales, objetos) y elegirlos desde el menú (release 2)
 
+## Release 19 — Nuevo nombre e ícono: Tranquera
+
+- La app pasa a llamarse **Tranquera** (nombre visible, notificación, ejercicio, donaciones). El paquete interno `com.peajecognitivo.app` no cambia.
+- Ícono nuevo: una tranquera con una estrella, sobre azul.
+
 ## Release 18 — Rediseño simple (v3.6.0)
 
 - Asistente de 4 pasos: nombre y edad (el nivel sale de la edad), qué le gusta, qué apps cuidamos, permisos y PIN.

@@ -23,14 +23,14 @@
             android:layout_width="64dp"
             android:layout_height="64dp"
             android:layout_marginTop="8dp"
-            android:contentDescription="Logo de Peaje Cognitivo"
+            android:contentDescription="Logo de Tranquera"
             android:src="@drawable/ic_logo" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:text="Peaje Cognitivo"
+            android:text="Tranquera"
             android:textColor="@color/text_primary"
             android:textSize="28sp"
             android:textStyle="bold" />
@@ -461,7 +461,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:lineSpacingMultiplier="1.25"
-            android:text="Si Android dice &quot;A la app se le negó el acceso&quot;: como se instaló desde un archivo, el permiso se habilita en otro lado. Ajustes → Aplicaciones → Peaje Cognitivo → ⋮ (arriba a la derecha) → Permitir configuración restringida. Después volvé a tocar el permiso." />
+            android:text="Si Android dice &quot;A la app se le negó el acceso&quot;: como se instaló desde un archivo, el permiso se habilita en otro lado. Ajustes → Aplicaciones → Tranquera → ⋮ (arriba a la derecha) → Permitir configuración restringida. Después volvé a tocar el permiso." />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnUsoPermiso"
@@ -682,7 +682,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="28dp"
-            android:text="❤️ Apoyá Peaje Cognitivo" />
+            android:text="❤️ Apoyá Tranquera" />
 
         <TextView
             style="@style/Text.Caption"

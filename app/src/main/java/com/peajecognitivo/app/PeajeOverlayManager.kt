@@ -77,7 +77,7 @@ object PeajeOverlayManager {
 
         if (serieTotal > 1) {
             vista.findViewById<TextView>(R.id.tvQuestion).text =
-                "Peaje Cognitivo · ${serieHechos + 1} de $serieTotal"
+                "Tranquera · ${serieHechos + 1} de $serieTotal"
         }
         tvVisual.text = ejercicio.visual
         tvPrompt.text = ejercicio.pregunta

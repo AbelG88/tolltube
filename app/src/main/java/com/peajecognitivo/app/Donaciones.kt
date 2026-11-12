@@ -134,7 +134,7 @@ object Donaciones {
         caja.addView(texto(activity, "¡Felicitaciones!", 24f, true, 18 * d))
         caja.addView(texto(
             activity,
-            "Ya $sujeto $hito ejercicios bien. 🙌 Me alegra un montón que Peaje Cognitivo esté funcionando.\n\n" +
+            "Ya $sujeto $hito ejercicios bien. 🙌 Me alegra un montón que Tranquera esté funcionando.\n\n" +
                 "Es gratis y sin publicidad. Si querés colaborar, un aporte me ayuda a seguir mejorándola. " +
                 "Es totalmente opcional.",
             15f, false, 10 * d
