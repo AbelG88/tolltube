@@ -24,9 +24,8 @@ class EnlaceApoyo(
 )
 
 /**
- * Apoyo voluntario (misma lógica que Nappy):
- * - Se pide por aciertos: pasaron [CADA_ACIERTOS] aciertos desde el último pedido.
- * - O por ingresos: [CADA_INGRESOS] ingresos al panel de padres y al menos [MIN_ACIERTOS_POR_INGRESOS] aciertos.
+ * Apoyo voluntario:
+ * - Se pide como festejo: cada [CADA_ACIERTOS] aciertos resueltos desde el último pedido (entre todos los niños).
  * - Nunca dos pedidos con menos de [ENFRIAMIENTO_DIAS] días. La fecha de instalación cuenta como el último pedido,
  *   así que los primeros días no se pide nada.
  * - "Ya doné" deja tranquilo [SILENCIO_DONE_DIAS] días.
@@ -40,20 +39,16 @@ object Donaciones {
         EnlaceApoyo("Buy Me a Coffee", "https://buymeacoffee.com/abelg88", false, 0xFFFFDD00.toInt(), 0xFF0F172A.toInt())
     )
 
-    const val CADA_ACIERTOS = 10
-    const val CADA_INGRESOS = 15
-    const val MIN_ACIERTOS_POR_INGRESOS = 5
+    const val CADA_ACIERTOS = 100
     const val ENFRIAMIENTO_DIAS = 7
     const val SILENCIO_DONE_DIAS = 90
     private const val DIA_MS = 24L * 60 * 60 * 1000
     private const val RETRASO_MS = 2500L
 
     private const val K_ULTIMO = "don_ultimo"
-    private const val K_INGRESOS = "don_ingresos"
     private const val K_ACIERTOS_AL_PEDIR = "don_aciertos_al_pedir"
     private const val K_SILENCIO = "don_silencio_hasta"
 
-    private var ingresoContado = false
     private val handler = android.os.Handler(android.os.Looper.getMainLooper())
     private var pendiente: Runnable? = null
     private var abierto: AlertDialog? = null
@@ -68,21 +63,12 @@ object Donaciones {
         return p.getLong(K_ULTIMO, System.currentTimeMillis())
     }
 
-    /** Cuenta un ingreso por cada vez que se abre la app (no por cada vuelta a la pantalla). */
-    fun contarIngreso(context: Context) {
-        if (ingresoContado) return
-        ingresoContado = true
-        val p = prefs(context)
-        p.edit().putInt(K_INGRESOS, p.getInt(K_INGRESOS, 0) + 1).apply()
-    }
-
     private fun toca(context: Context, ahora: Long): Boolean {
         val p = prefs(context)
         if (ahora < p.getLong(K_SILENCIO, 0L)) return false
         if (ahora - ultimo(context) < ENFRIAMIENTO_DIAS * DIA_MS) return false
         val total = SettingsStore.aciertosTotal(context)
-        if (total - p.getInt(K_ACIERTOS_AL_PEDIR, 0) >= CADA_ACIERTOS) return true
-        return p.getInt(K_INGRESOS, 0) >= CADA_INGRESOS && total >= MIN_ACIERTOS_POR_INGRESOS
+        return total - p.getInt(K_ACIERTOS_AL_PEDIR, 0) >= CADA_ACIERTOS
     }
 
     /**
@@ -115,7 +101,6 @@ object Donaciones {
     private fun alMostrar(context: Context) {
         prefs(context).edit()
             .putLong(K_ULTIMO, System.currentTimeMillis())
-            .putInt(K_INGRESOS, 0)
             .putInt(K_ACIERTOS_AL_PEDIR, SettingsStore.aciertosTotal(context))
             .apply()
     }
@@ -134,18 +119,25 @@ object Donaciones {
             setPadding(24 * d, 28 * d, 24 * d, 12 * d)
         }
         caja.addView(TextView(activity).apply {
-            text = "❤️"
+            text = "🎉"
             textSize = 34f
             gravity = Gravity.CENTER
-            background = GradientDrawable().apply { setColor(0xFFF43F5E.toInt()); cornerRadius = 28f * d }
+            background = GradientDrawable().apply { setColor(0xFFFEF3C7.toInt()); cornerRadius = 28f * d }
             layoutParams = LinearLayout.LayoutParams(80 * d, 80 * d)
         })
-        caja.addView(texto(activity, "¿Te sirve Peaje Cognitivo?", 22f, true, 18 * d))
+        val hito = total / CADA_ACIERTOS * CADA_ACIERTOS
+        val ids = Ninos.ids(activity)
+        val sujeto = if (ids.size > 1) "tus hijos hicieron" else {
+            val n = SettingsStore.getNombreNino(activity)
+            if (n.isNotEmpty()) "$n hizo" else "tu hijo hizo"
+        }
+        caja.addView(texto(activity, "¡Felicitaciones!", 24f, true, 18 * d))
         caja.addView(texto(
             activity,
-            "Ya se resolvieron $total ${if (total == 1) "ejercicio" else "ejercicios"}. Es gratis y sin publicidad; " +
-                "si te ayuda, un aporte me permite seguir mejorándola. Es totalmente opcional.",
-            14f, false, 8 * d
+            "Ya $sujeto $hito ejercicios bien. 🙌 Me alegra un montón que Peaje Cognitivo esté funcionando.\n\n" +
+                "Es gratis y sin publicidad. Si querés colaborar, un aporte me ayuda a seguir mejorándola. " +
+                "Es totalmente opcional.",
+            15f, false, 10 * d
         ).apply { setTextColor(activity.getColor(R.color.text_secondary)); setLineSpacing(0f, 1.2f) })
         caja.addView(botones(activity), LinearLayout.LayoutParams(-1, -2).apply { topMargin = 16 * d })
 

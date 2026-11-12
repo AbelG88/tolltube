@@ -15,10 +15,10 @@ https://github.com/AbelG88/tolltube/releases
 - **Estilo tomado de la app Nappy:** tipografía Quicksand (incluida en la app, licencia OFL en `licencias/`), azul `#3B82F6` sobre fondo celeste, tarjeta principal con degradé azul–índigo con el niño activo, dos fichas con "Aciertos hoy" y cada cuánto sale el ejercicio. El logo y el ícono pasaron al mismo azul.
 - **Apoyo voluntario (mismo sistema que Nappy)**, en `Donaciones.kt`:
   - Enlaces: Mercado Pago y Cafecito (desde Argentina), PayPal y Buy Me a Coffee (desde el exterior).
-  - Cuándo aparece el pedido: cada 10 aciertos resueltos desde el último pedido, o cada 15 ingresos a la app si ya hubo al menos 5 aciertos. Nunca dos pedidos con menos de 7 días de separación; la fecha de instalación cuenta como último pedido, así que los primeros 7 días no se pide nada. "Ya doné" deja tranquilo 90 días. Espera 2,5 s y a que el PIN ya esté puesto.
+  - Cuándo aparece el pedido: cada 100 aciertos resueltos (entre todos los niños) desde el último pedido, como un festejo: "¡Felicitaciones! Ya [nombre] hizo 100 ejercicios bien… ¿querés colaborar?". Nunca dos pedidos con menos de 7 días de separación; la fecha de instalación cuenta como último pedido, así que los primeros 7 días no se pide nada. "Ya doné" deja tranquilo 90 días. Espera 2,5 s y a que el PIN ya esté puesto. (Nappy también pide por ingresos; acá se descartó.)
   - **Solo se muestra en el panel de padres**, nunca sobre las apps del niño.
   - También hay una sección fija "Apoyá Peaje Cognitivo" en Más ajustes.
-  - Los contadores son locales (aciertos totales entre todos los niños e ingresos). En instalaciones anteriores el total arranca con el progreso ya guardado.
+  - El contador es local (aciertos totales entre todos los niños). En instalaciones anteriores el total arranca con el progreso ya guardado.
 - Versión 3.5.0-MVP (versionCode 26).
 
 ## Release 16 — Interfaz más amigable y permisos guiados

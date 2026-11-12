@@ -149,7 +149,6 @@ class MainActivity : AppCompatActivity() {
         mostrarHistorial()
         refrescarModulos()
         mostrarResumen()
-        Donaciones.contarIngreso(this)
         Donaciones.mostrarSiToca(this)
         handler.post(refrescarEstado)
     }
