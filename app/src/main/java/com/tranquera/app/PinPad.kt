@@ -17,6 +17,7 @@ import android.view.View
 import android.view.Window
 import android.view.animation.CycleInterpolator
 import android.widget.FrameLayout
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ScrollView
 import android.widget.TextView
@@ -24,7 +25,8 @@ import androidx.core.content.res.ResourcesCompat
 
 /**
  * Pantalla de PIN: candado, puntitos que se llenan y teclado numérico redondo.
- * Se confirma sola al completar [LARGO] números (mismo estilo que la app Nappy).
+ * Se confirma sola al completar [LARGO] números. Look de Nappy: fondo celeste, tarjeta blanca muy
+ * redondeada y candado blanco sobre un cuadrado azul.
  */
 class PinPad(
     private val activity: Activity,
@@ -48,11 +50,13 @@ class PinPad(
     private val filaPuntos: LinearLayout
     private var enError = false
 
-    private val azul = activity.getColor(R.color.accent)
+    private val azul = Color.parseColor("#2563EB")          // blue-600 (como Nappy)
     private val azulSuave = activity.getColor(R.color.accent_container)
-    private val textoPrincipal = activity.getColor(R.color.text_primary)
-    private val textoSecundario = activity.getColor(R.color.text_secondary)
-    private val rojo = Color.parseColor("#EF4444")
+    private val fondoPantalla = activity.getColor(R.color.background)
+    private val textoTitulo = Color.parseColor("#1E293B")   // slate-800
+    private val textoTecla = Color.parseColor("#334155")    // slate-700
+    private val textoSecundario = Color.parseColor("#64748B") // slate-500
+    private val rojo = Color.parseColor("#F43F5E")          // rose-500
     private val gris = Color.parseColor("#CBD5E1")
     private val negrita: Typeface? = ResourcesCompat.getFont(activity, R.font.quicksand_bold)
     private val media: Typeface? = ResourcesCompat.getFont(activity, R.font.quicksand_medium)
@@ -66,31 +70,32 @@ class PinPad(
         val tarjeta = LinearLayout(activity).apply {
             orientation = LinearLayout.VERTICAL
             gravity = Gravity.CENTER_HORIZONTAL
-            setPadding(dp(24), dp(28), dp(24), dp(20))
+            setPadding(dp(24), dp(32), dp(24), dp(24))
             background = GradientDrawable().apply {
                 setColor(Color.WHITE)
-                cornerRadius = dp(32).toFloat()
+                cornerRadius = dp(40).toFloat()
             }
+            elevation = dp(12).toFloat()
         }
 
-        // Candado en un círculo celeste
-        tarjeta.addView(TextView(activity).apply {
-            text = "🔒"
-            textSize = 28f
-            gravity = Gravity.CENTER
+        // Candado blanco sobre un cuadrado azul redondeado (como el de Nappy)
+        tarjeta.addView(ImageView(activity).apply {
+            setImageResource(R.drawable.ic_lock)
+            scaleType = ImageView.ScaleType.CENTER
             background = GradientDrawable().apply {
-                shape = GradientDrawable.OVAL
-                setColor(azulSuave)
+                setColor(azul)
+                cornerRadius = dp(28).toFloat()
             }
-        }, LinearLayout.LayoutParams(dp(64), dp(64)))
+            elevation = dp(6).toFloat()
+        }, LinearLayout.LayoutParams(dp(80), dp(80)))
 
         tvTitulo = TextView(activity).apply {
-            textSize = 22f
+            textSize = 24f
             typeface = negrita
-            setTextColor(textoPrincipal)
+            setTextColor(textoTitulo)
             gravity = Gravity.CENTER
         }
-        tarjeta.addView(tvTitulo, LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(16) })
+        tarjeta.addView(tvTitulo, LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(20) })
 
         tvSubtitulo = TextView(activity).apply {
             textSize = 14f
@@ -142,13 +147,17 @@ class PinPad(
         }
 
         val envoltorio = FrameLayout(activity).apply {
-            setPadding(dp(20), dp(20), dp(20), dp(20))
-            addView(tarjeta, FrameLayout.LayoutParams(-1, -2))
+            setPadding(dp(24), dp(24), dp(24), dp(24))
+            addView(tarjeta, FrameLayout.LayoutParams(-1, -2, Gravity.CENTER))
         }
-        dialogo.setContentView(ScrollView(activity).apply { addView(envoltorio) })
+        dialogo.setContentView(ScrollView(activity).apply {
+            isFillViewport = true
+            setBackgroundColor(fondoPantalla)
+            addView(envoltorio, FrameLayout.LayoutParams(-1, -1))
+        })
         dialogo.window?.apply {
-            setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-            setLayout(-1, -2)
+            setBackgroundDrawable(ColorDrawable(fondoPantalla))
+            setLayout(-1, -1)
         }
 
         ponerTextos(titulo, subtitulo)
@@ -161,7 +170,7 @@ class PinPad(
         val v = TextView(activity).apply {
             gravity = Gravity.CENTER
             typeface = negrita
-            setTextColor(textoPrincipal)
+            setTextColor(textoTecla)
             when (clave) {
                 "cancelar" -> { text = textoCancelar; textSize = 14f; setTextColor(textoSecundario) }
                 "borrar" -> { text = "⌫"; textSize = 24f }
@@ -171,7 +180,8 @@ class PinPad(
         if (clave != "cancelar") {
             val fondo = GradientDrawable().apply {
                 shape = GradientDrawable.OVAL
-                setColor(Color.parseColor("#F1F5F9"))
+                setColor(Color.parseColor("#F8FAFC"))        // slate-50
+                setStroke(dp(2), Color.parseColor("#F1F5F9"))  // slate-100
             }
             v.background = RippleDrawable(ColorStateList.valueOf(azulSuave), fondo, null)
         }
