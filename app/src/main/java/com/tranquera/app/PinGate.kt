@@ -25,23 +25,24 @@ object PinGate {
         desbloqueadoHasta = 0L
     }
 
-    /** Teclado de PIN que pide el PIN actual y lo comprueba (con bloqueo tras varios fallos). */
+    /** Pantalla de PIN que pide el PIN actual y lo comprueba (con bloqueo tras varios fallos). */
     private fun pedirPin(
-        activity: Activity, titulo: String, textoCancelar: String,
+        activity: Activity, titulo: String, textoOk: String, textoCancelar: String,
         alCorrecto: () -> Unit, alCancelar: () -> Unit
     ) {
         val pad = PinPad(
-            activity, titulo, "Ingresá el PIN de padres", textoCancelar,
-            alCompletar = { p, ingresado ->
+            activity, titulo, "Ingresá el PIN de padres para continuar.", dosCampos = false,
+            textoBoton = textoOk, textoCancelar = textoCancelar,
+            alEnviar = { p, ingresado, _ ->
                 when (val r = PinStore.verificar(activity, ingresado)) {
                     is ResultadoPin.Correcto -> {
                         p.cerrar()
                         alCorrecto()
                     }
                     is ResultadoPin.Incorrecto ->
-                        p.error("PIN incorrecto\n${r.intentosRestantes} intentos antes del bloqueo")
+                        p.error("PIN incorrecto. Te quedan ${r.intentosRestantes} intentos antes del bloqueo.")
                     is ResultadoPin.Bloqueado ->
-                        p.error("Demasiados intentos\nEsperá ${r.segundos} s")
+                        p.error("Demasiados intentos. Esperá ${r.segundos} s.")
                 }
             },
             alCancelar = { p ->
@@ -66,7 +67,7 @@ object PinGate {
         val contenido = activity.findViewById<View>(android.R.id.content)
         contenido.visibility = View.INVISIBLE
         pedirPin(
-            activity, "PIN de padres", "Salir",
+            activity, "PIN de padres", "Abrir", "Salir",
             alCorrecto = {
                 desbloqueadoHasta = SystemClock.elapsedRealtime() + VALIDEZ_MS
                 contenido.visibility = View.VISIBLE
@@ -93,14 +94,14 @@ object PinGate {
             alCancelar()
             return
         }
-        pedirPin(activity, titulo, "Cancelar", alConfirmar, alCancelar)
+        pedirPin(activity, titulo, "Confirmar", "Cancelar", alConfirmar, alCancelar)
     }
 
     /** Cambiar el PIN: si ya hay uno, primero hay que ingresar el actual. */
     fun configurar(activity: Activity) {
         if (PinStore.tienePin(activity)) {
             pedirPin(
-                activity, "PIN actual", "Cancelar",
+                activity, "PIN actual", "Continuar", "Cancelar",
                 alCorrecto = { dialogoNuevoPin(activity, obligatorio = false) },
                 alCancelar = { }
             )
@@ -119,31 +120,25 @@ object PinGate {
     }
 
     /**
-     * Pide un PIN nuevo dos veces (elegir y repetir) con el teclado de PIN, sin guardarlo:
-     * lo entrega a [alElegir]. Si [obligatorio] es false, se puede cancelar.
+     * Pide un PIN nuevo (PIN y repetirlo) sin guardarlo: lo entrega a [alElegir].
+     * Si [obligatorio] es false, se puede cancelar.
      */
     fun elegirNuevo(activity: Activity, obligatorio: Boolean, alElegir: (String) -> Unit) {
-        val tituloUno = if (obligatorio) "Poné un PIN de padres" else "PIN de padres"
-        val subUno = "${PinPad.LARGO} números que el peque no sepa"
-        var primero: String? = null
         val pad = PinPad(
-            activity, tituloUno, subUno, if (obligatorio) null else "Cancelar",
-            alCompletar = { p, ingresado ->
-                val a = primero
+            activity,
+            if (obligatorio) "Poné un PIN de padres" else "PIN de padres",
+            "Es para entrar a los ajustes. Elegí al menos ${PinPad.MIN_LARGO} números que el peque no sepa.",
+            dosCampos = true,
+            textoBoton = "Guardar",
+            textoCancelar = if (obligatorio) null else "Cancelar",
+            alEnviar = { p, pin, repetido ->
                 when {
-                    a == null -> {
-                        primero = ingresado
-                        p.limpiar()
-                        p.ponerTextos("Repetí el PIN", "Una vez más, para confirmar")
-                    }
-                    a == ingresado -> {
-                        p.cerrar()
-                        alElegir(ingresado)
-                    }
+                    pin.length < PinPad.MIN_LARGO ->
+                        p.error("El PIN tiene que tener al menos ${PinPad.MIN_LARGO} números.")
+                    pin != repetido -> p.error("Los dos PIN no coinciden.")
                     else -> {
-                        primero = null
-                        p.error("No coincide\nProbá de nuevo")
-                        p.ponerTextos(tituloUno, subUno)
+                        p.cerrar()
+                        alElegir(pin)
                     }
                 }
             },
