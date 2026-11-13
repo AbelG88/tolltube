@@ -67,20 +67,10 @@ class MainActivity : AppCompatActivity() {
         etSeconds = findViewById(R.id.etSeconds)
         etSerie = findViewById(R.id.etSerie)
 
-        val swActivo = findViewById<CompoundButton>(R.id.swActivo)
-        swActivo.isChecked = SettingsStore.getActivo(this)
-        swActivo.text = if (swActivo.isChecked) "Tranquera activada" else "Tranquera APAGADA"
-        swActivo.setOnCheckedChangeListener { _, activo ->
-            SettingsStore.setActivo(this, activo)
-            swActivo.text = if (activo) "Tranquera activada" else "Tranquera APAGADA"
-            if (!activo) {
-                ExerciseTimerManager.detener()
-                TranqueraMonitorService.detener(this) // sin servicio no hay notificación
-            } else {
-                arrancarMonitorSiCorresponde()
-            }
-            TranqueraLog.d("AJUSTES interruptor: ${if (activo) "ACTIVADO" else "APAGADO"}")
-        }
+        val alternarTranquera = { cambiarTranquera(!SettingsStore.getActivo(this)) }
+        findViewById<Button>(R.id.btnTranquera).setOnClickListener { alternarTranquera() }
+        findViewById<android.view.View>(R.id.ivTranquera).setOnClickListener { alternarTranquera() }
+        pintarTranquera()
         tvIntervalCurrent = findViewById(R.id.tvIntervalCurrent)
         tvEstado = findViewById(R.id.tvEstado)
 
@@ -318,8 +308,41 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /** Cierra (cuida) o abre (deja libre) la tranquera. Cerrada = activo, abierta = desactivado. */
+    private fun cambiarTranquera(cerrada: Boolean) {
+        SettingsStore.setActivo(this, cerrada)
+        if (!cerrada) {
+            ExerciseTimerManager.detener()
+            TranqueraMonitorService.detener(this) // sin servicio no hay notificación
+        } else {
+            arrancarMonitorSiCorresponde()
+        }
+        TranqueraLog.d("TRANQUERA ${if (cerrada) "cerrada (cuidando)" else "abierta (sin ejercicios)"}")
+        pintarTranquera()
+        actualizarBanner()
+    }
+
+    /** Dibuja la tranquera según esté cerrada o abierta. */
+    private fun pintarTranquera() {
+        val cerrada = SettingsStore.getActivo(this)
+        val nombre = SettingsStore.getNombreNino(this).ifEmpty { "el peque" }
+        findViewById<android.widget.ImageView>(R.id.ivTranquera)
+            .setImageResource(if (cerrada) R.drawable.ic_tranquera_cerrada else R.drawable.ic_tranquera_abierta)
+        findViewById<TextView>(R.id.tvTranqueraTitulo).text =
+            if (cerrada) "Tranquera cerrada" else "Tranquera abierta"
+        findViewById<TextView>(R.id.tvTranqueraDetalle).text =
+            if (cerrada) "$nombre resuelve un ejercicio para seguir mirando."
+            else "Sin ejercicios: $nombre usa el celu libremente."
+        findViewById<Button>(R.id.btnTranquera).text =
+            if (cerrada) "Abrir la tranquera" else "Cerrar la tranquera"
+        val fondo = findViewById<android.view.View>(R.id.cardTranquera).background.mutate()
+            as android.graphics.drawable.GradientDrawable?
+        fondo?.setColor(getColor(if (cerrada) R.color.pastel_mint else R.color.pastel_butter))
+    }
+
     /** Un solo aviso: o todo funciona, o falta algo y hay un botón para arreglarlo. */
     private fun actualizarBanner() {
+        pintarTranquera()
         val overlayOk = Build.VERSION.SDK_INT < Build.VERSION_CODES.M || Settings.canDrawOverlays(this)
         val usoOk = UsoApps.tienePermiso(this)
         val nombre = SettingsStore.getNombreNino(this).ifEmpty { "el peque" }
@@ -329,28 +352,20 @@ class MainActivity : AppCompatActivity() {
         val fondo = findViewById<android.view.View>(R.id.cardBanner).background.mutate() as android.graphics.drawable.GradientDrawable?
         fun pintar(color: Int) { fondo?.setColor(getColor(color)) }
         when {
-            !SettingsStore.getActivo(this) -> {
-                pintar(R.color.pastel_butter)
-                titulo.text = "Tranquera apagada"
-                detalle.text = "Por ahora no se está cuidando nada. Se prende en Ajustes."
-                boton.visibility = android.view.View.GONE
-            }
+            // Tranquera abierta: no hay nada que cuidar, no hace falta avisar
+            !SettingsStore.getActivo(this) -> findViewById<android.view.View>(R.id.cardBanner).visibility = android.view.View.GONE
             !usoOk || !overlayOk -> {
+                findViewById<android.view.View>(R.id.cardBanner).visibility = android.view.View.VISIBLE
                 pintar(R.color.pastel_butter)
                 titulo.text = "Falta un permiso"
-                detalle.text = "Por ahora no se está cuidando nada."
+                detalle.text = "La tranquera está cerrada, pero así no puede cuidar nada."
                 boton.visibility = android.view.View.VISIBLE
                 boton.setOnClickListener {
                     if (!usoOk) startActivity(Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS))
                     else startActivity(Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:$packageName")))
                 }
             }
-            else -> {
-                pintar(R.color.pastel_mint)
-                titulo.text = "Todo funcionando"
-                detalle.text = "$nombre puede usar el celu tranquilo."
-                boton.visibility = android.view.View.GONE
-            }
+            else -> findViewById<android.view.View>(R.id.cardBanner).visibility = android.view.View.GONE
         }
     }
 
@@ -372,7 +387,7 @@ class MainActivity : AppCompatActivity() {
             appendLine("${marca(TranqueraMonitorService.vivo)} Servicio de monitoreo vivo")
             appendLine("Última app detectada: ${UsoApps.ultimoPaquete ?: "(ninguna todavía)"}")
             appendLine("★ Ejercicios bien resueltos hoy: ${SettingsStore.aciertosHoy(this@MainActivity)}")
-            appendLine("Tranquera: ${if (SettingsStore.getActivo(this@MainActivity)) "activado" else "APAGADO"}")
+            appendLine("Tranquera: ${if (SettingsStore.getActivo(this@MainActivity)) "cerrada (cuidando)" else "ABIERTA (sin ejercicios)"}")
             append("Timer: ${ExerciseTimerManager.descripcionEstado()}")
         }
     }

@@ -6,7 +6,7 @@ import android.view.View
 import android.widget.Toast
 
 /**
- * PIN de padres: protege los ajustes, el registro y el "Apagar" de la notificación.
+ * PIN de padres: protege los ajustes, el registro y el "Abrir" de la notificación.
  * El PIN se guarda con hash (ver [PinStore]); acá solo está la parte de pantallas.
  */
 object PinGate {
@@ -89,7 +89,7 @@ object PinGate {
     fun pedirParaAccion(activity: Activity, titulo: String, alConfirmar: () -> Unit, alCancelar: () -> Unit) {
         if (!PinStore.tienePin(activity)) {
             Toast.makeText(
-                activity, "Primero poné un PIN de padres en la app para poder apagar desde acá", Toast.LENGTH_LONG
+                activity, "Primero poné un PIN de padres en la app para poder abrir la tranquera desde acá", Toast.LENGTH_LONG
             ).show()
             alCancelar()
             return

@@ -62,7 +62,7 @@ class TranqueraMonitorService : Service() {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         val nm = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         nm.createNotificationChannel(
-            NotificationChannel(CANAL, "Tranquera activo", NotificationManager.IMPORTANCE_LOW)
+            NotificationChannel(CANAL, "Tranquera cerrada", NotificationManager.IMPORTANCE_LOW)
         )
         // Tocar la notificación abre la app (que pide el PIN si hay uno)
         val abrirApp = PendingIntent.getActivity(
@@ -70,7 +70,7 @@ class TranqueraMonitorService : Service() {
             Intent(this, MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK),
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )
-        // "Apagar" pide el PIN de padres; sin PIN configurado no apaga nada
+        // "Abrir" pide el PIN de padres; sin PIN configurado no abre nada
         val apagar = PendingIntent.getActivity(
             this, 1,
             Intent(this, ApagarActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK),
@@ -78,13 +78,13 @@ class TranqueraMonitorService : Service() {
         )
         val notificacion = Notification.Builder(this, CANAL)
             .setContentTitle("Tranquera")
-            .setContentText("Cuidando el tiempo de pantalla")
+            .setContentText("Tranquera cerrada: cuidando el tiempo de pantalla")
             .setSmallIcon(android.R.drawable.ic_dialog_info)
             .setOngoing(true)
             .setContentIntent(abrirApp)
             .addAction(
                 Notification.Action.Builder(
-                    Icon.createWithResource(this, android.R.drawable.ic_lock_power_off), "Apagar (PIN)", apagar
+                    Icon.createWithResource(this, android.R.drawable.ic_lock_power_off), "Abrir (PIN)", apagar
                 ).build()
             )
             .build()

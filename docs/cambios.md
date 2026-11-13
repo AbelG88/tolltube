@@ -10,6 +10,13 @@ https://github.com/AbelG88/tolltube/releases
 - [x] Sumas y restas con imágenes (emojis) acompañando los números (release 2)
 - [x] Más tipos de ejercicio (animales, objetos) y elegirlos desde el menú (release 2)
 
+## Release 21 — La tranquera como botón (v3.7.0)
+
+- **Botón de tranquera en el Inicio:** una tranquera dibujada que se **abre o se cierra** con un toque. **Cerrada = cuidando** (el peque resuelve ejercicios); **abierta = desactivado** (sin ejercicios). Reemplaza al interruptor que estaba en Ajustes. La tarjeta cambia de color (menta al cerrar, manteca al abrir) y los textos hablan de abrir y cerrar.
+- El aviso de estado ahora aparece solo cuando falta un permiso (con la tranquera cerrada); ya no repite "Todo funcionando".
+- La notificación dice "Tranquera cerrada" y su acción es "Abrir (PIN)".
+- Se sacó el logo suelto del encabezado de la pantalla principal.
+
 ## Release 20 — Todo con el nombre Tranquera y PIN estilo Nappy
 
 - **Nombres internos al día:** el paquete y el `applicationId` pasan de `com.peajecognitivo.app` a `com.tranquera.app`; las clases `Peaje*` pasan a `Tranquera*`, y también los estilos, el tag del registro (`adb logcat -s Tranquera:D`), los archivos que publica el workflow (`tranquera.apk`, `tranquera.aab`) y la documentación. El repositorio de GitHub sigue llamándose `tolltube`.

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Tranquera cerrada: la barra cruza de poste a poste -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="160dp"
+    android:height="96dp"
+    android:viewportWidth="160"
+    android:viewportHeight="96">
+    <path android:fillColor="#CBD5E1" android:pathData="M0,84h160v4h-160z" />
+    <path android:fillColor="#1E40AF" android:pathData="M10,18h14v68h-14z" />
+    <path android:fillColor="#1E40AF" android:pathData="M136,18h14v68h-14z" />
+    <path android:fillColor="#60A5FA" android:pathData="M24,70L24,60L136,30L136,40z" />
+    <path android:fillColor="#2563EB" android:pathData="M24,28h112v10h-112z" />
+    <path android:fillColor="#2563EB" android:pathData="M24,48h112v10h-112z" />
+    <path android:fillColor="#2563EB" android:pathData="M24,68h112v10h-112z" />
+</vector>

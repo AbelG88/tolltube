@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Tranquera abierta: la hoja quedó girada contra el poste izquierdo y el paso está libre -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="160dp"
+    android:height="96dp"
+    android:viewportWidth="160"
+    android:viewportHeight="96">
+    <path android:fillColor="#CBD5E1" android:pathData="M0,84h160v4h-160z" />
+    <path android:fillColor="#1E40AF" android:pathData="M10,18h14v68h-14z" />
+    <path android:fillColor="#1E40AF" android:pathData="M136,18h14v68h-14z" />
+    <path android:fillColor="#60A5FA" android:pathData="M24,78L24,70L50,58L50,64z" />
+    <path android:fillColor="#2563EB" android:pathData="M24,30L50,20L50,29L24,39z" />
+    <path android:fillColor="#2563EB" android:pathData="M24,50L50,43L50,52L24,60z" />
+    <path android:fillColor="#2563EB" android:pathData="M24,70L50,66L50,75L24,79z" />
+    <path android:fillColor="#93C5FD" android:pathData="M64,60l10,0l0,-6l14,9l-14,9l0,-6l-10,0z" />
+</vector>
