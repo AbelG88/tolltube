@@ -47,22 +47,22 @@ jobs:
           echo "$KEYSTORE_B64" | base64 -d > "$RUNNER_TEMP/release.keystore"
           export RELEASE_KEYSTORE_FILE="$RUNNER_TEMP/release.keystore"
           ./gradlew bundleRelease --no-daemon
-          cp app/build/outputs/bundle/release/app-release.aab peaje-cognitivo.aab
+          cp app/build/outputs/bundle/release/app-release.aab tranquera.aab
         else
           echo "Sin claves de firma cargadas: se omite el .aab"
         fi
 
     - name: Guardar .aab
-      if: hashFiles('peaje-cognitivo.aab') != ''
+      if: hashFiles('tranquera.aab') != ''
       uses: actions/upload-artifact@v4
       with:
-        name: peaje-cognitivo-aab
-        path: peaje-cognitivo.aab
+        name: tranquera-aab
+        path: tranquera.aab
 
     - name: Upload APK
       uses: actions/upload-artifact@v4
       with:
-        name: peaje-cognitivo-apk
+        name: tranquera-apk
         path: app/build/outputs/apk/debug/app-debug.apk
 
     - name: Publicar Release con el APK
@@ -70,9 +70,9 @@ jobs:
       env:
         GH_TOKEN: ${{ github.token }}
       run: |
-        cp app/build/outputs/apk/debug/app-debug.apk peaje-cognitivo.apk
-        gh release create "build-${{ github.run_number }}" peaje-cognitivo.apk modulos/*.json \
-          --title "Peaje Cognitivo - build #${{ github.run_number }}" \
+        cp app/build/outputs/apk/debug/app-debug.apk tranquera.apk
+        gh release create "build-${{ github.run_number }}" tranquera.apk modulos/*.json \
+          --title "Tranquera - build #${{ github.run_number }}" \
           --notes "Compilado desde el commit ${{ github.sha }}" \
           --target "${{ github.sha }}" \
           --latest

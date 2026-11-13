@@ -1,4 +1,4 @@
-package com.peajecognitivo.app
+package com.tranquera.app
 
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -9,7 +9,7 @@ class BootReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent?) {
         if (intent?.action != Intent.ACTION_BOOT_COMPLETED) return
         if (SettingsStore.getActivo(context) && UsoApps.tienePermiso(context)) {
-            PeajeMonitorService.iniciar(context)
+            TranqueraMonitorService.iniciar(context)
         }
     }
 }

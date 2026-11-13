@@ -1,4 +1,4 @@
-package com.peajecognitivo.app
+package com.tranquera.app
 
 import android.content.Context
 import android.graphics.PixelFormat
@@ -13,7 +13,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 
-object PeajeOverlayManager {
+object TranqueraOverlayManager {
 
     private var overlayView: View? = null
 
@@ -30,24 +30,24 @@ object PeajeOverlayManager {
     /** Empieza una serie nueva (la que pide el timer o el botón de prueba). */
     fun show(context: Context) {
         if (overlayView != null) {
-            PeajeLog.d("OVERLAY show() ignorado: ya hay un overlay marcado como visible")
+            TranqueraLog.d("OVERLAY show() ignorado: ya hay un overlay marcado como visible")
             return
         }
         serieTotal = SettingsStore.getSerie(context)
         serieHechos = 0
-        PeajeLog.d("OVERLAY serie nueva: $serieTotal ejercicio(s) seguidos")
+        TranqueraLog.d("OVERLAY serie nueva: $serieTotal ejercicio(s) seguidos")
         mostrar(context)
     }
 
     /** Muestra un ejercicio de la serie en curso. */
     private fun mostrar(context: Context) {
         if (overlayView != null) {
-            PeajeLog.d("OVERLAY show() ignorado: ya hay un overlay marcado como visible")
+            TranqueraLog.d("OVERLAY show() ignorado: ya hay un overlay marcado como visible")
             return
         }
         val horizontal =
             context.resources.configuration.orientation == android.content.res.Configuration.ORIENTATION_LANDSCAPE
-        PeajeLog.d("OVERLAY show() intentando mostrar (pantalla ${if (horizontal) "horizontal" else "vertical"})")
+        TranqueraLog.d("OVERLAY show() intentando mostrar (pantalla ${if (horizontal) "horizontal" else "vertical"})")
 
         val windowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
 
@@ -64,7 +64,7 @@ object PeajeOverlayManager {
         }
 
         val ejercicio = ExerciseGenerator.siguiente(context)
-        PeajeLog.d("OVERLAY ejercicio de tipo ${ejercicio.tipo}")
+        TranqueraLog.d("OVERLAY ejercicio de tipo ${ejercicio.tipo}")
 
         val vista = LayoutInflater.from(context).inflate(R.layout.overlay_exercise, null)
         overlayView = vista
@@ -90,21 +90,21 @@ object PeajeOverlayManager {
             try {
                 windowManager.removeView(vista)
             } catch (e: Exception) {
-                PeajeLog.d("OVERLAY error al quitar: ${e.javaClass.simpleName}: ${e.message}")
+                TranqueraLog.d("OVERLAY error al quitar: ${e.javaClass.simpleName}: ${e.message}")
             }
             overlayView = null
             erroresSeguidos = 0
             SettingsStore.registrarResultado(context, ejercicio.tipo, 0)
             val total = SettingsStore.registrarAcierto(context)
             serieHechos++
-            PeajeLog.d("OVERLAY respuesta correcta ($serieHechos de $serieTotal). Aciertos de hoy: $total")
+            TranqueraLog.d("OVERLAY respuesta correcta ($serieHechos de $serieTotal). Aciertos de hoy: $total")
             if (serieHechos < serieTotal) {
                 // Faltan ejercicios de la serie: no se libera nada, sigue el siguiente
                 Toast.makeText(context, "¡Bien! ⭐ $total hoy. Faltan ${serieTotal - serieHechos}", Toast.LENGTH_SHORT).show()
                 mostrar(context)
             } else {
                 AudioPausa.soltar(context)
-                PeajeLog.d("OVERLAY serie completa, overlay cerrado")
+                TranqueraLog.d("OVERLAY serie completa, overlay cerrado")
                 val n = SettingsStore.getNombreNino(context).let { if (it.isEmpty()) "" else ", $it" }
                 Toast.makeText(context, "¡Muy bien$n! 🎉 ⭐ $total hoy", Toast.LENGTH_SHORT).show()
                 // El tiempo hasta el próximo ejercicio se cuenta desde que se resolvió la serie
@@ -117,7 +117,7 @@ object PeajeOverlayManager {
         val avisarError = {
             erroresSeguidos++
             SettingsStore.registrarError(context, ejercicio.tipo)
-            PeajeLog.d("OVERLAY respuesta incorrecta (errores seguidos=$erroresSeguidos)")
+            TranqueraLog.d("OVERLAY respuesta incorrecta (errores seguidos=$erroresSeguidos)")
             tvError.text = MSG_ERROR
             tvError.visibility = View.VISIBLE
             Voz.hablar(context, "$MSG_ERROR.")
@@ -206,11 +206,11 @@ object PeajeOverlayManager {
 
         try {
             windowManager.addView(vista, params)
-            PeajeLog.d("OVERLAY addView OK")
+            TranqueraLog.d("OVERLAY addView OK")
         } catch (e: Exception) {
             // OJO: comportamiento original sin cambios. overlayView queda asignado
             // aunque addView haya fallado, y la excepción se propaga.
-            PeajeLog.d("OVERLAY addView FALLÓ: ${e.javaClass.simpleName}: ${e.message}")
+            TranqueraLog.d("OVERLAY addView FALLÓ: ${e.javaClass.simpleName}: ${e.message}")
             AudioPausa.soltar(context)
             throw e
         }

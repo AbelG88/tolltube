@@ -1,8 +1,8 @@
-# 🧠 Peaje Cognitivo
+# 🧠 Tranquera
 
 App Android de control parental con un giro educativo: cuando el niño usa una app de las que cuidamos (YouTube, TikTok, juegos…), cada cierto tiempo aparece un **ejercicio** que tiene que resolver para seguir. No bloquea: convierte el tiempo de pantalla en práctica.
 
-Versión actual: **3.6.0-MVP** (versionCode 28) · Paquete: `com.peajecognitivo.app` · Licencia: ver [LICENSE](LICENSE).
+Versión actual: **3.6.0-MVP** (versionCode 28) · Paquete: `com.tranquera.app` · Licencia: ver [LICENSE](LICENSE).
 
 ## Qué hace
 
@@ -26,7 +26,7 @@ Versión actual: **3.6.0-MVP** (versionCode 28) · Paquete: `com.peajecognitivo.
 Estructura:
 
 ```
-app/src/main/java/com/peajecognitivo/app/   código (MainActivity, AsistenteActivity, PeajeOverlayManager, SettingsStore…)
+app/src/main/java/com/tranquera/app/   código (MainActivity, AsistenteActivity, TranqueraOverlayManager, SettingsStore…)
 modulos/                                    módulos de ejercicios (JSON), empaquetados como assets
 docs/                                       documento del proyecto, cambios, Play Store, diagnóstico, privacidad
 .github/workflows/build.yml                 compilación automática
@@ -36,9 +36,9 @@ docs/                                       documento del proyecto, cambios, Pla
 
 ### Opción A: GitHub Actions (sin instalar nada)
 
-Cada push a `main` compila solo y publica el APK en **Releases**: https://github.com/AbelG88/tolltube/releases/latest. Desde el celu bajá `peaje-cognitivo.apk`.
+Cada push a `main` compila solo y publica el APK en **Releases**: https://github.com/AbelG88/tolltube/releases/latest. Desde el celu bajá `tranquera.apk`.
 
-También se puede disparar a mano: pestaña **Actions → Build APK → Run workflow** (~3 min) y bajar `peaje-cognitivo-apk` de *Artifacts*.
+También se puede disparar a mano: pestaña **Actions → Build APK → Run workflow** (~3 min) y bajar `tranquera-apk` de *Artifacts*.
 
 El workflow además verifica que compile la variante `release` (sin registro de diagnóstico) y, si están cargados los secrets de firma, arma el `.aab` para Google Play.
 
@@ -57,7 +57,7 @@ O abrí el proyecto en Android Studio, conectá el celu con "Depuración USB" y 
 ## Instalación y primer uso
 
 1. Pasá el APK al celu del niño (WhatsApp, Drive, cable) y abrilo. Si lo pide: *Permitir instalar de esta fuente*.
-2. Abrí **Peaje Cognitivo** y seguí el asistente.
+2. Abrí **Tranquera** y seguí el asistente.
 3. Otorgá los permisos que pide la app:
    - **Mostrar sobre otras apps** (overlay).
    - **Acceso a datos de uso** (así se detecta qué app está abierta).
@@ -90,11 +90,11 @@ O abrí el proyecto en Android Studio, conectá el celu con "Depuración USB" y 
 ## Si el overlay a veces aparece y a veces no
 
 - **Desde el celu:** panel **🔎 Estado** → **📋 Ver registro** → Copiar o Compartir. Muestra permisos, estado del servicio y la última app detectada.
-- **Con PC:** logs con el tag `Peaje`:
+- **Con PC:** logs con el tag `Tranquera`:
 
   ```
   adb logcat -c
-  adb logcat -s Peaje:D > peaje-prueba-1.log
+  adb logcat -s Tranquera:D > tranquera-prueba-1.log
   ```
 
 - Algunos fabricantes (Samsung, Xiaomi, Motorola…) matan procesos en segundo plano: excluí la app de la optimización de batería.
@@ -114,7 +114,7 @@ Pendientes principales (detalle en [docs/ideas-pendientes.md](docs/ideas-pendien
 
 | Documento | Contenido |
 |---|---|
-| [docs/app-peaje-cognitivo.md](docs/app-peaje-cognitivo.md) | Idea, objetivos y fases del proyecto |
+| [docs/app-tranquera.md](docs/app-tranquera.md) | Idea, objetivos y fases del proyecto |
 | [docs/cambios.md](docs/cambios.md) | Historial de versiones |
 | [docs/ideas-pendientes.md](docs/ideas-pendientes.md) | Ideas y pendientes |
 | [docs/camino-a-play-store.md](docs/camino-a-play-store.md) | Requisitos para publicar en Google Play |

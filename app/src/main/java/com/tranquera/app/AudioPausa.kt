@@ -1,4 +1,4 @@
-package com.peajecognitivo.app
+package com.tranquera.app
 
 import android.content.Context
 import android.media.AudioAttributes
@@ -32,9 +32,9 @@ object AudioPausa {
             pedido = solicitud
             am.dispatchMediaKeyEvent(KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MEDIA_PAUSE))
             am.dispatchMediaKeyEvent(KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_MEDIA_PAUSE))
-            PeajeLog.d("AUDIO pausa pedida (foco=${if (r == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) "concedido" else "no concedido"})")
+            TranqueraLog.d("AUDIO pausa pedida (foco=${if (r == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) "concedido" else "no concedido"})")
         } catch (e: Exception) {
-            PeajeLog.d("AUDIO error al pausar: ${e.javaClass.simpleName}: ${e.message}")
+            TranqueraLog.d("AUDIO error al pausar: ${e.javaClass.simpleName}: ${e.message}")
         }
     }
 
@@ -44,9 +44,9 @@ object AudioPausa {
             val am = context.applicationContext.getSystemService(Context.AUDIO_SERVICE) as AudioManager
             am.abandonAudioFocusRequest(solicitud)
             pedido = null
-            PeajeLog.d("AUDIO foco devuelto")
+            TranqueraLog.d("AUDIO foco devuelto")
         } catch (e: Exception) {
-            PeajeLog.d("AUDIO error al soltar: ${e.javaClass.simpleName}: ${e.message}")
+            TranqueraLog.d("AUDIO error al soltar: ${e.javaClass.simpleName}: ${e.message}")
         }
     }
 }

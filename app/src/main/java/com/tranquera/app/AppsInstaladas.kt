@@ -1,4 +1,4 @@
-package com.peajecognitivo.app
+package com.tranquera.app
 
 import android.content.Context
 import android.content.Intent
@@ -23,7 +23,7 @@ object AppsInstaladas {
                 .distinctBy { it.paquete }
                 .sortedBy { it.nombre.lowercase() }
         } catch (e: Exception) {
-            PeajeLog.d("APPS no se pudo listar: ${e.javaClass.simpleName}")
+            TranqueraLog.d("APPS no se pudo listar: ${e.javaClass.simpleName}")
             emptyList()
         }
     }

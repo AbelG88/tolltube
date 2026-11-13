@@ -1,4 +1,4 @@
-package com.peajecognitivo.app
+package com.tranquera.app
 
 import android.app.Activity
 import android.app.Application
@@ -10,10 +10,10 @@ import android.os.Looper
  * Corre al arrancar el proceso (también cuando Android relanza el servicio de monitoreo).
  * Prepara el registro y deja anotado cualquier crash antes de que el proceso muera.
  */
-class PeajeApp : Application() {
+class TranqueraApp : Application() {
     override fun onCreate() {
         super.onCreate()
-        PeajeLog.attach(this)
+        TranqueraLog.attach(this)
         registerActivityLifecycleCallbacks(object : ActivityLifecycleCallbacks {
             private var iniciadas = 0
             private val handler = Handler(Looper.getMainLooper())
@@ -37,15 +37,15 @@ class PeajeApp : Application() {
         } catch (e: Exception) {
             "?"
         }
-        PeajeLog.d("PROCESO versión=$version")
+        TranqueraLog.d("PROCESO versión=$version")
 
         val anterior = Thread.getDefaultUncaughtExceptionHandler()
         Thread.setDefaultUncaughtExceptionHandler { hilo, error ->
-            PeajeLog.d(
+            TranqueraLog.d(
                 "CRASH en hilo '${hilo.name}': ${error.javaClass.name}: ${error.message}\n" +
                     error.stackTraceToString().take(1200)
             )
-            PeajeLog.flush()
+            TranqueraLog.flush()
             anterior?.uncaughtException(hilo, error)
         }
     }

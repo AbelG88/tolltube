@@ -1,4 +1,4 @@
-# App "Peaje Cognitivo" — Documento de Proyecto
+# App "Tranquera" — Documento de Proyecto
 
 ## Idea central
 
@@ -14,7 +14,7 @@ Pensada inicialmente para un niño de 7 años con autismo, con el objetivo de:
 ## Objetivos
 
 ### Objetivo principal
-Validar que el niño acepta el "peaje" (overlay + ejercicio) y lo resuelve sin crisis, antes de construir cualquier otra funcionalidad.
+Validar que el niño acepta la "tranquera" (overlay + ejercicio) y lo resuelve sin crisis, antes de construir cualquier otra funcionalidad.
 
 ### Objetivos secundarios
 1. Filtrar videos por metadatos (título, canal, tags) usando IA para bloquear contenido no deseado

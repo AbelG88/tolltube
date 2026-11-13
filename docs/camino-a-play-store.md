@@ -26,7 +26,7 @@ Desde el 30/9/2026 solo se instalan apps de desarrolladores registrados en Brasi
 - [ ] Quitar o limitar el registro de diagnóstico (anota cada app que se abre).
 - [ ] Política de privacidad con URL pública, formulario de seguridad de datos y cuestionario de clasificación de contenido.
 - [ ] Revisar el nivel de Android objetivo que exige Google (hoy 34; no verificado el mínimo vigente).
-- [ ] Nombre de paquete `com.peajecognitivo.app`: queda fijo al publicar.
+- [ ] Nombre de paquete `com.tranquera.app`: queda fijo al publicar.
 
 ## Otros
 - App Store de Apple: sería una app aparte; no investigado.

@@ -1,4 +1,4 @@
-package com.peajecognitivo.app
+package com.tranquera.app
 
 import android.content.Context
 
@@ -8,7 +8,7 @@ import android.content.Context
  * - tipos de ejercicio habilitados
  */
 object SettingsStore {
-    private const val PREFS = "peaje_prefs"
+    private const val PREFS = "tranquera_prefs"
     private const val KEY_INTERVAL_SECONDS = "interval_seconds"
     private const val KEY_TIPOS = "tipos_ejercicio"
 
@@ -70,7 +70,7 @@ object SettingsStore {
         prefs(context).edit().putBoolean(k(context, "vigilar_${app.clave}"), v).apply()
     }
 
-    /** Interruptor general. Apagado: el peaje no aparece nunca (solo el botón de prueba). */
+    /** Interruptor general. Apagado: la tranquera no aparece nunca (solo el botón de prueba). */
     fun getActivo(context: Context): Boolean = prefs(context).getBoolean("activo", true)
 
     fun setActivo(context: Context, activo: Boolean) {

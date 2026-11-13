@@ -1,4 +1,4 @@
-package com.peajecognitivo.app
+package com.tranquera.app
 
 import android.content.Context
 import android.util.Base64
@@ -22,7 +22,7 @@ sealed class ResultadoPin {
  * Los intentos fallidos y el bloqueo se guardan en disco, así que reiniciar la app no los borra.
  */
 object PinStore {
-    private const val PREFS = "peaje_prefs"
+    private const val PREFS = "tranquera_prefs"
     private const val K_HASH = "pin_hash"
     private const val K_SAL = "pin_salt"
     private const val K_ITER = "pin_iter"

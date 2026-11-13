@@ -1,4 +1,4 @@
-package com.peajecognitivo.app
+package com.tranquera.app
 
 import android.content.Context
 import org.json.JSONArray
@@ -42,7 +42,7 @@ object ModulosStore {
         File(context.filesDir, "modulos").also { it.mkdirs() }
 
     private fun prefs(context: Context) =
-        context.applicationContext.getSharedPreferences("peaje_prefs", Context.MODE_PRIVATE)
+        context.applicationContext.getSharedPreferences("tranquera_prefs", Context.MODE_PRIVATE)
 
     /** Lee y valida el texto de un módulo. Si algo está mal, lanza un error con el motivo. */
     fun parsear(texto: String): Modulo {
@@ -125,7 +125,7 @@ object ModulosStore {
         File(carpeta(context), "${m.id}.json").writeText(texto, Charsets.UTF_8)
         cache = null
         if (!prefs(context).contains(Ninos.clave(context, "modulo_on_${m.id}"))) setActivo(context, m.id, true)
-        PeajeLog.d("MODULOS importado '${m.nombre}' (${m.items.size} ejercicios)")
+        TranqueraLog.d("MODULOS importado '${m.nombre}' (${m.items.size} ejercicios)")
         return m
     }
 
@@ -137,7 +137,7 @@ object ModulosStore {
                 try {
                     parsear(it.readText(Charsets.UTF_8))
                 } catch (e: Exception) {
-                    PeajeLog.d("MODULOS archivo ${it.name} inválido: ${e.message}")
+                    TranqueraLog.d("MODULOS archivo ${it.name} inválido: ${e.message}")
                     null
                 }
             }
@@ -157,7 +157,7 @@ object ModulosStore {
         Ninos.ids(context).forEach { e.remove(Ninos.clave(it, "modulo_on_$id")) }
         e.apply()
         cache = null
-        PeajeLog.d("MODULOS quitado '$id'")
+        TranqueraLog.d("MODULOS quitado '$id'")
     }
 
     fun hayActivos(context: Context): Boolean =

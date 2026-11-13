@@ -1,4 +1,4 @@
-package com.peajecognitivo.app
+package com.tranquera.app
 
 import android.app.Activity
 import android.content.Context
@@ -54,7 +54,7 @@ object Donaciones {
     private var abierto: AlertDialog? = null
 
     private fun prefs(context: Context) =
-        context.applicationContext.getSharedPreferences("peaje_prefs", Context.MODE_PRIVATE)
+        context.applicationContext.getSharedPreferences("tranquera_prefs", Context.MODE_PRIVATE)
 
     /** La primera vez, la fecha de instalación (ahora) cuenta como último pedido: respiro inicial. */
     private fun ultimo(context: Context): Long {
@@ -148,7 +148,7 @@ object Donaciones {
             .create()
         abierto = dlg
         dlg.show()
-        PeajeLog.d("DONACIONES pedido mostrado")
+        TranqueraLog.d("DONACIONES pedido mostrado")
     }
 
     /** Botones de los medios de aporte, agrupados como en Nappy. Se usa en el pedido y en la pantalla principal. */

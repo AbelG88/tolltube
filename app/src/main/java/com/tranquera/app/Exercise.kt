@@ -1,4 +1,4 @@
-package com.peajecognitivo.app
+package com.tranquera.app
 
 enum class ExerciseType(val clave: String, val etiqueta: String) {
     SUMA("suma", "➕ Sumas (con dibujos)"),

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.peajecognitivo.app">
+    package="com.tranquera.app">
 
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
@@ -28,12 +28,12 @@
     </queries>
 
     <application
-        android:name=".PeajeApp"
+        android:name=".TranqueraApp"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:label="Tranquera"
-        android:theme="@style/Theme.PeajeCognitivo">
+        android:theme="@style/Theme.Tranquera">
 
         <activity
             android:name=".MainActivity"
@@ -65,10 +65,10 @@
             android:excludeFromRecents="true"
             android:exported="false"
             android:taskAffinity=""
-            android:theme="@style/Theme.PeajeCognitivo.Translucent" />
+            android:theme="@style/Theme.Tranquera.Translucent" />
 
         <service
-            android:name=".PeajeMonitorService"
+            android:name=".TranqueraMonitorService"
             android:exported="false"
             android:foregroundServiceType="specialUse">
             <property

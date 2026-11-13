@@ -1,4 +1,4 @@
-package com.peajecognitivo.app
+package com.tranquera.app
 
 import android.app.Notification
 import android.app.NotificationChannel
@@ -19,27 +19,27 @@ import androidx.core.content.ContextCompat
  * Servicio en primer plano para el modo "Uso de apps": cada pocos segundos mira qué app está
  * en pantalla y arranca el timer cuando aparece una app vigilada. Muestra una notificación fija.
  */
-class PeajeMonitorService : Service() {
+class TranqueraMonitorService : Service() {
 
     companion object {
         @Volatile
         var vivo = false
             private set
 
-        private const val CANAL = "peaje_monitor"
+        private const val CANAL = "tranquera_monitor"
         private const val ID_NOTIF = 1001
         private const val CADA_MS = 1500L
 
         fun iniciar(context: Context) {
             ContextCompat.startForegroundService(
                 context.applicationContext,
-                Intent(context.applicationContext, PeajeMonitorService::class.java)
+                Intent(context.applicationContext, TranqueraMonitorService::class.java)
             )
         }
 
         fun detener(context: Context) {
             context.applicationContext.stopService(
-                Intent(context.applicationContext, PeajeMonitorService::class.java)
+                Intent(context.applicationContext, TranqueraMonitorService::class.java)
             )
         }
     }
@@ -48,10 +48,10 @@ class PeajeMonitorService : Service() {
     private val ciclo = object : Runnable {
         override fun run() {
             if (!vivo) return
-            UsoApps.actualizar(this@PeajeMonitorService)
-            val (pantalla, _) = UsoApps.clasificar(this@PeajeMonitorService)
+            UsoApps.actualizar(this@TranqueraMonitorService)
+            val (pantalla, _) = UsoApps.clasificar(this@TranqueraMonitorService)
             if (pantalla == Pantalla.VIGILADA) {
-                ExerciseTimerManager.startTimer(this@PeajeMonitorService)
+                ExerciseTimerManager.startTimer(this@TranqueraMonitorService)
             }
             handler.postDelayed(this, CADA_MS)
         }
@@ -93,7 +93,7 @@ class PeajeMonitorService : Service() {
         } else {
             startForeground(ID_NOTIF, notificacion)
         }
-        if (!vivo) PeajeLog.d("MONITOR servicio iniciado")
+        if (!vivo) TranqueraLog.d("MONITOR servicio iniciado")
         vivo = true
         handler.removeCallbacks(ciclo)
         handler.post(ciclo)
@@ -103,7 +103,7 @@ class PeajeMonitorService : Service() {
     override fun onDestroy() {
         vivo = false
         handler.removeCallbacks(ciclo)
-        PeajeLog.d("MONITOR servicio detenido")
+        TranqueraLog.d("MONITOR servicio detenido")
         super.onDestroy()
     }
 }

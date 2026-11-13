@@ -1,5 +1,5 @@
 <resources>
-    <style name="Theme.PeajeCognitivo" parent="Theme.Material3.Light.NoActionBar">
+    <style name="Theme.Tranquera" parent="Theme.Material3.Light.NoActionBar">
         <item name="colorPrimary">@color/accent</item>
         <item name="colorOnPrimary">@color/white</item>
         <item name="colorPrimaryContainer">@color/accent_container</item>
@@ -14,12 +14,12 @@
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:fontFamily">@font/quicksand</item>
         <item name="fontFamily">@font/quicksand</item>
-        <item name="chipStyle">@style/Widget.Peaje.Chip</item>
-        <item name="materialButtonStyle">@style/Widget.Peaje.Button</item>
+        <item name="chipStyle">@style/Widget.Tranquera.Chip</item>
+        <item name="materialButtonStyle">@style/Widget.Tranquera.Button</item>
     </style>
 
     <!-- Para actividades que son solo un diálogo (fondo transparente) -->
-    <style name="Theme.PeajeCognitivo.Translucent" parent="Theme.PeajeCognitivo">
+    <style name="Theme.Tranquera.Translucent" parent="Theme.Tranquera">
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:backgroundDimEnabled">false</item>
@@ -27,8 +27,8 @@
     </style>
 
     <!-- Chips redondeados tipo "pastilla" -->
-    <style name="Widget.Peaje.Chip" parent="Widget.Material3.Chip.Filter">
-        <item name="shapeAppearanceOverlay">@style/ShapeAppearance.Peaje.Pill</item>
+    <style name="Widget.Tranquera.Chip" parent="Widget.Material3.Chip.Filter">
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearance.Tranquera.Pill</item>
         <item name="chipMinHeight">46dp</item>
         <item name="chipStrokeWidth">0dp</item>
         <item name="chipBackgroundColor">@color/chip_bg</item>
@@ -38,7 +38,7 @@
         <item name="closeIcon">@drawable/ic_close</item>
     </style>
 
-    <style name="ShapeAppearance.Peaje.Pill" parent="">
+    <style name="ShapeAppearance.Tranquera.Pill" parent="">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">50%</item>
     </style>
@@ -55,8 +55,8 @@
     </style>
 
     <!-- Botón principal: lleno y en pastilla -->
-    <style name="Widget.Peaje.Button" parent="Widget.Material3.Button">
-        <item name="shapeAppearanceOverlay">@style/ShapeAppearance.Peaje.Pill</item>
+    <style name="Widget.Tranquera.Button" parent="Widget.Material3.Button">
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearance.Tranquera.Pill</item>
         <item name="android:minHeight">56dp</item>
         <item name="android:textSize">16sp</item>
         <item name="android:textStyle">bold</item>
@@ -64,8 +64,8 @@
     </style>
 
     <!-- Botón suave: fondo lila, sin borde -->
-    <style name="Widget.Peaje.Button.Soft" parent="Widget.Material3.Button.TonalButton">
-        <item name="shapeAppearanceOverlay">@style/ShapeAppearance.Peaje.Pill</item>
+    <style name="Widget.Tranquera.Button.Soft" parent="Widget.Material3.Button.TonalButton">
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearance.Tranquera.Pill</item>
         <item name="android:minHeight">52dp</item>
         <item name="android:textSize">15sp</item>
         <item name="android:textStyle">bold</item>
@@ -75,7 +75,7 @@
     </style>
 
     <!-- Tarjetas: llenas, muy redondeadas, sin borde -->
-    <style name="Widget.Peaje.Card" parent="Widget.Material3.CardView.Filled">
+    <style name="Widget.Tranquera.Card" parent="Widget.Material3.CardView.Filled">
         <item name="cardBackgroundColor">@color/surface</item>
         <item name="cardCornerRadius">28dp</item>
         <item name="cardElevation">0dp</item>
@@ -83,7 +83,7 @@
     </style>
 
     <!-- Pestaña de la barra inferior -->
-    <style name="NavPeaje">
+    <style name="NavTranquera">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_weight">1</item>

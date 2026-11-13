@@ -1,4 +1,4 @@
-package com.peajecognitivo.app
+package com.tranquera.app
 
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue

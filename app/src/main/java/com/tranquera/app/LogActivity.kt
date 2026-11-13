@@ -1,4 +1,4 @@
-package com.peajecognitivo.app
+package com.tranquera.app
 
 import android.content.ClipData
 import android.content.ClipboardManager
@@ -30,7 +30,7 @@ class LogActivity : AppCompatActivity() {
         findViewById<Button>(R.id.btnCompartir).setOnClickListener { compartir() }
         findViewById<Button>(R.id.btnActualizar).setOnClickListener { cargar() }
         findViewById<Button>(R.id.btnBorrar).setOnClickListener {
-            PeajeLog.borrar(this)
+            TranqueraLog.borrar(this)
             cargar()
         }
 
@@ -43,7 +43,7 @@ class LogActivity : AppCompatActivity() {
         } catch (e: Exception) {
             "?"
         }
-        return "Versión de la app: $version\n" + PeajeLog.leer(this, LINEAS)
+        return "Versión de la app: $version\n" + TranqueraLog.leer(this, LINEAS)
     }
 
     override fun onResume() {
@@ -58,7 +58,7 @@ class LogActivity : AppCompatActivity() {
 
     private fun copiar() {
         val cm = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-        val clip = ClipData.newPlainText("Registro Peaje", textoLog())
+        val clip = ClipData.newPlainText("Registro Tranquera", textoLog())
         if (android.os.Build.VERSION.SDK_INT >= 33) {
             clip.description.extras = android.os.PersistableBundle().apply {
                 putBoolean("android.content.extra.IS_SENSITIVE", true)

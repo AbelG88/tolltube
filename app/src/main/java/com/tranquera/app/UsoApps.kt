@@ -1,4 +1,4 @@
-package com.peajecognitivo.app
+package com.tranquera.app
 
 import android.app.AppOpsManager
 import android.app.usage.UsageEvents
@@ -57,15 +57,15 @@ object UsoApps {
             ultimaConsulta = ahora
             if (actual != anterior) {
                 if (actual != null) ultimoPaquete = actual
-                PeajeLog.d("USO app en primer plano: ${Deteccion.etiqueta(context, actual)}")
+                TranqueraLog.d("USO app en primer plano: ${Deteccion.etiqueta(context, actual)}")
             }
         } catch (ex: SecurityException) {
             if (!avisoPermisoLogueado) {
                 avisoPermisoLogueado = true
-                PeajeLog.d("USO sin permiso de acceso a datos de uso: ${ex.message}")
+                TranqueraLog.d("USO sin permiso de acceso a datos de uso: ${ex.message}")
             }
         } catch (ex: Exception) {
-            PeajeLog.d("USO error al consultar: ${ex.javaClass.simpleName}: ${ex.message}")
+            TranqueraLog.d("USO error al consultar: ${ex.javaClass.simpleName}: ${ex.message}")
         }
     }
 

@@ -1,4 +1,4 @@
-package com.peajecognitivo.app
+package com.tranquera.app
 
 import android.content.Context
 import android.os.Handler
@@ -6,7 +6,7 @@ import android.os.Looper
 import android.os.SystemClock
 
 /**
- * Temporizador interno del peaje.
+ * Temporizador interno de la tranquera.
  *
  * Cómo funciona (desde la 1.3):
  *  - Se ARRANCA cuando el monitor de uso de apps ve aparecer YouTube.
@@ -51,7 +51,7 @@ class ExerciseTimerManager {
             val cuenta = if (SettingsStore.getSoloReproduciendo(ctx)) reproduciendo(ctx) else true
             if (cuenta != contando) {
                 contando = cuenta
-                PeajeLog.d(if (cuenta) "TIMER cuenta reanudada" else "TIMER cuenta en pausa (no hay audio sonando)")
+                TranqueraLog.d(if (cuenta) "TIMER cuenta reanudada" else "TIMER cuenta en pausa (no hay audio sonando)")
             }
             if (cuenta) restanteMs -= 1000
             proximaEsperada = SystemClock.elapsedRealtime() + restanteMs
@@ -64,29 +64,29 @@ class ExerciseTimerManager {
             if (!SettingsStore.getActivo(ctx)) {
                 running = false
                 esperandoCierre = false
-                PeajeLog.d("TIMER detenido: el peaje está apagado en los ajustes")
+                TranqueraLog.d("TIMER detenido: la tranquera está apagada en los ajustes")
                 return
             }
 
             val retraso = SystemClock.elapsedRealtime() - proximaEsperada
             val (pantalla, paquete) = Deteccion.clasificar(ctx)
-            PeajeLog.d(
+            TranqueraLog.d(
                 "TIMER sonó. en_pantalla=${Deteccion.etiqueta(ctx, paquete)} -> $pantalla retraso_vs_esperado=${retraso}ms"
             )
 
             when (pantalla) {
                 Pantalla.VIGILADA -> {
-                    PeajeOverlayManager.show(ctx)
+                    TranqueraOverlayManager.show(ctx)
                     // No se programa otro ciclo: se espera a que se resuelva el ejercicio
                     esperandoCierre = true
-                    PeajeLog.d("TIMER en espera hasta que se resuelva el ejercicio")
+                    TranqueraLog.d("TIMER en espera hasta que se resuelva el ejercicio")
                 }
                 Pantalla.OTRA_APP -> {
                     running = false
-                    PeajeLog.d("TIMER detenido: el usuario está en otra app (${Deteccion.etiqueta(ctx, paquete)}). Se reactiva al volver a una app vigilada")
+                    TranqueraLog.d("TIMER detenido: el usuario está en otra app (${Deteccion.etiqueta(ctx, paquete)}). Se reactiva al volver a una app vigilada")
                 }
                 Pantalla.INCIERTO -> {
-                    PeajeLog.d("TIMER ciclo salteado: pantalla incierta, se sigue contando")
+                    TranqueraLog.d("TIMER ciclo salteado: pantalla incierta, se sigue contando")
                     programar(ctx)
                 }
             }
@@ -100,7 +100,7 @@ class ExerciseTimerManager {
             proximaEsperada = SystemClock.elapsedRealtime() + intervalo
             handler.removeCallbacks(tick)
             handler.postDelayed(tick, 1000)
-            PeajeLog.d("TIMER programado: próximo en ${intervalo / 1000}s")
+            TranqueraLog.d("TIMER programado: próximo en ${intervalo / 1000}s")
         }
 
         fun startTimer(context: Context) {
@@ -116,7 +116,7 @@ class ExerciseTimerManager {
             if (!running) return
             handler.removeCallbacks(tick)
             programar(appContext ?: context.applicationContext)
-            PeajeLog.d("TIMER reiniciado tras resolver el ejercicio")
+            TranqueraLog.d("TIMER reiniciado tras resolver el ejercicio")
         }
 
         /** Para el timer por completo (interruptor apagado). */
@@ -124,7 +124,7 @@ class ExerciseTimerManager {
             handler.removeCallbacks(tick)
             running = false
             esperandoCierre = false
-            PeajeLog.d("TIMER detenido por el interruptor")
+            TranqueraLog.d("TIMER detenido por el interruptor")
         }
 
         /** Se llama al guardar un tiempo nuevo: si hay un ciclo en curso, se reprograma ya. */
@@ -132,7 +132,7 @@ class ExerciseTimerManager {
             if (!running || esperandoCierre) return
             handler.removeCallbacks(tick)
             programar(context.applicationContext)
-            PeajeLog.d("TIMER reprogramado por cambio de ajustes")
+            TranqueraLog.d("TIMER reprogramado por cambio de ajustes")
         }
 
         /** Para el panel de estado: "corriendo, próximo en 12 s", "esperando ejercicio" o "detenido". */

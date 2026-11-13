@@ -1,4 +1,4 @@
-package com.peajecognitivo.app
+package com.tranquera.app
 
 import android.content.Context
 import android.os.SystemClock
@@ -13,16 +13,16 @@ import java.util.concurrent.TimeUnit
 
 /**
  * Logger de diagnóstico. Hace dos cosas:
- *  1. Escribe en logcat con el tag "Peaje" (adb logcat -s Peaje:D)
+ *  1. Escribe en logcat con el tag "Tranquera" (adb logcat -s Tranquera:D)
  *  2. Guarda las líneas en un archivo del celular, que sobrevive aunque el proceso muera.
  *     Se puede ver, copiar y compartir desde la app ("Ver registro").
  *
  * Cada línea lleva la hora y [+Nms]: tiempo desde que arrancó ESTE proceso.
  * Si el contador vuelve a valores chicos, el proceso se reinició.
  */
-object PeajeLog {
-    const val TAG = "Peaje"
-    private const val ARCHIVO = "peaje-log.txt"
+object TranqueraLog {
+    const val TAG = "Tranquera"
+    private const val ARCHIVO = "tranquera-log.txt"
     private const val MAX_BYTES = 150_000L
 
     private val t0 = SystemClock.elapsedRealtime()
@@ -32,7 +32,7 @@ object PeajeLog {
     @Volatile
     private var archivo: File? = null
 
-    /** Se llama una vez al arrancar el proceso (desde PeajeApp). */
+    /** Se llama una vez al arrancar el proceso (desde TranqueraApp). */
     fun attach(context: Context) {
         if (!BuildConfig.LOG_DIAGNOSTICO) {
             // Versión para publicar: no se registra nada y se borra cualquier registro viejo

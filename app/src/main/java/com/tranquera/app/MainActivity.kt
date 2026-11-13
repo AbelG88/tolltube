@@ -1,4 +1,4 @@
-package com.peajecognitivo.app
+package com.tranquera.app
 
 import android.content.Intent
 import android.net.Uri
@@ -69,17 +69,17 @@ class MainActivity : AppCompatActivity() {
 
         val swActivo = findViewById<CompoundButton>(R.id.swActivo)
         swActivo.isChecked = SettingsStore.getActivo(this)
-        swActivo.text = if (swActivo.isChecked) "Peaje activado" else "Peaje APAGADO"
+        swActivo.text = if (swActivo.isChecked) "Tranquera activada" else "Tranquera APAGADA"
         swActivo.setOnCheckedChangeListener { _, activo ->
             SettingsStore.setActivo(this, activo)
-            swActivo.text = if (activo) "Peaje activado" else "Peaje APAGADO"
+            swActivo.text = if (activo) "Tranquera activada" else "Tranquera APAGADA"
             if (!activo) {
                 ExerciseTimerManager.detener()
-                PeajeMonitorService.detener(this) // sin servicio no hay notificación
+                TranqueraMonitorService.detener(this) // sin servicio no hay notificación
             } else {
                 arrancarMonitorSiCorresponde()
             }
-            PeajeLog.d("AJUSTES interruptor: ${if (activo) "ACTIVADO" else "APAGADO"}")
+            TranqueraLog.d("AJUSTES interruptor: ${if (activo) "ACTIVADO" else "APAGADO"}")
         }
         tvIntervalCurrent = findViewById(R.id.tvIntervalCurrent)
         tvEstado = findViewById(R.id.tvEstado)
@@ -89,7 +89,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         findViewById<Button>(R.id.btnTestOverlay).setOnClickListener {
-            PeajeOverlayManager.show(this)
+            TranqueraOverlayManager.show(this)
         }
 
         findViewById<Button>(R.id.btnSaveInterval).setOnClickListener {
@@ -110,7 +110,7 @@ class MainActivity : AppCompatActivity() {
         cbVoz.isChecked = SettingsStore.getVoz(this)
         cbVoz.setOnCheckedChangeListener { _, activa ->
             SettingsStore.setVoz(this, activa)
-            PeajeLog.d("AJUSTES voz: $activa")
+            TranqueraLog.d("AJUSTES voz: $activa")
         }
         configurarNivel()
         findViewById<Button>(R.id.btnBorrarHistorial).setOnClickListener {
@@ -128,7 +128,7 @@ class MainActivity : AppCompatActivity() {
         swSolo.isChecked = SettingsStore.getSoloReproduciendo(this)
         swSolo.setOnCheckedChangeListener { _, v ->
             SettingsStore.setSoloReproduciendo(this, v)
-            PeajeLog.d("AJUSTES contar solo mientras se reproduce: $v")
+            TranqueraLog.d("AJUSTES contar solo mientras se reproduce: $v")
         }
 
         // Al arrancar, si el modo normal está activo y falta el permiso de notificaciones, se pide
@@ -177,7 +177,7 @@ class MainActivity : AppCompatActivity() {
                     if (id != Ninos.activo(this@MainActivity)) {
                         Ninos.setActivo(this@MainActivity, id)
                         ExerciseTimerManager.reprogramar(this@MainActivity)
-                        PeajeLog.d("NINOS cambio de niño activo")
+                        TranqueraLog.d("NINOS cambio de niño activo")
                         recreate()
                     }
                 }
@@ -263,7 +263,7 @@ class MainActivity : AppCompatActivity() {
                 } else {
                     SettingsStore.setModoApps(this, ModoApps.ELEGIR)
                     SettingsStore.setAppsElegidas(this, elegidas)
-                    PeajeLog.d("AJUSTES apps: modo elegir, ${elegidas.size} apps")
+                    TranqueraLog.d("AJUSTES apps: modo elegir, ${elegidas.size} apps")
                     mostrarResumen()
                 }
             }
@@ -271,7 +271,7 @@ class MainActivity : AppCompatActivity() {
             AppsInstaladas.elegir(this, "Apps libres (sin ejercicio)", SettingsStore.getAppsLibres(this)) { libres ->
                 SettingsStore.setModoApps(this, ModoApps.TODO)
                 SettingsStore.setAppsLibres(this, libres)
-                PeajeLog.d("AJUSTES apps: modo todo, ${libres.size} libres")
+                TranqueraLog.d("AJUSTES apps: modo todo, ${libres.size} libres")
                 mostrarResumen()
             }
         }
@@ -314,7 +314,7 @@ class MainActivity : AppCompatActivity() {
             detalle.text = modo.detalle
             mostrarIntervaloActual()
             mostrarResumen()
-            PeajeLog.d("AJUSTES modo de cuidado: ${modo.clave}")
+            TranqueraLog.d("AJUSTES modo de cuidado: ${modo.clave}")
         }
     }
 
@@ -331,7 +331,7 @@ class MainActivity : AppCompatActivity() {
         when {
             !SettingsStore.getActivo(this) -> {
                 pintar(R.color.pastel_butter)
-                titulo.text = "Peaje apagado"
+                titulo.text = "Tranquera apagada"
                 detalle.text = "Por ahora no se está cuidando nada. Se prende en Ajustes."
                 boton.visibility = android.view.View.GONE
             }
@@ -369,10 +369,10 @@ class MainActivity : AppCompatActivity() {
         tvEstado.text = buildString {
             appendLine("${marca(overlayOk)} Permiso para dibujar encima de otras apps")
             appendLine("${marca(UsoApps.tienePermiso(this@MainActivity))} Acceso a datos de uso")
-            appendLine("${marca(PeajeMonitorService.vivo)} Servicio de monitoreo vivo")
+            appendLine("${marca(TranqueraMonitorService.vivo)} Servicio de monitoreo vivo")
             appendLine("Última app detectada: ${UsoApps.ultimoPaquete ?: "(ninguna todavía)"}")
             appendLine("★ Ejercicios bien resueltos hoy: ${SettingsStore.aciertosHoy(this@MainActivity)}")
-            appendLine("Peaje: ${if (SettingsStore.getActivo(this@MainActivity)) "activado" else "APAGADO"}")
+            appendLine("Tranquera: ${if (SettingsStore.getActivo(this@MainActivity)) "activado" else "APAGADO"}")
             append("Timer: ${ExerciseTimerManager.descripcionEstado()}")
         }
     }
@@ -421,7 +421,7 @@ class MainActivity : AppCompatActivity() {
         SettingsStore.setIntervalSeconds(this, total)
         SettingsStore.setSerie(this, serie)
         ExerciseTimerManager.reprogramar(this)
-        PeajeLog.d("AJUSTES intervalo guardado: ${total}s, ejercicios seguidos: $serie")
+        TranqueraLog.d("AJUSTES intervalo guardado: ${total}s, ejercicios seguidos: $serie")
         mostrarIntervaloActual()
         etMinutes.clearFocus()
         etSeconds.clearFocus()
@@ -453,7 +453,7 @@ class MainActivity : AppCompatActivity() {
                     Toast.makeText(this, "Tiene que quedar al menos un tipo o módulo", Toast.LENGTH_SHORT).show()
                 } else {
                     SettingsStore.setTipos(this, elegidos)
-                    PeajeLog.d("AJUSTES tipos de ejercicio: ${elegidos.joinToString { it.clave }}")
+                    TranqueraLog.d("AJUSTES tipos de ejercicio: ${elegidos.joinToString { it.clave }}")
                 }
             }
         }
@@ -481,7 +481,7 @@ class MainActivity : AppCompatActivity() {
                         Toast.makeText(this@MainActivity, "Tiene que quedar al menos un tipo o módulo", Toast.LENGTH_SHORT).show()
                     } else {
                         ModulosStore.setActivo(this@MainActivity, m.id, v)
-                        PeajeLog.d("AJUSTES módulo '${m.nombre}': $v")
+                        TranqueraLog.d("AJUSTES módulo '${m.nombre}': $v")
                     }
                 }
                 setOnCloseIconClickListener {
@@ -515,7 +515,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun arrancarMonitorSiCorresponde() {
         if (SettingsStore.getActivo(this) && UsoApps.tienePermiso(this)) {
-            PeajeMonitorService.iniciar(this)
+            TranqueraMonitorService.iniciar(this)
         }
     }
 
@@ -529,7 +529,7 @@ class MainActivity : AppCompatActivity() {
             val nivel = ids.indexOf(checkedIds.firstOrNull()) + 1
             if (nivel > 0) {
                 SettingsStore.setNivel(this, nivel)
-                PeajeLog.d("AJUSTES dificultad: $nivel")
+                TranqueraLog.d("AJUSTES dificultad: $nivel")
             }
         }
     }

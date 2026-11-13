@@ -1,4 +1,4 @@
-package com.peajecognitivo.app
+package com.tranquera.app
 
 import android.content.Context
 
@@ -42,7 +42,7 @@ object CatalogoModulos {
                     ModulosStore.setActivo(context, id, false)
                 }
             } catch (e: Exception) {
-                PeajeLog.d("CATALOGO no se pudo procesar '$archivo': ${e.javaClass.simpleName}")
+                TranqueraLog.d("CATALOGO no se pudo procesar '$archivo': ${e.javaClass.simpleName}")
             }
         }
         return activos

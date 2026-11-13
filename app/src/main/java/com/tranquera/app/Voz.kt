@@ -1,4 +1,4 @@
-package com.peajecognitivo.app
+package com.tranquera.app
 
 import android.content.Context
 import android.speech.tts.TextToSpeech
@@ -14,7 +14,7 @@ object Voz {
         if (!SettingsStore.getVoz(context)) return
         val actual = tts
         if (actual != null && listo) {
-            actual.speak(texto, TextToSpeech.QUEUE_FLUSH, null, "peaje")
+            actual.speak(texto, TextToSpeech.QUEUE_FLUSH, null, "tranquera")
             return
         }
         pendiente = texto
@@ -29,10 +29,10 @@ object Voz {
                 listo = true
                 val texto2 = pendiente
                 pendiente = null
-                if (texto2 != null) motor.speak(texto2, TextToSpeech.QUEUE_FLUSH, null, "peaje")
-                PeajeLog.d("VOZ lista")
+                if (texto2 != null) motor.speak(texto2, TextToSpeech.QUEUE_FLUSH, null, "tranquera")
+                TranqueraLog.d("VOZ lista")
             } else {
-                PeajeLog.d("VOZ no disponible (estado=$estado)")
+                TranqueraLog.d("VOZ no disponible (estado=$estado)")
                 tts = null
             }
         }
@@ -42,7 +42,7 @@ object Voz {
         try {
             tts?.stop()
         } catch (e: Exception) {
-            PeajeLog.d("VOZ error al callar: ${e.message}")
+            TranqueraLog.d("VOZ error al callar: ${e.message}")
         }
     }
 }

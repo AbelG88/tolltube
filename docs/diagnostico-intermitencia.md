@@ -16,7 +16,7 @@ Estado: **hipótesis a verificar en el celular**. Escrito a partir de leer el c�
 2. Si el paquete es YouTube, marca `isYouTubeActive = true` y llama a `ExerciseTimerManager.startTimer()`. Si es cualquier otro paquete, marca `false` y cancela el timer.
 3. `startTimer()` programa una alarma `setRepeating` (inexacta) cada 60 s.
 4. Cuando suena, `ExerciseAlarmReceiver` muestra el overlay solo si `isYouTubeActive` es `true` en ese instante.
-5. `PeajeOverlayManager.show()` agrega una vista `TYPE_APPLICATION_OVERLAY` a pantalla completa.
+5. `TranqueraOverlayManager.show()` agrega una vista `TYPE_APPLICATION_OVERLAY` a pantalla completa.
 
 ## Hipótesis
 
@@ -38,12 +38,12 @@ Estado: **hipótesis a verificar en el celular**. Escrito a partir de leer el c�
 Cualquier cambio de ventana de otro paquete cuenta como "salió de YouTube": el teclado (al tocar el campo de respuesta), la barra de notificaciones, SystemUI, el volumen, el propio overlay. Eso cancela la alarma. Al volver a YouTube **no siempre** llega un evento nuevo, así que el timer queda cancelado hasta salir y volver a entrar.
 
 - Se confirma si en el log aparece `salió de YouTube (por pkg=<algo que no es YouTube>)` + `TIMER cancelado`, y después no hay ningún `entró a YouTube`.
-- Candidatos a ver en `pkg=`: `com.android.systemui`, el paquete del teclado, `com.peajecognitivo.app`.
+- Candidatos a ver en `pkg=`: `com.android.systemui`, el paquete del teclado, `com.tranquera.app`.
 
 ### H2: servicio desvinculado o estado en memoria perdido (típico tras recompilar)
 
 - Al reinstalar el APK, Android desvincula el servicio de accesibilidad. Hay que apagarlo y prenderlo en Ajustes.
-- En Android 13+, un APK instalado a mano necesita **Ajustes → Apps → Peaje Cognitivo → ⋮ → Permitir ajustes restringidos** antes de poder activar la accesibilidad.
+- En Android 13+, un APK instalado a mano necesita **Ajustes → Apps → Tranquera → ⋮ → Permitir ajustes restringidos** antes de poder activar la accesibilidad.
 - `isYouTubeActive` vive en memoria. Si el servicio reinicia con YouTube ya abierto, no llega ningún evento, queda en `false` y las alarmas se ignoran.
 - Se confirma si no aparece `SERVICIO conectado` después de instalar, o si aparece `ALARMA sonó. isYouTubeActive=false` estando YouTube a la vista.
 
@@ -68,7 +68,7 @@ Samsung, Xiaomi, Motorola y otros matan procesos en segundo plano y a veces desa
 
 ### H7: el proceso se cae y el servicio de accesibilidad no vuelve
 
-Nueva desde la prueba de la 1.1 (no apareció nada). `PeajeOverlayManager.show()` vuelve a lanzar la excepción si `addView` falla, y eso se ejecuta en el hilo principal. Una excepción sin capturar mata el proceso. Cuando un servicio de accesibilidad se cae así, Android no siempre lo vuelve a conectar hasta que el usuario lo apague y lo prenda.
+Nueva desde la prueba de la 1.1 (no apareció nada). `TranqueraOverlayManager.show()` vuelve a lanzar la excepción si `addView` falla, y eso se ejecuta en el hilo principal. Una excepción sin capturar mata el proceso. Cuando un servicio de accesibilidad se cae así, Android no siempre lo vuelve a conectar hasta que el usuario lo apague y lo prenda.
 
 - Se confirma con una línea `CRASH en hilo ...` en el registro, seguida de `PROCESO iniciado` con un pid nuevo, y con el panel de estado mostrando "Servicio conectado y vivo" en ❌ aunque la accesibilidad figure activada.
 
@@ -99,16 +99,16 @@ Con el celu conectado por USB (o depuración inalámbrica) y `adb` en la PC:
 adb devices
 adb install -r app-debug.apk
 adb logcat -c
-adb logcat -s Peaje:D > peaje-prueba-1.log
+adb logcat -s Tranquera:D > tranquera-prueba-1.log
 ```
 
-Todo lo que loguea la app sale con el tag `Peaje`. Cada línea lleva `[+Nms]`, el tiempo desde que arrancó el proceso.
+Todo lo que loguea la app sale con el tag `Tranquera`. Cada línea lleva `[+Nms]`, el tiempo desde que arrancó el proceso.
 
 Comandos útiles para completar el cuadro:
 
 ```
 adb shell settings get secure enabled_accessibility_services
-adb shell dumpsys alarm | grep -i peaje
+adb shell dumpsys alarm | grep -i tranquera
 ```
 
 El primero muestra si el servicio de accesibilidad figura habilitado. El segundo muestra si hay una alarma viva de la app.
@@ -171,7 +171,7 @@ Celular Motorola (launcher `com.motorola.launcher3`), YouTube en vertical, timer
 **Lo que muestra el log sobre la fragilidad (H1).** Hay tres cosas que apagan el timer, y el servicio lo trata como "salió de YouTube":
 
 1. **Barra del sistema.** `com.android.systemui` cancela el timer (20:46:29, 20:46:31 y 20:50:53). Las dos primeras veces YouTube emitió un evento nuevo en menos de 1,5 s y el timer volvió a armarse. Eso no está garantizado.
-2. **El propio overlay.** Cada vez que aparece, la ventana del overlay (`com.peajecognitivo.app`, `ScrollView`) cancela el timer (20:47:02, 20:47:39, 20:48:14). El ciclo continúa solo porque YouTube emite un evento cuando el overlay se cierra (20:47:08, 20:47:44, 20:48:29). Funciona por suerte, no por diseño.
+2. **El propio overlay.** Cada vez que aparece, la ventana del overlay (`com.tranquera.app`, `ScrollView`) cancela el timer (20:47:02, 20:47:39, 20:48:14). El ciclo continúa solo porque YouTube emite un evento cuando el overlay se cierra (20:47:08, 20:47:44, 20:48:29). Funciona por suerte, no por diseño.
 3. **El teclado.** En la suma de las 20:48, YouTube rearmó el timer a las 20:48:29.099 y el teclado (`com.google.android.inputmethod.latin`) lo canceló 0,5 s después, al cerrarse. Después no hubo ningún evento de YouTube hasta las 20:50:51, así que si el usuario siguió viendo YouTube en ese rato, el overlay no iba a salir. Es el mismo mecanismo que explica el "a veces sí, a veces no": los ejercicios con botones no abren teclado y el ciclo sigue; los numéricos sí, y el timer puede morir.
 
 ```

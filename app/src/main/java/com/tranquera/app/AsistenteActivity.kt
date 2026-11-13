@@ -1,4 +1,4 @@
-package com.peajecognitivo.app
+package com.tranquera.app
 
 import android.content.Context
 import android.content.Intent
@@ -176,7 +176,7 @@ class AsistenteActivity : AppCompatActivity() {
             subtitulo = "Sin esto Android no nos deja cuidar. Son dos toques cada uno.",
             construir = { c -> construirPermisos(c) },
             validar = {
-                if (!PinStore.tienePin(this) && pin.length !in 4..6) "El PIN tiene que tener de 4 a 6 números" else null
+                if (!PinStore.tienePin(this) && pin.length != PinPad.LARGO) "Elegí un PIN de ${PinPad.LARGO} números" else null
             }
         )
         return lista
@@ -275,10 +275,15 @@ class AsistenteActivity : AppCompatActivity() {
 
         if (!PinStore.tienePin(this)) {
             c.addView(texto("PIN para entrar a los ajustes", 17f, R.color.text_primary, bold = true, arriba = 8))
-            c.addView(texto("De 4 a 6 números que el peque no sepa. Se ve mientras lo escribís, para no equivocarte.", 13f, R.color.text_secondary, arriba = 2))
-            c.addView(campo("PIN", pin, InputType.TYPE_CLASS_NUMBER, 6) { pin = it }, LinearLayout.LayoutParams(MATCH, WRAP).apply {
-                topMargin = dp(10)
-            })
+            c.addView(texto("${PinPad.LARGO} números que el peque no sepa. Lo elegís con un teclado, como el de un cajero.", 13f, R.color.text_secondary, arriba = 2))
+            lateinit var btnPin: MaterialButton
+            btnPin = botonSecundario(if (pin.length == PinPad.LARGO) "✓ PIN elegido · Cambiar" else "Elegir PIN") {
+                PinGate.elegirNuevo(this, obligatorio = false) { elegido ->
+                    pin = elegido
+                    btnPin.text = "✓ PIN elegido · Cambiar"
+                }
+            }
+            c.addView(btnPin)
         }
         actualizarPermisos()
     }
@@ -332,7 +337,7 @@ class AsistenteActivity : AppCompatActivity() {
         }
         SettingsStore.setOnboardingHecho(this, true)
         ExerciseTimerManager.reprogramar(this)
-        PeajeLog.d("ASISTENTE terminado: modo apps ${modoApps.clave}, $instalados módulos, nivel ${SettingsStore.getNivel(this)}")
+        TranqueraLog.d("ASISTENTE terminado: modo apps ${modoApps.clave}, $instalados módulos, nivel ${SettingsStore.getNivel(this)}")
         startActivity(Intent(this, MainActivity::class.java))
         finish()
     }

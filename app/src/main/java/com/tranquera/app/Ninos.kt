@@ -1,4 +1,4 @@
-package com.peajecognitivo.app
+package com.tranquera.app
 
 import android.content.Context
 
@@ -10,7 +10,7 @@ import android.content.Context
  * siguen funcionando sin migrar nada. Los demás guardan sus claves con el prefijo "n<id>_".
  */
 object Ninos {
-    private const val PREFS = "peaje_prefs"
+    private const val PREFS = "tranquera_prefs"
     private const val K_IDS = "ninos_ids"
     private const val K_ACTIVO = "nino_activo"
     private const val K_SIG = "ninos_sig"

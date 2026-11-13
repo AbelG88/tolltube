@@ -78,7 +78,7 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnArreglar"
-                    style="@style/Widget.Peaje.Button"
+                    style="@style/Widget.Tranquera.Button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
@@ -240,7 +240,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnTestOverlay"
-            style="@style/Widget.Peaje.Button"
+            style="@style/Widget.Tranquera.Button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -264,7 +264,7 @@
             android:text="Progreso" />
 
         <com.google.android.material.card.MaterialCardView
-            style="@style/Widget.Peaje.Card"
+            style="@style/Widget.Tranquera.Card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -302,7 +302,7 @@
 
         <!-- Interruptor general -->
         <com.google.android.material.card.MaterialCardView
-            style="@style/Widget.Peaje.Card"
+            style="@style/Widget.Tranquera.Card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardBackgroundColor="@color/pastel_mint"
@@ -317,7 +317,7 @@
                 android:layout_height="wrap_content"
                 android:paddingHorizontal="20dp"
                 android:paddingVertical="16dp"
-                android:text="Peaje activado"
+                android:text="Tranquera activada"
                 android:textColor="@color/text_primary"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -369,7 +369,7 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnApps"
-                style="@style/Widget.Peaje.Button.Soft"
+                style="@style/Widget.Tranquera.Button.Soft"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
@@ -378,7 +378,7 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnAsistente"
-                style="@style/Widget.Peaje.Button.Soft"
+                style="@style/Widget.Tranquera.Button.Soft"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -388,7 +388,7 @@
         <!-- Acciones -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnPin"
-            style="@style/Widget.Peaje.Button.Soft"
+            style="@style/Widget.Tranquera.Button.Soft"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -419,7 +419,7 @@
             android:text="Estado técnico" />
 
         <com.google.android.material.card.MaterialCardView
-            style="@style/Widget.Peaje.Card"
+            style="@style/Widget.Tranquera.Card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -448,7 +448,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnEnableOverlay"
-            style="@style/Widget.Peaje.Button.Soft"
+            style="@style/Widget.Tranquera.Button.Soft"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -465,7 +465,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnUsoPermiso"
-            style="@style/Widget.Peaje.Button.Soft"
+            style="@style/Widget.Tranquera.Button.Soft"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -699,7 +699,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnModulos"
-            style="@style/Widget.Peaje.Button.Soft"
+            style="@style/Widget.Tranquera.Button.Soft"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -730,17 +730,17 @@
 
         <TextView
             android:id="@+id/navInicio"
-            style="@style/NavPeaje"
+            style="@style/NavTranquera"
             android:text="Inicio" />
 
         <TextView
             android:id="@+id/navProgreso"
-            style="@style/NavPeaje"
+            style="@style/NavTranquera"
             android:text="Progreso" />
 
         <TextView
             android:id="@+id/navAjustes"
-            style="@style/NavPeaje"
+            style="@style/NavTranquera"
             android:text="Ajustes" />
     </LinearLayout>
 </LinearLayout>

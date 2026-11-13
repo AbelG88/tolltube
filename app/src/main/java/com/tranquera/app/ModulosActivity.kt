@@ -1,4 +1,4 @@
-package com.peajecognitivo.app
+package com.tranquera.app
 
 import android.content.ClipData
 import android.content.ClipboardManager
@@ -93,14 +93,14 @@ class ModulosActivity : AppCompatActivity() {
             Toast.makeText(this, "Módulo \"${m.nombre}\" importado (${m.items.size} ejercicios) ✓", Toast.LENGTH_LONG).show()
             finish() // vuelve a la pantalla principal, donde aparece el módulo
         } catch (e: IllegalArgumentException) {
-            PeajeLog.d("MODULOS importación rechazada: ${e.message}")
+            TranqueraLog.d("MODULOS importación rechazada: ${e.message}")
             AlertDialog.Builder(this)
                 .setTitle("No se pudo importar")
                 .setMessage(e.message)
                 .setPositiveButton("Entendido", null)
                 .show()
         } catch (e: Exception) {
-            PeajeLog.d("MODULOS error al importar: ${e.javaClass.simpleName}: ${e.message}")
+            TranqueraLog.d("MODULOS error al importar: ${e.javaClass.simpleName}: ${e.message}")
             Toast.makeText(this, "No se pudo leer el archivo", Toast.LENGTH_LONG).show()
         }
     }
