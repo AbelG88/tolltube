@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.peajecognitivo.app"
+    namespace = "com.tranquera.app"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.peajecognitivo.app"
+        applicationId = "com.tranquera.app"
         minSdk = 26
         targetSdk = 34
         versionCode = 29

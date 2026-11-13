@@ -1,9 +1,9 @@
-# Política de privacidad — Peaje Cognitivo
+# Política de privacidad — Tranquera
 
 **Última actualización:** 21 de octubre de 2026
 **Responsable:** Abel García — contacto: newbiegnu@gmail.com
 
-Peaje Cognitivo es una aplicación de control parental para Android. Cuando un chico abre YouTube, la app le muestra ejercicios educativos antes de que pueda seguir mirando. Esta política explica qué información usa la app y qué hace con ella.
+Tranquera es una aplicación de control parental para Android. Cuando un chico abre YouTube, la app le muestra ejercicios educativos antes de que pueda seguir mirando. Esta política explica qué información usa la app y qué hace con ella.
 
 ## En resumen
 - **La app no envía ninguna información a ningún servidor.** No tiene permiso de Internet.
