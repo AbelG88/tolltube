@@ -176,7 +176,7 @@ class AsistenteActivity : AppCompatActivity() {
             subtitulo = "Sin esto Android no nos deja cuidar. Son dos toques cada uno.",
             construir = { c -> construirPermisos(c) },
             validar = {
-                if (!PinStore.tienePin(this) && pin.length != PinPad.LARGO) "Elegí un PIN de ${PinPad.LARGO} números" else null
+                if (!PinStore.tienePin(this) && pin.length < PinPad.MIN_LARGO) "Elegí un PIN de al menos ${PinPad.MIN_LARGO} números" else null
             }
         )
         return lista
@@ -275,9 +275,9 @@ class AsistenteActivity : AppCompatActivity() {
 
         if (!PinStore.tienePin(this)) {
             c.addView(texto("PIN para entrar a los ajustes", 17f, R.color.text_primary, bold = true, arriba = 8))
-            c.addView(texto("${PinPad.LARGO} números que el peque no sepa. Lo elegís con un teclado, como el de un cajero.", 13f, R.color.text_secondary, arriba = 2))
+            c.addView(texto("Al menos ${PinPad.MIN_LARGO} números que el peque no sepa. Se elige en una pantalla aparte y se puede ver con el ojito.", 13f, R.color.text_secondary, arriba = 2))
             lateinit var btnPin: MaterialButton
-            btnPin = botonSecundario(if (pin.length == PinPad.LARGO) "✓ PIN elegido · Cambiar" else "Elegir PIN") {
+            btnPin = botonSecundario(if (pin.length >= PinPad.MIN_LARGO) "✓ PIN elegido · Cambiar" else "Elegir PIN") {
                 PinGate.elegirNuevo(this, obligatorio = false) { elegido ->
                     pin = elegido
                     btnPin.text = "✓ PIN elegido · Cambiar"

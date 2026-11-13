@@ -9,57 +9,64 @@ import android.graphics.Typeface
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.RippleDrawable
-import android.os.Handler
-import android.os.Looper
+import android.text.InputFilter
+import android.text.InputType
 import android.view.Gravity
-import android.view.HapticFeedbackConstants
 import android.view.View
 import android.view.Window
+import android.view.WindowManager
 import android.view.animation.CycleInterpolator
+import android.view.inputmethod.EditorInfo
+import android.widget.EditText
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ScrollView
 import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.widget.doAfterTextChanged
 
 /**
- * Pantalla de PIN: candado, puntitos que se llenan y teclado numérico redondo.
- * Se confirma sola al completar [LARGO] números. Look de Nappy: fondo celeste, tarjeta blanca muy
- * redondeada y candado blanco sobre un cuadrado azul.
+ * Pantalla de PIN con el mismo look que la pantalla de bloqueo de Nappy: fondo celeste, tarjeta
+ * blanca muy redondeada, candado blanco sobre un cuadrado azul, campo con ojito para ver/ocultar
+ * y botón azul grande. El PIN son números (mínimo [MIN_LARGO]).
+ *
+ * Con [dosCampos] pide el PIN y su repetición (para crear o cambiar el PIN).
  */
 class PinPad(
     private val activity: Activity,
     titulo: String,
-    subtitulo: String,
+    texto: String,
+    private val dosCampos: Boolean,
+    textoBoton: String,
     textoCancelar: String?,                 // null = no se puede cancelar
-    private val alCompletar: (PinPad, String) -> Unit,
+    private val alEnviar: (PinPad, String, String) -> Unit,
     private val alCancelar: (PinPad) -> Unit
 ) {
     companion object {
-        const val LARGO = 4
+        const val MIN_LARGO = 6
+        const val MAX_LARGO = 12
     }
 
     val dialogo = Dialog(activity)
-    private val ingresado = StringBuilder()
-    private val handler = Handler(Looper.getMainLooper())
-    private val puntos = ArrayList<View>()
-    private val tvTitulo: TextView
-    private val tvSubtitulo: TextView
-    private val tvMensaje: TextView
-    private val filaPuntos: LinearLayout
-    private var enError = false
 
-    private val azul = Color.parseColor("#2563EB")          // blue-600 (como Nappy)
-    private val azulSuave = activity.getColor(R.color.accent_container)
+    private val azul = Color.parseColor("#2563EB")          // blue-600
+    private val azulFoco = Color.parseColor("#60A5FA")      // blue-400
     private val fondoPantalla = activity.getColor(R.color.background)
-    private val textoTitulo = Color.parseColor("#1E293B")   // slate-800
-    private val textoTecla = Color.parseColor("#334155")    // slate-700
-    private val textoSecundario = Color.parseColor("#64748B") // slate-500
-    private val rojo = Color.parseColor("#F43F5E")          // rose-500
-    private val gris = Color.parseColor("#CBD5E1")
+    private val slate800 = Color.parseColor("#1E293B")
+    private val slate700 = Color.parseColor("#334155")
+    private val slate500 = Color.parseColor("#64748B")
+    private val slate400 = Color.parseColor("#94A3B8")
+    private val slate100 = Color.parseColor("#F1F5F9")
+    private val slate50 = Color.parseColor("#F8FAFC")
+    private val rosa = Color.parseColor("#F43F5E")          // rose-500
     private val negrita: Typeface? = ResourcesCompat.getFont(activity, R.font.quicksand_bold)
     private val media: Typeface? = ResourcesCompat.getFont(activity, R.font.quicksand_medium)
+
+    private val tarjeta = LinearLayout(activity)
+    private val tvError: TextView
+    private val boton: TextView
+    private val campos = ArrayList<EditText>()
 
     private fun dp(v: Int) = (v * activity.resources.displayMetrics.density).toInt()
 
@@ -67,10 +74,10 @@ class PinPad(
         dialogo.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialogo.setCancelable(false)
 
-        val tarjeta = LinearLayout(activity).apply {
+        tarjeta.apply {
             orientation = LinearLayout.VERTICAL
             gravity = Gravity.CENTER_HORIZONTAL
-            setPadding(dp(24), dp(32), dp(24), dp(24))
+            setPadding(dp(32), dp(32), dp(32), dp(24))
             background = GradientDrawable().apply {
                 setColor(Color.WHITE)
                 cornerRadius = dp(40).toFloat()
@@ -78,7 +85,7 @@ class PinPad(
             elevation = dp(12).toFloat()
         }
 
-        // Candado blanco sobre un cuadrado azul redondeado (como el de Nappy)
+        // Candado blanco sobre un cuadrado azul redondeado
         tarjeta.addView(ImageView(activity).apply {
             setImageResource(R.drawable.ic_lock)
             scaleType = ImageView.ScaleType.CENTER
@@ -89,61 +96,75 @@ class PinPad(
             elevation = dp(6).toFloat()
         }, LinearLayout.LayoutParams(dp(80), dp(80)))
 
-        tvTitulo = TextView(activity).apply {
+        tarjeta.addView(TextView(activity).apply {
+            text = titulo
             textSize = 24f
             typeface = negrita
-            setTextColor(textoTitulo)
+            setTextColor(slate800)
             gravity = Gravity.CENTER
-        }
-        tarjeta.addView(tvTitulo, LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(20) })
+        }, LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(20) })
 
-        tvSubtitulo = TextView(activity).apply {
+        tarjeta.addView(TextView(activity).apply {
+            text = texto
             textSize = 14f
             typeface = media
-            setTextColor(textoSecundario)
+            setTextColor(slate500)
             gravity = Gravity.CENTER
-        }
-        tarjeta.addView(tvSubtitulo, LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(4) })
+            setLineSpacing(0f, 1.15f)
+        }, LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(8) })
 
-        // Puntitos
-        filaPuntos = LinearLayout(activity).apply {
-            orientation = LinearLayout.HORIZONTAL
-            gravity = Gravity.CENTER
-        }
-        repeat(LARGO) {
-            val p = View(activity)
-            puntos.add(p)
-            filaPuntos.addView(p, LinearLayout.LayoutParams(dp(16), dp(16)).apply {
-                marginStart = dp(9); marginEnd = dp(9)
-            })
-        }
-        tarjeta.addView(filaPuntos, LinearLayout.LayoutParams(-2, -2).apply {
-            topMargin = dp(22); gravity = Gravity.CENTER_HORIZONTAL
-        })
-
-        // Mensaje de error (reserva su lugar para que el teclado no salte)
-        tvMensaje = TextView(activity).apply {
-            textSize = 13f
-            typeface = media
-            setTextColor(rojo)
-            gravity = Gravity.CENTER
-            minLines = 2
-        }
-        tarjeta.addView(tvMensaje, LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(10) })
-
-        // Teclado 3 x 4
-        val filas = listOf(
-            listOf("1", "2", "3"),
-            listOf("4", "5", "6"),
-            listOf("7", "8", "9"),
-            listOf("cancelar", "0", "borrar")
+        // Campos
+        tarjeta.addView(
+            campo(if (dosCampos) "PIN (mín. $MIN_LARGO números)" else "PIN", ultimo = !dosCampos),
+            LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(24) }
         )
-        for (fila in filas) {
-            val f = LinearLayout(activity).apply { orientation = LinearLayout.HORIZONTAL }
-            for (t in fila) f.addView(tecla(t, textoCancelar), LinearLayout.LayoutParams(dp(72), dp(72)).apply {
-                marginStart = dp(8); marginEnd = dp(8); topMargin = dp(6); bottomMargin = dp(6)
-            })
-            tarjeta.addView(f)
+        if (dosCampos) {
+            tarjeta.addView(
+                campo("Repetí el PIN", ultimo = true),
+                LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(16) }
+            )
+        }
+
+        tvError = TextView(activity).apply {
+            textSize = 12f
+            typeface = negrita
+            setTextColor(rosa)
+            gravity = Gravity.CENTER
+        }
+        tarjeta.addView(tvError, LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(12) })
+
+        // Botón principal
+        boton = TextView(activity).apply {
+            text = textoBoton
+            textSize = 16f
+            typeface = negrita
+            setTextColor(Color.WHITE)
+            gravity = Gravity.CENTER
+            setPadding(0, dp(16), 0, dp(16))
+            background = RippleDrawable(
+                ColorStateList.valueOf(Color.parseColor("#33FFFFFF")),
+                GradientDrawable().apply {
+                    setColor(azul)
+                    cornerRadius = dp(16).toFloat()
+                },
+                null
+            )
+            elevation = dp(4).toFloat()
+            setOnClickListener { enviar() }
+        }
+        tarjeta.addView(boton, LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(12) })
+
+        if (textoCancelar != null) {
+            tarjeta.addView(TextView(activity).apply {
+                text = textoCancelar.uppercase()
+                textSize = 11f
+                typeface = negrita
+                letterSpacing = 0.15f
+                setTextColor(slate400)
+                gravity = Gravity.CENTER
+                setPadding(0, dp(14), 0, dp(6))
+                setOnClickListener { alCancelar(this@PinPad) }
+            }, LinearLayout.LayoutParams(-1, -2))
         }
 
         val envoltorio = FrameLayout(activity).apply {
@@ -158,104 +179,107 @@ class PinPad(
         dialogo.window?.apply {
             setBackgroundDrawable(ColorDrawable(fondoPantalla))
             setLayout(-1, -1)
+            setSoftInputMode(
+                WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE or
+                    WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE
+            )
         }
-
-        ponerTextos(titulo, subtitulo)
-        pintarPuntos()
+        actualizarBoton()
     }
 
-    /** Una tecla: dígito, "borrar" o "cancelar". */
-    private fun tecla(clave: String, textoCancelar: String?): View {
-        if (clave == "cancelar" && textoCancelar == null) return View(activity)
-        val v = TextView(activity).apply {
-            gravity = Gravity.CENTER
+    private fun fondoCampo(foco: Boolean) = GradientDrawable().apply {
+        setColor(slate50)
+        cornerRadius = dp(16).toFloat()
+        setStroke(dp(2), if (foco) azulFoco else slate100)
+    }
+
+    /** Un campo numérico oculto, con etiqueta chica arriba y ojito para mostrarlo. */
+    private fun campo(etiqueta: String, ultimo: Boolean): View {
+        val columna = LinearLayout(activity).apply { orientation = LinearLayout.VERTICAL }
+        columna.addView(TextView(activity).apply {
+            text = etiqueta.uppercase()
+            textSize = 10f
             typeface = negrita
-            setTextColor(textoTecla)
-            when (clave) {
-                "cancelar" -> { text = textoCancelar; textSize = 14f; setTextColor(textoSecundario) }
-                "borrar" -> { text = "⌫"; textSize = 24f }
-                else -> { text = clave; textSize = 28f }
+            letterSpacing = 0.15f
+            setTextColor(slate400)
+        }, LinearLayout.LayoutParams(-1, -2).apply { bottomMargin = dp(6) })
+
+        val oculto = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_VARIATION_PASSWORD
+        val visible = InputType.TYPE_CLASS_NUMBER
+        val et = EditText(activity).apply {
+            inputType = oculto
+            typeface = negrita          // después del inputType: el modo contraseña lo cambia
+            textSize = 18f
+            letterSpacing = 0.15f
+            setTextColor(slate700)
+            filters = arrayOf(InputFilter.LengthFilter(MAX_LARGO))
+            background = fondoCampo(false)
+            setPadding(dp(16), dp(14), dp(52), dp(14))
+            importantForAutofill = View.IMPORTANT_FOR_AUTOFILL_NO
+            imeOptions = if (ultimo) EditorInfo.IME_ACTION_DONE else EditorInfo.IME_ACTION_NEXT
+            setOnFocusChangeListener { v, foco -> v.background = fondoCampo(foco) }
+            setOnEditorActionListener { _, accion, _ ->
+                if (accion == EditorInfo.IME_ACTION_DONE) { enviar(); true } else false
+            }
+            doAfterTextChanged {
+                tvError.text = ""
+                actualizarBoton()
             }
         }
-        if (clave != "cancelar") {
-            val fondo = GradientDrawable().apply {
-                shape = GradientDrawable.OVAL
-                setColor(Color.parseColor("#F8FAFC"))        // slate-50
-                setStroke(dp(2), Color.parseColor("#F1F5F9"))  // slate-100
-            }
-            v.background = RippleDrawable(ColorStateList.valueOf(azulSuave), fondo, null)
-        }
-        v.setOnClickListener {
-            it.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP)
-            when (clave) {
-                "cancelar" -> alCancelar(this)
-                "borrar" -> borrar()
-                else -> agregar(clave)
+        campos.add(et)
+
+        val ojo = ImageView(activity).apply {
+            setImageResource(R.drawable.ic_eye)
+            setPadding(dp(8), dp(8), dp(8), dp(8))
+            contentDescription = "Mostrar u ocultar el PIN"
+            setOnClickListener {
+                val mostrar = et.inputType == oculto
+                et.inputType = if (mostrar) visible else oculto
+                et.typeface = negrita
+                et.setSelection(et.text.length)
+                setImageResource(if (mostrar) R.drawable.ic_eye_off else R.drawable.ic_eye)
             }
         }
-        return v
+        val caja = FrameLayout(activity)
+        caja.addView(et, FrameLayout.LayoutParams(-1, -2))
+        caja.addView(ojo, FrameLayout.LayoutParams(dp(40), dp(40), Gravity.END or Gravity.CENTER_VERTICAL).apply {
+            marginEnd = dp(8)
+        })
+        columna.addView(caja, LinearLayout.LayoutParams(-1, -2))
+        return columna
     }
 
-    private fun agregar(d: String) {
-        if (enError || ingresado.length >= LARGO) return
-        tvMensaje.text = ""
-        ingresado.append(d)
-        pintarPuntos()
-        if (ingresado.length == LARGO) {
-            val pin = ingresado.toString()
-            // Deja ver el último puntito lleno antes de comprobar
-            handler.postDelayed({ if (dialogo.isShowing) alCompletar(this, pin) }, 150)
-        }
+    private fun actualizarBoton() {
+        val listo = campos.all { it.text.isNotEmpty() }
+        boton.isEnabled = listo
+        boton.alpha = if (listo) 1f else 0.5f
     }
 
-    private fun borrar() {
-        if (enError || ingresado.isEmpty() || ingresado.length >= LARGO) return
-        ingresado.deleteCharAt(ingresado.length - 1)
-        pintarPuntos()
+    private fun enviar() {
+        if (!boton.isEnabled) return
+        val primero = campos[0].text.toString()
+        val segundo = if (dosCampos) campos[1].text.toString() else ""
+        alEnviar(this, primero, segundo)
     }
 
-    private fun pintarPuntos() {
-        puntos.forEachIndexed { i, p ->
-            p.background = GradientDrawable().apply {
-                shape = GradientDrawable.OVAL
-                when {
-                    enError -> setColor(rojo)
-                    i < ingresado.length -> setColor(azul)
-                    else -> { setColor(Color.WHITE); setStroke(dp(2), gris) }
-                }
-            }
-        }
-    }
-
-    fun ponerTextos(titulo: String, subtitulo: String) {
-        tvTitulo.text = titulo
-        tvSubtitulo.text = subtitulo
-    }
-
-    /** Borra lo escrito y deja los puntitos vacíos. */
-    fun limpiar() {
-        ingresado.setLength(0)
-        enError = false
-        pintarPuntos()
-    }
-
-    /** Puntitos en rojo, sacudida y mensaje; después se vacía solo. */
+    /** Vacía los campos y muestra el mensaje en rosa con una sacudida. */
     fun error(mensaje: String) {
-        enError = true
-        tvMensaje.text = mensaje
-        pintarPuntos()
-        ObjectAnimator.ofFloat(filaPuntos, View.TRANSLATION_X, 0f, 18f).apply {
+        campos.forEach { it.setText("") }
+        tvError.text = mensaje
+        campos[0].requestFocus()
+        ObjectAnimator.ofFloat(tarjeta, View.TRANSLATION_X, 0f, 16f).apply {
             duration = 350
             interpolator = CycleInterpolator(3f)
             start()
         }
-        handler.postDelayed({ limpiar() }, 450)
     }
 
-    fun mostrar() = dialogo.show()
+    fun mostrar() {
+        dialogo.show()
+        campos[0].requestFocus()
+    }
 
     fun cerrar() {
-        handler.removeCallbacksAndMessages(null)
         if (dialogo.isShowing) dialogo.dismiss()
     }
 }

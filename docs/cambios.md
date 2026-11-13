@@ -14,7 +14,7 @@ https://github.com/AbelG88/tolltube/releases
 
 - **Nombres internos al día:** el paquete y el `applicationId` pasan de `com.peajecognitivo.app` a `com.tranquera.app`; las clases `Peaje*` pasan a `Tranquera*`, y también los estilos, el tag del registro (`adb logcat -s Tranquera:D`), los archivos que publica el workflow (`tranquera.apk`, `tranquera.aab`) y la documentación. El repositorio de GitHub sigue llamándose `tolltube`.
 - **Ojo al actualizar:** con otro `applicationId`, Android lo instala como una app **nueva** (no pisa a la anterior). Hay que desinstalar "Peaje Cognitivo" y se pierden sus datos (PIN, niños, progreso); se vuelve a hacer el asistente.
-- **PIN estilo Nappy:** pantalla completa celeste con tarjeta blanca de esquinas muy redondeadas y candado blanco sobre cuadrado azul (el look de la pantalla de bloqueo de Nappy), con teclado numérico redondo, puntitos que se llenan, sacudida roja si está mal y confirmación automática. Ahora el PIN es de **4 números**. Se usa para entrar a los ajustes, cambiarlo, apagar desde la notificación y elegirlo en el asistente (en `PinPad.kt`).
+- **PIN estilo Nappy:** misma pantalla que la de bloqueo de Nappy (`PinPad.kt`): fondo celeste, tarjeta blanca muy redondeada, candado blanco sobre cuadrado azul, campo con ojito para ver u ocultar y botón azul grande. PIN de **al menos 6 números** (hasta 12), con campo "repetir" al crearlo o cambiarlo. Se usa para entrar a los ajustes, cambiarlo, apagar desde la notificación y elegirlo en el asistente.
 
 ## Release 19 — Nuevo nombre e ícono: Tranquera
 
