@@ -624,18 +624,58 @@
                 android:text="Contar" />
         </com.google.android.material.chip.ChipGroup>
 
-        <!-- Módulos importados: un chip por módulo (con X para quitarlo) -->
-        <com.google.android.material.chip.ChipGroup
-            android:id="@+id/cgModulos"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
         <TextView
             style="@style/Text.Caption"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:text="Si elegís varios, salen mezclados." />
+
+        <!-- ===== Categoría: Módulos ===== -->
+        <TextView
+            style="@style/Text.Section"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            android:text="📦 Módulos de ejercicios" />
+
+        <TextView
+            style="@style/Text.Caption"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="Paquetes de preguntas armados por vos o importados. Tocá uno para activarlo; la X lo quita." />
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/cgModulos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp" />
+
+        <TextView
+            android:id="@+id/tvSinModulos"
+            style="@style/Text.Caption"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Todavía no hay módulos. Creá el tuyo o importá uno." />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCrearModulo"
+            style="@style/Widget.Tranquera.Button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:minHeight="52dp"
+            android:text="✏️ Crear mi propio módulo" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnModulos"
+            style="@style/Widget.Tranquera.Button.Soft"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:minHeight="52dp"
+            android:text="Importar módulos (.json)" />
 
         <!-- Dificultad -->
         <TextView
@@ -712,15 +752,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnModulos"
-            style="@style/Widget.Tranquera.Button.Soft"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:minHeight="52dp"
-            android:text="Importar módulos" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnVerRegistro"

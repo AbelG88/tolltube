@@ -33,8 +33,8 @@ class Modulo(
 object ModulosStore {
     const val FORMATO = 1
     const val MAX_BYTES = 300 * 1024
-    private const val MAX_EJERCICIOS = 200
-    private const val MAX_TEXTO = 200
+    const val MAX_EJERCICIOS = 200
+    const val MAX_TEXTO = 200
 
     private var cache: List<Modulo>? = null
 
@@ -117,6 +117,28 @@ object ModulosStore {
     private fun idDe(nombre: String): String {
         val base = nombre.lowercase().replace(Regex("[^a-z0-9]+"), "_").trim('_').take(40)
         return base.ifEmpty { "modulo" }
+    }
+
+    /** Arma el JSON de un módulo (el mismo formato que se importa) a partir de sus preguntas. */
+    fun construirJson(nombre: String, descripcion: String, edad: String, items: List<ItemModulo>): String {
+        val raiz = JSONObject()
+        raiz.put("formato", FORMATO)
+        raiz.put("nombre", nombre.trim())
+        if (descripcion.isNotBlank()) raiz.put("descripcion", descripcion.trim())
+        if (edad.isNotBlank()) raiz.put("edad", edad.trim())
+        val lista = JSONArray()
+        for (item in items) {
+            val o = JSONObject()
+            o.put("tipo", item.tipo)
+            if (item.visual.isNotEmpty()) o.put("visual", item.visual)
+            o.put("pregunta", item.pregunta)
+            if (!item.hablado.isNullOrEmpty()) o.put("hablado", item.hablado)
+            o.put("correcta", item.correcta)
+            if (item.tipo == "opciones") o.put("incorrectas", JSONArray(item.incorrectas))
+            lista.put(o)
+        }
+        raiz.put("ejercicios", lista)
+        return raiz.toString(2)
     }
 
     /** Importa un módulo. Si ya había uno con el mismo nombre, se reemplaza. */

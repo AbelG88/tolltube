@@ -113,6 +113,9 @@ class MainActivity : AppCompatActivity() {
         findViewById<Button>(R.id.btnModulos).setOnClickListener {
             startActivity(Intent(this, ModulosActivity::class.java))
         }
+        findViewById<Button>(R.id.btnCrearModulo).setOnClickListener {
+            startActivity(Intent(this, CrearModuloActivity::class.java))
+        }
 
         val swSolo = findViewById<CompoundButton>(R.id.swSoloReproduciendo)
         swSolo.isChecked = SettingsStore.getSoloReproduciendo(this)
@@ -482,6 +485,8 @@ class MainActivity : AppCompatActivity() {
     private fun refrescarModulos() {
         val grupo = findViewById<ChipGroup>(R.id.cgModulos)
         grupo.removeAllViews()
+        findViewById<android.view.View>(R.id.tvSinModulos).visibility =
+            if (ModulosStore.listar(this).isEmpty()) android.view.View.VISIBLE else android.view.View.GONE
         ModulosStore.listar(this).forEach { m ->
             val chip = Chip(this).apply {
                 text = m.nombre + (if (m.edad.isNotEmpty()) " · ${m.edad}" else "")

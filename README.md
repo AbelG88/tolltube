@@ -11,7 +11,7 @@ Versión actual: **3.6.0-MVP** (versionCode 28) · Paquete: `com.tranquera.app` 
 - **Asistente de 4 pasos:** nombre y edad → qué le gusta → qué apps cuidamos → permisos y PIN.
 - **Qué apps cuidamos:** las de siempre (YouTube, YouTube Kids, TikTok, Instagram, Netflix), las que elijas de la lista de instaladas, o todo menos lo que permitas.
 - **Modos:** Suave (cada 20 min), Normal (cada 10 min) e Intenso (2 ejercicios cada 5 min). Tiempo ajustable desde 10 segundos hasta 3 horas.
-- **Módulos de ejercicios en JSON** (`/modulos`), incluidos en el APK y con posibilidad de importar propios.
+- **Módulos de ejercicios en JSON** (`/modulos`), incluidos en el APK. Hay una categoría propia en Ajustes para activarlos, importarlos o **crear el tuyo desde la app** (preguntas con su respuesta correcta) y exportarlo como `.json`.
 - **Refuerzos:** voz que lee el ejercicio, ayuda tras errores, estrellas y contador diario, progreso por tipo.
 - **Seguridad:** PIN de padres guardado con hash, bloqueo por intentos fallidos, registro sin datos sensibles.
 - **Apoyo voluntario:** pedido solo en el panel de padres, cada 100 aciertos (nunca sobre las apps del niño).

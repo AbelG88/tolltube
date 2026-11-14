@@ -10,6 +10,13 @@ https://github.com/AbelG88/tolltube/releases
 - [x] Sumas y restas con imágenes (emojis) acompañando los números (release 2)
 - [x] Más tipos de ejercicio (animales, objetos) y elegirlos desde el menú (release 2)
 
+## Release 22 — Módulos como categoría y creador de módulos propios (v3.8.0)
+
+- **Categoría "📦 Módulos de ejercicios" en Ajustes**, aparte de los tipos de ejercicio: ahí están los módulos (se activan tocándolos, la X los quita) y los botones para crear o importar.
+- **Crear mi propio módulo** (`CrearModuloActivity.kt`): nombre, descripción y edad opcionales, y las preguntas una por una, con dibujo/emoji opcional, la **respuesta correcta** y 2 incorrectas (si es de elegir opción) o un número (si se responde con el teclado). Se pueden editar y quitar antes de guardar.
+- **Al guardar**, el módulo se suma solo a los ejercicios y se muestra su **JSON** (el mismo formato de importación) para **copiarlo** o **guardarlo como archivo .json** y llevarlo a otro celu. Si ya había uno con ese nombre, pregunta si reemplazarlo.
+- Tests del armado del JSON (se vuelve a leer igual con el importador).
+
 ## Release 21 — La tranquera como botón (v3.7.0)
 
 - **Botón de tranquera en el Inicio:** una tranquera dibujada que se **abre o se cierra** con un toque. **Cerrada = cuidando** (el peque resuelve ejercicios); **abierta = desactivado** (sin ejercicios). Reemplaza al interruptor que estaba en Ajustes. La tarjeta cambia de color (menta al cerrar, manteca al abrir) y los textos hablan de abrir y cerrar.

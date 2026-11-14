@@ -88,4 +88,33 @@ class ModulosParseTest {
     @Test fun ejemploDeLaAppEsValido() {
         assertEquals("Los dinosaurios", ModulosStore.parsear(ModulosStore.EJEMPLO).nombre)
     }
+
+    // ---------- Creador de módulos ----------
+
+    @Test fun jsonConstruidoSeVuelveAParsear() {
+        val items = listOf(
+            ItemModulo("opciones", "🦖", "¿Cómo se llama?", null, "T-Rex", listOf("Perro", "Gato")),
+            ItemModulo("numero", "🦕🦕🦕", "¿Cuántos hay?", "Contá los dinosaurios", "3", emptyList())
+        )
+        val json = ModulosStore.construirJson("Mis dinos", "Los que me gustan", "4 a 6 años", items)
+        val m = ModulosStore.parsear(json)
+        assertEquals("Mis dinos", m.nombre)
+        assertEquals("Los que me gustan", m.descripcion)
+        assertEquals("4 a 6 años", m.edad)
+        assertEquals(2, m.items.size)
+        assertEquals("opciones", m.items[0].tipo)
+        assertEquals("T-Rex", m.items[0].correcta)
+        assertEquals(listOf("Perro", "Gato"), m.items[0].incorrectas)
+        assertEquals("🦖", m.items[0].visual)
+        assertEquals("numero", m.items[1].tipo)
+        assertEquals("Contá los dinosaurios", m.items[1].hablado)
+    }
+
+    @Test fun jsonConstruidoSinOpcionalesEsValido() {
+        val items = listOf(ItemModulo("numero", "", "¿2 + 2?", null, "4", emptyList()))
+        val m = ModulosStore.parsear(ModulosStore.construirJson("  Solo nombre  ", "", " ", items))
+        assertEquals("Solo nombre", m.nombre)
+        assertEquals("", m.descripcion)
+        assertEquals("", m.edad)
+    }
 }
