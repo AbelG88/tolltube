@@ -1,0 +1,6 @@
+PIN ok con: texto
+PIN ok con: texto
+PIN fallo con: texto
+PIN fallo con: teclas
+PIN fallo con: ime
+PIN ok con: texto

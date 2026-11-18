@@ -1,0 +1,7 @@
+Starting: Intent { cmp=com.tranquera.app/.MainActivity }
+Status: ok
+LaunchState: COLD
+Activity: com.tranquera.app/.AsistenteActivity
+TotalTime: 2827
+WaitTime: 2834
+Complete

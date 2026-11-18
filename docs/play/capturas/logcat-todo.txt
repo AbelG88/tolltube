@@ -1,0 +1,9 @@
+--------- beginning of main
+11-18 23:50:05.304  7527  7527 D Tranquera: [+1ms] PROCESO iniciado (pid=7527)
+11-18 23:50:05.306  7527  7527 D Tranquera: [+3ms] PROCESO versión=3.9.1-MVP
+11-18 23:50:06.577  7527  7527 D Tranquera: [+1274ms] MONITOR servicio iniciado
+11-18 23:50:06.794  7527  7527 D Tranquera: [+1491ms] USO app en primer plano: otra
+11-18 23:50:23.884  7527  7527 D Tranquera: [+18581ms] USO app en primer plano: otra
+11-18 23:51:06.034  7527  7527 D Tranquera: [+60731ms] USO app en primer plano: vigilada
+11-18 23:51:06.036  7527  7527 D Tranquera: [+60734ms] TIMER programado: próximo en 20s
+11-18 23:51:07.050  7527  7527 D Tranquera: [+61747ms] TIMER cuenta en pausa (no hay audio sonando)

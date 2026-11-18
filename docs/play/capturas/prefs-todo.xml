@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='utf-8' standalone='yes' ?>
+<map>
+    <int name="hist_suma_ok" value="14" />
+    <string name="aciertos_dia">2026-11-18</string>
+    <int name="hist_resta_ok" value="9" />
+    <string name="modo_apps">todo</string>
+    <boolean name="onboarding_hecho" value="true" />
+    <int name="interval_seconds" value="20" />
+    <int name="aciertos_n" value="6" />
+    <string name="pin_hash">FW87PjQWw2thpWrvdjkD+KPDfrFAMXAuamhZsFvS1lI=</string>
+    <int name="aciertos_total" value="37" />
+    <int name="edad" value="7" />
+    <int name="hist_resta_err" value="2" />
+    <long name="pin_bloqueo_hasta" value="0" />
+    <int name="pin_iter" value="120000" />
+    <int name="hist_contar_err" value="1" />
+    <string name="nombre_nino">Mateo</string>
+    <int name="pin_fallos" value="0" />
+    <long name="don_ultimo" value="1795045601475" />
+    <string name="pin_salt">fza+eNGJDVZ3bkije7T61A==</string>
+    <int name="hist_contar_ok" value="21" />
+    <int name="hist_suma_err" value="3" />
+    <set name="apps_libres"><string>com.android.chrome</string></set>
+</map>

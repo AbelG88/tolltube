@@ -1,0 +1,1 @@
+    topResumedActivity=ActivityRecord{58dab3 u0 com.tranquera.app/.AsistenteActivity t8}
