@@ -44,7 +44,7 @@ El workflow además verifica que compile la variante `release` (sin registro de 
 
 ### Opción B: compilar en tu máquina
 
-Requisitos: JDK 17 y el Android SDK (el wrapper `./gradlew` baja Gradle 8.2 solo).
+Requisitos: JDK 17 y el Android SDK (el wrapper `./gradlew` baja Gradle 8.11.1 solo).
 
 ```
 ./gradlew testDebugUnitTest   # tests unitarios
@@ -107,7 +107,7 @@ El proyecto es un **MVP en pruebas reales**; las compilaciones se verifican por 
 Pendientes principales (detalle en [docs/ideas-pendientes.md](docs/ideas-pendientes.md) y [docs/camino-a-play-store.md](docs/camino-a-play-store.md)):
 
 - Resolver la intermitencia del overlay (H3, H5 y H7 sin observar).
-- Clave de firma propia, política de privacidad pública y formulario de seguridad de datos.
+- Cuenta de desarrollador de Google Play, prueba cerrada con 12 testers y capturas de la ficha (todo lo demás está preparado en [docs/play-ficha.md](docs/play-ficha.md)).
 - Campo obligatorio de compatibilidad en los módulos importables.
 
 ## Documentación
@@ -121,3 +121,5 @@ Pendientes principales (detalle en [docs/ideas-pendientes.md](docs/ideas-pendien
 | [docs/diagnostico-intermitencia.md](docs/diagnostico-intermitencia.md) | Diagnóstico del overlay intermitente |
 | [docs/politica-de-privacidad.md](docs/politica-de-privacidad.md) | Política de privacidad |
 | [docs/play-seguridad-de-datos.md](docs/play-seguridad-de-datos.md) | Declaración de seguridad de datos |
+| [docs/play-declaraciones.md](docs/play-declaraciones.md) | Textos para justificar los permisos sensibles |
+| [docs/play-ficha.md](docs/play-ficha.md) | Ficha de Google Play (textos, clasificación, gráficos) |

@@ -1,5 +1,7 @@
 # Diagnóstico: por qué el overlay a veces aparece y a veces no
 
+> **Histórico:** este diagnóstico es de la época del servicio de accesibilidad, que ya se eliminó. Hoy la detección usa `UsageStatsManager`.
+
 > **Nota histórica:** este diagnóstico se escribió cuando la detección usaba un servicio de accesibilidad. Ese servicio se eliminó en el release 14 (ver [cambios.md](cambios.md)); lo que menciona de accesibilidad ya no aplica.
 
 Estado: **hipótesis a verificar en el celular**. Escrito a partir de leer el código (commit `b723dbc`), todavía sin logs reales. Cada hipótesis dice qué línea del log la confirma o la descarta.

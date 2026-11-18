@@ -1,0 +1,12 @@
+# Compilación y herramientas
+build/
+.gradle/
+local.properties
+.idea/
+*.iml
+captures/
+.externalNativeBuild/
+.cxx/
+# Claves de firma (nunca al repo; el debug.keystore estándar sí está versionado a propósito)
+*.jks
+release.keystore
