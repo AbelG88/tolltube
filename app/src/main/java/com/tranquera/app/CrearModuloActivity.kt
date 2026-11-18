@@ -56,6 +56,7 @@ class CrearModuloActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        ajustarBordes()
         title = "Crear mi módulo"
 
         val raiz = LinearLayout(this).apply {

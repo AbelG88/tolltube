@@ -37,6 +37,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        ajustarBordes()
         if (!SettingsStore.onboardingHecho(this)) {
             // Primera vez: el asistente configura todo paso a paso
             startActivity(Intent(this, AsistenteActivity::class.java))

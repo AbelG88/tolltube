@@ -59,6 +59,7 @@ class AsistenteActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        ajustarBordes()
         setContentView(R.layout.activity_asistente)
         contenedor = findViewById(R.id.contenedorPaso)
         progreso = findViewById(R.id.progreso)

@@ -29,6 +29,7 @@ class ModulosActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        ajustarBordes()
         title = "Módulos de ejercicios"
 
         val raiz = LinearLayout(this).apply {

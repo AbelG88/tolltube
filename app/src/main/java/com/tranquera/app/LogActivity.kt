@@ -20,6 +20,7 @@ class LogActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        ajustarBordes()
         setContentView(R.layout.activity_log)
         title = "Registro de Tranquera"
 

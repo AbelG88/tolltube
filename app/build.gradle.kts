@@ -5,14 +5,14 @@ plugins {
 
 android {
     namespace = "com.tranquera.app"
-    compileSdk = 34
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.tranquera.app"
         minSdk = 26
-        targetSdk = 34
-        versionCode = 31
-        versionName = "3.8.0-MVP"
+        targetSdk = 36
+        versionCode = 32
+        versionName = "3.9.0-MVP"
     }
 
     // Firma fija para debug: así cada build nuevo se instala ENCIMA del anterior
