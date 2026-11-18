@@ -86,7 +86,7 @@ adb shell "run-as $PKG sh -c 'cat > shared_prefs/tranquera_prefs.xml'" < <(sed -
   <int name="edad" value="7" />
   <int name="interval_seconds" value="20" />
   <string name="modo_apps">elegir</string>
-  <set name="apps_elegidas"><string>com.android.settings</string></set>
+  <set name="apps_elegidas"><string>com.android.chrome</string></set>
   <int name="aciertos_total" value="37" />
   <int name="aciertos_n" value="6" />
   <string name="pin_hash">PINHASH</string>
@@ -112,20 +112,36 @@ ingresar_pin
 snap 03-inicio
 
 # ---- Ejercicio sobre una app cuidada (Ajustes hace de YouTube) ----
-adb shell am start -a android.settings.SETTINGS
+adb shell am start -a android.intent.action.VIEW -d about:blank -p com.android.chrome
 sleep 30
 snap 04-ejercicio
 
 # ---- Progreso y Ajustes ----
-adb shell am force-stop com.android.settings
+adb shell am force-stop com.android.chrome
 adb shell am start -n $PKG/.MainActivity
 sleep 3
-$UI tocar - navProgreso
+$UI tocar "Progreso"
 snap 05-progreso
-$UI tocar - navAjustes
+$UI tocar "Ajustes"
 sleep 2
 ingresar_pin
 snap 06-ajustes
 
+
+# ---- Diagnóstico: modo "todo menos lo que permito" (libre: solo Chrome) ----
+adb shell am force-stop $PKG
+adb shell "run-as $PKG cat shared_prefs/tranquera_prefs.xml" | sed \
+  -e 's#<string name="modo_apps">elegir</string>#<string name="modo_apps">todo</string>#' \
+  -e 's#<set name="apps_elegidas">.*</set>#<set name="apps_libres"><string>com.android.chrome</string></set>#' > "$OUT/prefs-todo.xml"
+adb shell "run-as $PKG sh -c 'cat > shared_prefs/tranquera_prefs.xml'" < "$OUT/prefs-todo.xml"
+adb logcat -c
+adb shell am start -n $PKG/.MainActivity; sleep 4
+ingresar_pin
+adb shell input keyevent KEYCODE_HOME; sleep 2
+adb shell am start -a android.intent.action.VIEW -d about:blank -p com.android.chrome; sleep 30
+snap diag-todo-chrome-libre
+adb shell monkey -p com.google.android.apps.messaging -c android.intent.category.LAUNCHER 1 >/dev/null 2>&1; sleep 30
+snap diag-todo-mensajes-vigilada
+adb logcat -d -s Tranquera:D > "$OUT/logcat-todo.txt"
 adb shell am broadcast -a com.android.systemui.demo -e command exit >/dev/null
 adb shell uiautomator dump /sdcard/final.xml >/dev/null; adb pull /sdcard/final.xml "$OUT/ultimo-ui.xml" >/dev/null 2>&1 || true
