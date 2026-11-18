@@ -35,6 +35,26 @@ PY
   done
 }
 
+# Chrome reproduce un tono (el temporizador solo cuenta si hay audio sonando, como con YouTube)
+preparar_chrome() {
+  adb root >/dev/null 2>&1; sleep 3
+  adb shell "echo '_ --disable-fre --no-first-run --autoplay-policy=no-user-gesture-required' > /data/local/tmp/chrome-command-line; chmod 755 /data/local/tmp/chrome-command-line"
+  adb shell am set-debug-app --persistent com.android.chrome
+  adb shell am force-stop com.android.chrome
+  URL_TONO=$(python3 - <<'PY'
+import wave, struct, math, io, base64, urllib.parse
+b = io.BytesIO()
+w = wave.open(b, "wb"); w.setnchannels(1); w.setsampwidth(1); w.setframerate(8000)
+w.writeframes(bytes(int(128 + 40 * math.sin(2 * math.pi * 330 * i / 8000)) for i in range(8000))); w.close()
+wav = base64.b64encode(b.getvalue()).decode()
+html = '<body style="margin:0;background:#fff"><h1 style="font:40px sans-serif;margin:40vh 8vw">Video de ejemplo</h1><audio autoplay loop src="data:audio/wav;base64,' + wav + '"></audio>'
+print("data:text/html," + urllib.parse.quote(html, safe=""))
+PY
+)
+}
+abrir_chrome_con_audio() { adb shell am start -a android.intent.action.VIEW -d "'$URL_TONO'" -p com.android.chrome >/dev/null; }
+
+preparar_chrome
 adb install -r app/build/outputs/apk/debug/app-debug.apk
 adb shell settings put global window_animation_scale 0
 adb shell settings put global transition_animation_scale 0
@@ -120,6 +140,7 @@ snap 04-ejercicio
 adb shell am force-stop com.android.chrome
 adb shell am start -n $PKG/.MainActivity
 sleep 3
+ingresar_pin
 $UI tocar "Progreso"
 snap 05-progreso
 $UI tocar "Ajustes"
@@ -130,15 +151,15 @@ snap 06-ajustes
 
 # ---- Diagnóstico: modo "todo menos lo que permito" (libre: solo Chrome) ----
 adb shell am force-stop $PKG
-adb shell "run-as $PKG cat shared_prefs/tranquera_prefs.xml" | sed \
+adb shell "run-as $PKG cat shared_prefs/tranquera_prefs.xml" | sed -z \
   -e 's#<string name="modo_apps">elegir</string>#<string name="modo_apps">todo</string>#' \
-  -e 's#<set name="apps_elegidas">.*</set>#<set name="apps_libres"><string>com.android.chrome</string></set>#' > "$OUT/prefs-todo.xml"
+  -e 's#<set name="apps_elegidas">[^<]*<string>[^<]*</string>[^<]*</set>#<set name="apps_libres"><string>com.android.chrome</string></set>#' > "$OUT/prefs-todo.xml"
 adb shell "run-as $PKG sh -c 'cat > shared_prefs/tranquera_prefs.xml'" < "$OUT/prefs-todo.xml"
 adb logcat -c
 adb shell am start -n $PKG/.MainActivity; sleep 4
 ingresar_pin
 adb shell input keyevent KEYCODE_HOME; sleep 2
-adb shell am start -a android.intent.action.VIEW -d about:blank -p com.android.chrome; sleep 30
+abrir_chrome_con_audio; sleep 35
 snap diag-todo-chrome-libre
 adb shell monkey -p com.google.android.apps.messaging -c android.intent.category.LAUNCHER 1 >/dev/null 2>&1; sleep 30
 snap diag-todo-mensajes-vigilada
