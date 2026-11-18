@@ -10,6 +10,12 @@ https://github.com/AbelG88/tolltube/releases
 - [x] Sumas y restas con imágenes (emojis) acompañando los números (release 2)
 - [x] Más tipos de ejercicio (animales, objetos) y elegirlos desde el menú (release 2)
 
+## Release 23 — Listos para Google Play (v3.9.0)
+
+- Apunta a Android 16 (nivel 36), exigido por Google. Se actualizaron Android Gradle Plugin (8.9.1), Gradle (8.11.1) y Kotlin (1.9.25).
+- Las pantallas respetan la barra de estado y la de gestos (Android 15 dibuja la app detrás de ellas).
+- `docs/play-declaraciones.md`: textos para justificar el uso de apps, mostrar sobre otras apps y el servicio en primer plano.
+
 ## Release 22 — Módulos como categoría y creador de módulos propios (v3.8.0)
 
 - **Categoría "📦 Módulos de ejercicios" en Ajustes**, aparte de los tipos de ejercicio: ahí están los módulos (se activan tocándolos, la X los quita) y los botones para crear o importar.

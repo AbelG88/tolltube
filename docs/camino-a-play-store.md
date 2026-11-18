@@ -23,10 +23,11 @@ Desde el 30/9/2026 solo se instalan apps de desarrolladores registrados en Brasi
 - [ ] Probar el modo nuevo en uso real y, si anda bien, dejarlo por defecto.
 - [x] Sacar el servicio de accesibilidad del manifest y del código (release 14; desterrada de forma definitiva).
 - [ ] Clave de firma propia y paquete AAB (hoy se firma con la clave de debug).
-- [ ] Quitar o limitar el registro de diagnóstico (anota cada app que se abre).
+- [x] Quitar o limitar el registro de diagnóstico: apagado siempre en la variante release.
 - [ ] Política de privacidad con URL pública, formulario de seguridad de datos y cuestionario de clasificación de contenido.
-- [ ] Revisar el nivel de Android objetivo que exige Google (hoy 34; no verificado el mínimo vigente).
-- [ ] Nombre de paquete `com.tranquera.app`: queda fijo al publicar.
+- [x] Nivel de Android objetivo 36 (exigido desde el 31/8/2026); pantallas ajustadas a los bordes (release 23).
+- [x] Nombre de paquete `com.tranquera.app` (queda fijo al publicar).
+- [x] Textos de permisos listos: `play-declaraciones.md`.
 
 ## Otros
 - App Store de Apple: sería una app aparte; no investigado.
