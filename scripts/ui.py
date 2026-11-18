@@ -46,8 +46,6 @@ def escribir(texto, rid=None, clase="android.widget.EditText", indice=0):
     sh("shell", "input", "tap", str(x), str(y)); time.sleep(0.5)
     sh("shell", "input", "text", texto.replace(" ", "%s"))
     time.sleep(0.5)
-    if "mInputShown=true" in sh("shell", "dumpsys", "input_method"):
-        sh("shell", "input", "keyevent", "KEYCODE_BACK"); time.sleep(0.5)
     return True
 
 if __name__ == "__main__":

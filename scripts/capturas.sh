@@ -12,6 +12,8 @@ adb shell settings put global window_animation_scale 0
 adb shell settings put global transition_animation_scale 0
 adb shell settings put global animator_duration_scale 0
 adb shell settings put secure show_ime_with_hard_keyboard 0
+# Sin teclado en pantalla (input text no lo necesita)
+for ime in $(adb shell ime list -s | tr -d "\r"); do adb shell ime disable "$ime" >/dev/null; done
 # Barra de estado limpia
 adb shell settings put global sysui_demo_allowed 1
 adb shell am broadcast -a com.android.systemui.demo -e command enter >/dev/null
@@ -39,7 +41,7 @@ snap 02-asistente-apps
 # ---- Estado de una familia ya configurada ----
 adb shell am force-stop $PKG
 adb shell "run-as $PKG mkdir -p shared_prefs"
-adb shell "run-as $PKG sh -c 'cat > shared_prefs/tranquera_prefs.xml'" <<'XML'
+adb shell "run-as $PKG sh -c 'cat > shared_prefs/tranquera_prefs.xml'" < <(sed "s/HOY/$(date +%F)/" <<'XML'
 <?xml version='1.0' encoding='utf-8' standalone='yes' ?>
 <map>
   <boolean name="onboarding_hecho" value="true" />
@@ -49,13 +51,29 @@ adb shell "run-as $PKG sh -c 'cat > shared_prefs/tranquera_prefs.xml'" <<'XML'
   <string name="modo_apps">elegir</string>
   <set name="apps_elegidas"><string>com.android.settings</string></set>
   <int name="aciertos_total" value="37" />
+  <int name="aciertos_n" value="6" />
+  <string name="aciertos_dia">HOY</string>
+  <int name="hist_suma_ok" value="14" />
+  <int name="hist_suma_err" value="3" />
+  <int name="hist_resta_ok" value="9" />
+  <int name="hist_resta_err" value="2" />
+  <int name="hist_contar_ok" value="21" />
+  <int name="hist_contar_err" value="1" />
 </map>
 XML
+)
 adb shell appops set $PKG GET_USAGE_STATS allow
 adb shell appops set $PKG SYSTEM_ALERT_WINDOW allow
 
 adb shell am start -n $PKG/.MainActivity
 sleep 4
+# La app pide crear el PIN de padres: lo crea ella misma
+if $UI esperar "PIN de padres"; then
+  $UI escribir "482915" 0
+  $UI escribir "482915" 1
+  $UI tocar "Guardar"
+  sleep 3
+fi
 snap 03-inicio
 
 # ---- Ejercicio sobre una app cuidada (Ajustes hace de YouTube) ----
