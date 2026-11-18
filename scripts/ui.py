@@ -55,4 +55,4 @@ if __name__ == "__main__":
     c = sys.argv[1]
     if c == "tocar": sys.exit(0 if tocar(texto=sys.argv[2] if sys.argv[2] != "-" else None, rid=sys.argv[3] if len(sys.argv) > 3 else None) else 1)
     if c == "escribir": sys.exit(0 if escribir(sys.argv[2], indice=int(sys.argv[3]) if len(sys.argv) > 3 else 0) else 1)
-    if c == "esperar": sys.exit(0 if esperar(texto=sys.argv[2], seg=int(sys.argv[3]) if len(sys.argv) > 3 else 25) else 1)
+    if c == "esperar": sys.exit(0 if esperar(texto=sys.argv[2], seg=int(sys.argv[3]) if len(sys.argv) > 3 else 25) is not None else 1)
