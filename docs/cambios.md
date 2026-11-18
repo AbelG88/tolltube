@@ -10,6 +10,12 @@ https://github.com/AbelG88/tolltube/releases
 - [x] Sumas y restas con imágenes (emojis) acompañando los números (release 2)
 - [x] Más tipos de ejercicio (animales, objetos) y elegirlos desde el menú (release 2)
 
+## Release 24 — Ficha de Google Play
+
+- `docs/play-ficha.md`: nombre, descripciones, categoría, clasificación, público objetivo y orden de carga en Play Console.
+- Política de privacidad actualizada (varios niños, lista de apps, apoyo voluntario), con configuración para publicarla en GitHub Pages.
+- Ícono 512 y gráfico de funciones 1024×500 en `docs/play/`.
+
 ## Release 23 — Listos para Google Play (v3.9.0)
 
 - Apunta a Android 16 (nivel 36), exigido por Google. Se actualizaron Android Gradle Plugin (8.9.1), Gradle (8.11.1) y Kotlin (1.9.25).

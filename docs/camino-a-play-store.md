@@ -24,7 +24,9 @@ Desde el 30/9/2026 solo se instalan apps de desarrolladores registrados en Brasi
 - [x] Sacar el servicio de accesibilidad del manifest y del código (release 14; desterrada de forma definitiva).
 - [ ] Clave de firma propia y paquete AAB (hoy se firma con la clave de debug).
 - [x] Quitar o limitar el registro de diagnóstico: apagado siempre en la variante release.
-- [ ] Política de privacidad con URL pública, formulario de seguridad de datos y cuestionario de clasificación de contenido.
+- [x] Política de privacidad actualizada, respuestas de seguridad de datos y clasificación: `politica-de-privacidad.md`, `play-seguridad-de-datos.md`, `play-ficha.md`.
+- [ ] Activar GitHub Pages (Settings → Pages → `main` carpeta `/docs`) para tener la URL pública de la política.
+- [ ] Sacar 6 capturas de pantalla del celu (lista en `play-ficha.md`).
 - [x] Nivel de Android objetivo 36 (exigido desde el 31/8/2026); pantallas ajustadas a los bordes (release 23).
 - [x] Nombre de paquete `com.tranquera.app` (queda fijo al publicar).
 - [x] Textos de permisos listos: `play-declaraciones.md`.

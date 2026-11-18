@@ -2,7 +2,7 @@
 
 App Android de control parental con un giro educativo: cuando el niño usa una app de las que cuidamos (YouTube, TikTok, juegos…), cada cierto tiempo aparece un **ejercicio** que tiene que resolver para seguir. No bloquea: convierte el tiempo de pantalla en práctica.
 
-Versión actual: **3.6.0-MVP** (versionCode 28) · Paquete: `com.tranquera.app` · Licencia: ver [LICENSE](LICENSE).
+Versión actual: **3.9.0-MVP** (versionCode 32) · Paquete: `com.tranquera.app` · Licencia: ver [LICENSE](LICENSE).
 
 ## Qué hace
 
@@ -18,7 +18,7 @@ Versión actual: **3.6.0-MVP** (versionCode 28) · Paquete: `com.tranquera.app` 
 
 ## Stack
 
-- Kotlin + Android (AGP 8.2.0, Kotlin 1.9.20, compileSdk/targetSdk 34, minSdk 26), vistas XML con Material. Sin Compose.
+- Kotlin + Android (AGP 8.9.1, Kotlin 1.9.25, compileSdk/targetSdk 36, minSdk 26), vistas XML con Material. Sin Compose.
 - Dependencias mínimas: `core-ktx`, `appcompat`, `material`, `constraintlayout`.
 - Detección de la app en primer plano solo con `UsageStatsManager` (datos de uso); **no usa servicio de accesibilidad**. Overlay con `SYSTEM_ALERT_WINDOW`.
 - Tipografía Quicksand (licencia OFL en [licencias/](licencias/)).
