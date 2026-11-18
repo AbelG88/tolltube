@@ -5,7 +5,7 @@ PKG=com.tranquera.app
 OUT=${OUT:-capturas}
 mkdir -p "$OUT"
 UI="python3 scripts/ui.py"
-snap() { sleep 2; adb exec-out screencap -p > "$OUT/$1.png"; echo "captura $1"; }
+snap() { sleep 2; adb shell uiautomator dump /sdcard/u.xml >/dev/null 2>&1; adb pull /sdcard/u.xml "$OUT/$1.xml" >/dev/null 2>&1; adb exec-out screencap -p > "$OUT/$1.png"; echo "captura $1"; }
 
 adb install -r app/build/outputs/apk/debug/app-debug.apk
 adb shell settings put global window_animation_scale 0
@@ -39,9 +39,18 @@ sleep 1
 snap 02-asistente-apps
 
 # ---- Estado de una familia ya configurada ----
+# PIN de ejemplo (482915): mismo hash PBKDF2 que usa la app
+eval "$(python3 - <<'PY'
+import hashlib, base64, os
+sal = os.urandom(16)
+h = hashlib.pbkdf2_hmac("sha256", b"482915", sal, 120000, 32)
+print("PINHASH=%s" % base64.b64encode(h).decode())
+print("PINSAL=%s" % base64.b64encode(sal).decode())
+PY
+)"
 adb shell am force-stop $PKG
 adb shell "run-as $PKG mkdir -p shared_prefs"
-adb shell "run-as $PKG sh -c 'cat > shared_prefs/tranquera_prefs.xml'" < <(sed "s/HOY/$(date +%F)/" <<'XML'
+adb shell "run-as $PKG sh -c 'cat > shared_prefs/tranquera_prefs.xml'" < <(sed -e "s/HOY/$(date +%F)/" -e "s#PINHASH#$PINHASH#" -e "s#PINSAL#$PINSAL#" <<'XML'
 <?xml version='1.0' encoding='utf-8' standalone='yes' ?>
 <map>
   <boolean name="onboarding_hecho" value="true" />
@@ -52,6 +61,9 @@ adb shell "run-as $PKG sh -c 'cat > shared_prefs/tranquera_prefs.xml'" < <(sed "
   <set name="apps_elegidas"><string>com.android.settings</string></set>
   <int name="aciertos_total" value="37" />
   <int name="aciertos_n" value="6" />
+  <string name="pin_hash">PINHASH</string>
+  <string name="pin_salt">PINSAL</string>
+  <int name="pin_iter" value="120000" />
   <string name="aciertos_dia">HOY</string>
   <int name="hist_suma_ok" value="14" />
   <int name="hist_suma_err" value="3" />
@@ -67,13 +79,6 @@ adb shell appops set $PKG SYSTEM_ALERT_WINDOW allow
 
 adb shell am start -n $PKG/.MainActivity
 sleep 4
-# La app pide crear el PIN de padres: lo crea ella misma
-if $UI esperar "PIN de padres"; then
-  $UI escribir "482915" 0
-  $UI escribir "482915" 1
-  $UI tocar "Guardar"
-  sleep 3
-fi
 snap 03-inicio
 
 # ---- Ejercicio sobre una app cuidada (Ajustes hace de YouTube) ----
