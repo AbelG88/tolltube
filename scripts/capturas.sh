@@ -22,8 +22,11 @@ adb shell am broadcast -a com.android.systemui.demo -e command notifications -e 
 
 # ---- Asistente (primer arranque) ----
 adb shell pm grant $PKG android.permission.POST_NOTIFICATIONS 2>/dev/null
-adb shell am start -n $PKG/.MainActivity
+adb logcat -c
+adb shell am start -W -n $PKG/.MainActivity | tee "$OUT/am-start.txt"
 sleep 4
+adb logcat -d -t 400 > "$OUT/logcat-inicio.txt"
+adb shell dumpsys activity activities | grep -E "mResumedActivity|topResumedActivity" > "$OUT/resumed.txt"
 $UI escribir "Mateo" 0
 $UI escribir "7" 1
 snap 01-asistente-nombre
