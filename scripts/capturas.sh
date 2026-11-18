@@ -7,6 +7,34 @@ mkdir -p "$OUT"
 UI="python3 scripts/ui.py"
 snap() { sleep 2; adb shell uiautomator dump /sdcard/u.xml >/dev/null 2>&1; adb pull /sdcard/u.xml "$OUT/$1.xml" >/dev/null 2>&1; adb exec-out screencap -p > "$OUT/$1.png"; echo "captura $1"; }
 
+
+# Ingresa el PIN de padres en el diálogo; prueba varias formas y deja constancia de cuál anduvo
+ingresar_pin() {
+  $UI esperar "PIN de padres" 6 || return 0
+  local x y
+  read -r x y < <(python3 - <<'PY'
+import sys; sys.path.insert(0, "scripts")
+import ui
+n = [n for n in ui.dump().iter("node") if n.get("class") == "android.widget.EditText"][0]
+print(*ui.centro(n.get("bounds")))
+PY
+)
+  for intento in texto teclas ime; do
+    adb shell input tap "$x" "$y"; sleep 1
+    case $intento in
+      texto) adb shell input text 482915 ;;
+      teclas) adb shell input keyevent 15 11 16 8 9 12 ;;
+      ime) for i in $(adb shell ime list -s -a | tr -d "\r"); do adb shell ime enable "$i" >/dev/null; adb shell ime set "$i" >/dev/null; break; done
+           sleep 2; adb shell input tap "$x" "$y"; sleep 1; adb shell input text 482915 ;;
+    esac
+    sleep 1
+    $UI tocar "Abrir"; sleep 3
+    if ! $UI esperar "PIN de padres" 2; then echo "PIN ok con: $intento" >> "$OUT/pin.txt"; return 0; fi
+    echo "PIN fallo con: $intento" >> "$OUT/pin.txt"
+    adb exec-out screencap -p > "$OUT/diag-pin-$intento.png"
+  done
+}
+
 adb install -r app/build/outputs/apk/debug/app-debug.apk
 adb shell settings put global window_animation_scale 0
 adb shell settings put global transition_animation_scale 0
@@ -80,11 +108,7 @@ adb shell appops set $PKG SYSTEM_ALERT_WINDOW allow
 adb shell am start -n $PKG/.MainActivity
 sleep 4
 # La app pide el PIN de padres al abrir
-if $UI esperar "PIN de padres" 8; then
-  $UI escribir "482915" 0
-  $UI tocar "Abrir"
-  sleep 3
-fi
+ingresar_pin
 snap 03-inicio
 
 # ---- Ejercicio sobre una app cuidada (Ajustes hace de YouTube) ----
@@ -100,11 +124,7 @@ $UI tocar - navProgreso
 snap 05-progreso
 $UI tocar - navAjustes
 sleep 2
-if $UI esperar "PIN de padres" 4; then
-  $UI escribir "482915" 0
-  $UI tocar "Abrir"
-  sleep 3
-fi
+ingresar_pin
 snap 06-ajustes
 
 adb shell am broadcast -a com.android.systemui.demo -e command exit >/dev/null
