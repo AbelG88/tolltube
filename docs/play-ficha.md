@@ -54,9 +54,9 @@ Tranquera es una herramienta para adultos. Es gratuita; si te gusta, podés apoy
 |---|---|---|
 | Ícono de la app | 512 × 512 PNG | `docs/play/icono-512.png` |
 | Gráfico de funciones | 1024 × 500 PNG | `docs/play/grafico-destacado-1024x500.png` |
-| Capturas de teléfono | 2 a 8, 16:9 o 9:16, lado menor ≥ 320 px | **las sacás vos del celu** (lista abajo) |
+| Capturas de teléfono | 2 a 8, 16:9 o 9:16, lado menor ≥ 320 px | `docs/play/capturas/` (1080 × 1920, generadas en un emulador; falta la del ejercicio, ver abajo) |
 
-**Capturas sugeridas (de tu celu, versión instalada desde Play o el APK):**
+**Capturas (las 01, 02, 03, 05 y 06 ya están hechas; la 04 hay que sacarla del celu real):**
 1. Asistente, paso 1 (nombre y edad)
 2. Asistente, paso 3 (qué apps cuidamos)
 3. Inicio con la tranquera cerrada ("cuidando")
