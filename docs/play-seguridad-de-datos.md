@@ -12,7 +12,7 @@ Referencia para completar el formulario. Verificar en pantalla, porque Google ca
 
 ## URL de la política de privacidad
 Activar GitHub Pages: repositorio → Settings → Pages → Source: **Deploy from a branch**, branch `main`, carpeta `/docs`. La URL queda:
-`https://abelg88.github.io/tolltube/politica-de-privacidad`
+`https://abelg88.github.io/tranquera/politica-de-privacidad`
 (tarda 1 a 2 minutos en aparecer). Pegar esa URL en Play Console y en la ficha.
 
 ## Otras declaraciones

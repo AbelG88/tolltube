@@ -36,7 +36,7 @@ docs/                                       documento del proyecto, cambios, Pla
 
 ### Opción A: GitHub Actions (sin instalar nada)
 
-Cada push a `main` compila solo y publica el APK en **Releases**: https://github.com/AbelG88/tolltube/releases/latest. Desde el celu bajá `tranquera.apk`.
+Cada push a `main` compila solo y publica el APK en **Releases**: https://github.com/AbelG88/tranquera/releases/latest. Desde el celu bajá `tranquera.apk`.
 
 También se puede disparar a mano: pestaña **Actions → Build APK → Run workflow** (~3 min) y bajar `tranquera-apk` de *Artifacts*.
 

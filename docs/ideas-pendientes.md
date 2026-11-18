@@ -42,7 +42,7 @@ Preguntas abiertas antes de construirlo:
 
 ## Forma de trabajo
 
-Cada release se compila en GitHub Actions y se publica en https://github.com/AbelG88/tolltube/releases/latest. Los releases se verifican solo por compilación; la prueba en el celu es de Abel.
+Cada release se compila en GitHub Actions y se publica en https://github.com/AbelG88/tranquera/releases/latest. Los releases se verifican solo por compilación; la prueba en el celu es de Abel.
 
 ## Próximo: campo obligatorio de compatibilidad en los módulos (pedido por Abel)
 - Hoy el único chequeo es `"formato": 1`. Agregar un valor que **sí o sí** tenga que estar para que el módulo se acepte (p. ej. `"app": "tranquera"` + `"formato"` con versión mínima).
