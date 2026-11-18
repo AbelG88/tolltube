@@ -39,7 +39,9 @@ jobs:
         target: google_apis
         profile: pixel_2
         disable-animations: true
-        script: bash scripts/capturas.sh
+        script: |
+          mkdir -p capturas
+          bash -x scripts/capturas.sh 2> capturas/trace.txt
 
     - name: Guardar capturas como artefacto
       if: always()
