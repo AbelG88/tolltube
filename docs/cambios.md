@@ -10,6 +10,10 @@ https://github.com/AbelG88/tolltube/releases
 - [x] Sumas y restas con imágenes (emojis) acompañando los números (release 2)
 - [x] Más tipos de ejercicio (animales, objetos) y elegirlos desde el menú (release 2)
 
+## Release 25 — Ícono nuevo (v3.9.1)
+
+- Ícono: botón de play cruzado por dos travesaños de tranquera, blanco sobre azul. Actualizados también el ícono 512 y el gráfico de funciones de Play.
+
 ## Release 24 — Ficha de Google Play
 
 - `docs/play-ficha.md`: nombre, descripciones, categoría, clasificación, público objetivo y orden de carga en Play Console.
