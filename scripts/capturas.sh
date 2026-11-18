@@ -79,6 +79,12 @@ adb shell appops set $PKG SYSTEM_ALERT_WINDOW allow
 
 adb shell am start -n $PKG/.MainActivity
 sleep 4
+# La app pide el PIN de padres al abrir
+if $UI esperar "PIN de padres" 8; then
+  $UI escribir "482915" 0
+  $UI tocar "Abrir"
+  sleep 3
+fi
 snap 03-inicio
 
 # ---- Ejercicio sobre una app cuidada (Ajustes hace de YouTube) ----
@@ -93,6 +99,12 @@ sleep 3
 $UI tocar - navProgreso
 snap 05-progreso
 $UI tocar - navAjustes
+sleep 2
+if $UI esperar "PIN de padres" 4; then
+  $UI escribir "482915" 0
+  $UI tocar "Abrir"
+  sleep 3
+fi
 snap 06-ajustes
 
 adb shell am broadcast -a com.android.systemui.demo -e command exit >/dev/null

@@ -44,7 +44,10 @@ def escribir(texto, rid=None, clase="android.widget.EditText", indice=0):
         print("NO HAY CAMPO", file=sys.stderr); return False
     x, y = centro(editables[indice].get("bounds"))
     sh("shell", "input", "tap", str(x), str(y)); time.sleep(0.5)
-    sh("shell", "input", "text", texto.replace(" ", "%s"))
+    if texto.isdigit():
+        sh("shell", "input", "keyevent", *[str(7 + int(d)) for d in texto])
+    else:
+        sh("shell", "input", "text", texto.replace(" ", "%s"))
     time.sleep(0.5)
     return True
 
@@ -52,4 +55,4 @@ if __name__ == "__main__":
     c = sys.argv[1]
     if c == "tocar": sys.exit(0 if tocar(texto=sys.argv[2] if sys.argv[2] != "-" else None, rid=sys.argv[3] if len(sys.argv) > 3 else None) else 1)
     if c == "escribir": sys.exit(0 if escribir(sys.argv[2], indice=int(sys.argv[3]) if len(sys.argv) > 3 else 0) else 1)
-    if c == "esperar": sys.exit(0 if esperar(texto=sys.argv[2]) else 1)
+    if c == "esperar": sys.exit(0 if esperar(texto=sys.argv[2], seg=int(sys.argv[3]) if len(sys.argv) > 3 else 25) else 1)
