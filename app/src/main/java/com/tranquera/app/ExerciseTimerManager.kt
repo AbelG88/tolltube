@@ -38,6 +38,9 @@ class ExerciseTimerManager {
             }
         }
 
+        private fun enPantalla(ctx: Context): Boolean =
+            Deteccion.clasificar(ctx).first == Pantalla.VIGILADA
+
         private fun reproduciendo(ctx: Context): Boolean {
             val (pantalla, _) = Deteccion.clasificar(ctx)
             if (pantalla != Pantalla.VIGILADA) return false
@@ -48,7 +51,11 @@ class ExerciseTimerManager {
         private fun alTick() {
             val ctx = appContext ?: return
             if (!running || esperandoCierre) return
-            val cuenta = if (SettingsStore.getSoloReproduciendo(ctx)) reproduciendo(ctx) else true
+            // El audio solo se exige con "las de siempre" (YouTube, TikTok...). En "elijo yo" y
+            // "todo menos", los juegos y apps sin sonido también cuentan mientras estén en pantalla.
+            val exigeAudio = SettingsStore.getSoloReproduciendo(ctx) &&
+                SettingsStore.getModoApps(ctx) == ModoApps.SIEMPRE
+            val cuenta = if (exigeAudio) reproduciendo(ctx) else enPantalla(ctx)
             if (cuenta != contando) {
                 contando = cuenta
                 TranqueraLog.d(if (cuenta) "TIMER cuenta reanudada" else "TIMER cuenta en pausa (no hay audio sonando)")

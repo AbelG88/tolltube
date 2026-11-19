@@ -11,8 +11,8 @@ android {
         applicationId = "com.tranquera.app"
         minSdk = 26
         targetSdk = 36
-        versionCode = 33
-        versionName = "3.9.1-MVP"
+        versionCode = 34
+        versionName = "3.9.2-MVP"
     }
 
     // Firma fija para debug: así cada build nuevo se instala ENCIMA del anterior
