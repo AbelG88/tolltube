@@ -275,3 +275,4 @@ Resultado de probar la 1.1: no apareció el overlay, aun con los permisos dados.
 - Nuevos docs: `docs/politica-de-privacidad.md` y `docs/play-seguridad-de-datos.md` (respuestas sugeridas del formulario).
 
 - **Release 26 (3.9.2):** arreglo: en los modos "Elijo yo cuáles" y "Todo menos lo que permito" el ejercicio no aparecía en apps sin audio (juegos, navegador) porque el reloj solo corría con sonido. Ahora el audio solo se exige en "Las de siempre"; en los otros modos cuenta mientras la app esté en pantalla.
+- **Release 27 (3.9.3):** el ejercicio queda centrado en la pantalla, con la respuesta debajo del dibujo y el "?" del campo centrado con margen.

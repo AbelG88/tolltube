@@ -2,7 +2,7 @@
 
 App Android de control parental con un giro educativo: cuando el niño usa una app de las que cuidamos (YouTube, TikTok, juegos…), cada cierto tiempo aparece un **ejercicio** que tiene que resolver para seguir. No bloquea: convierte el tiempo de pantalla en práctica.
 
-Versión actual: **3.9.2-MVP** (versionCode 34) · Paquete: `com.tranquera.app` · Licencia: ver [LICENSE](LICENSE).
+Versión actual: **3.9.3-MVP** (versionCode 35) · Paquete: `com.tranquera.app` · Licencia: ver [LICENSE](LICENSE).
 
 ## Qué hace
 
